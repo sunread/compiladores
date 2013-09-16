@@ -1,3 +1,10 @@
+/* Projeto de Compiladores 2013-2 - Etapa 0
+   Fernando Soller Mecking
+   Mateus Cardoso da Silva
+
+   comp_tree.h
+   Estruturas de dados e definições da arvore
+*/
 
 typedef struct nodeList_t{
 	struct comp_tree_t* node;

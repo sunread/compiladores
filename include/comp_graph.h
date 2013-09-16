@@ -1,4 +1,10 @@
+/* Projeto de Compiladores 2013-2 - Etapa 0
+   Fernando Soller Mecking
+   Mateus Cardoso da Silva
 
+   comp_graph.h
+   Estruturas de dados e definições do grafo
+*/
 typedef struct adjacencyList_t{
 	struct comp_graph_t* node;
 	struct adjacencyList_t* next;

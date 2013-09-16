@@ -1,4 +1,10 @@
+/* Projeto de Compiladores 2013-2 - Etapa 0
+   Fernando Soller Mecking
+   Mateus Cardoso da Silva
 
+   comp_list.h
+   Estruturas de dados e definições da lista
+*/
 typedef struct comp_list_t{
 	int data;
 	struct comp_list_t *next;
