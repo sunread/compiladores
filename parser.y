@@ -1,10 +1,19 @@
+/* Projeto de Compiladores 2013-2 - Etapa 1
+   Fernando Soller Mecking
+   Mateus Cardoso da Silva
+*/
+
 %{
 #include <stdio.h>
+#include "comp_dict.h"
 
-int yylex(void);
-void yyerror(char*);
-int lineNumber;
+#define IKS_SYNTAX_ERRO 1
+
 %}
+
+%union {
+    comp_dict_item_t_p symbol;
+}
 
 /* Declaração dos tokens da gramática da Linguagem K */
 %token TK_PR_INT
@@ -35,32 +44,66 @@ int lineNumber;
 %token TK_IDENTIFICADOR
 %token TOKEN_ERRO
 
-%%
- /* Regras (e ações) da gramática da Linguagem K */
+%left TK_OC_OR TK_OC_AND
+%left '<' '>' TK_OC_LE TK_OC_GE TK_OC_EQ TK_OC_NE
+%left '+' '-'
+%left '*' '/'
 
-s: global | func ;
-global: tipo ':' nome vetor ';';
-nome: TK_LIT_STRING | TK_LIT_CHAR;
-vetor: '[' TK_LIT_INT ']' | /* empty */;
-tipo: TK_PR_INT | TK_PR_FLOAT | TK_PR_CHAR | TK_PR_BOOL | TK_PR_STRING;
-func: cabec local corpo;
-cabec: tipo ':' nome '(' param ')';
-param: /*empty*/ | tipo ':' nome virg param;
-virg: ',' | /*empty*/
-local: tipo ':' nome ';';
-corpo: '{' bloco '}';
-bloco: comando | comando bloco;
-comando: atrib | fluxo | entr | saida | ret | chamfunc | /*empty*/;
-atrib: nome '=' expres ';' | nome '[' expres ']' ';';
-entr: TK_PR_INPUT nome;
-saida: TK_PR_OUTPUT listaSaida;
-listaSaida: /*empty*/ | TK_LIT_STRING virg listaSaida | expres virg listaSaida;
-ret: TK_PR_RETURN espres
-espres: 
+%%
+ /* Regras (e ações) da gramática da Linguagem IKS */
+
+ programa : dec_global programa | dec_funcao programa | ;
+ dec_global : dec_variavel ';' | dec_vetor ';' ;
+ dec_variavel : tipo_variavel ':' TK_IDENTIFICADOR ;
+ dec_vetor : tipo_variavel ':' TK_IDENTIFICADOR '[' TK_LIT_INT ']' ;
+ tipo_variavel : TK_PR_INT | TK_PR_FLOAT | TK_PR_BOOL | TK_PR_CHAR | TK_PR_STRING ;
+ dec_funcao : cabecalho dec_local bloco_comando ;
+ cabecalho : tipo_variavel ':' TK_IDENTIFICADOR '(' lista_param ')'	;
+ lista_param : lista_param_nao_vazia | ;
+ lista_param_nao_vazia : parametro ',' lista_param_nao_vazia | parametro ;
+ parametro : tipo_variavel ':' TK_IDENTIFICADOR ;
+ dec_local : dec_variavel ';' dec_local	| ;
+ bloco_comando: '{' sequencia_comandos '}' ;
+ sequencia_comandos : comando | comando';' sequencia_comandos ;
+ comando: bloco_comando | dec_variavel | dec_vetor | controle_fluxo | atribuicao | input | output | return | ;
+ atribuicao : TK_IDENTIFICADOR '=' expressao | TK_IDENTIFICADOR '[' expressao ']' '=' expressao ;
+ input : TK_PR_INPUT TK_IDENTIFICADOR ;
+ output : TK_PR_OUTPUT lista_expressoes_nao_vazia ;
+ lista_expressoes_nao_vazia: expressao ',' lista_expressoes_nao_vazia | expressao ;
+ return : TK_PR_RETURN expressao ;
+ controle_fluxo : TK_PR_IF '(' expressao ')' TK_PR_THEN comando |
+                  TK_PR_IF '(' expressao ')' TK_PR_THEN comando TK_PR_ELSE comando |
+                  TK_PR_WHILE '(' expressao ')' TK_PR_DO comando |
+                  TK_PR_DO comando TK_PR_WHILE '(' expressao ')' ;
+ expressao : TK_IDENTIFICADOR
+			| TK_IDENTIFICADOR '[' expressao ']'
+			| TK_LIT_INT
+			| TK_LIT_FLOAT
+			| TK_LIT_FALSE
+			| TK_LIT_TRUE
+			| TK_LIT_CHAR
+			| TK_LIT_STRING
+			| expressao '+' expressao
+			| expressao '-' expressao
+			| expressao '*' expressao
+			| expressao '/' expressao
+			| expressao '<' expressao
+			| expressao '>' expressao
+			| '(' expressao ')'
+			| expressao TK_OC_LE expressao
+			| expressao TK_OC_GE expressao
+			| expressao TK_OC_EQ expressao
+			| expressao TK_OC_NE expressao
+			| expressao TK_OC_AND expressao
+			| expressao TK_OC_OR expressao
+			| TK_IDENTIFICADOR '(' lista_expressoes ')'
+			;
+
+ lista_expressoes : lista_expressoes_nao_vazia | ;
+
 %%
 
-void yyerror(char* error)
-{
-  printf("Erro %s na linha %d \n",error, lineNumber);
-  exit(3);
+int yyerror(char *t) {
+	printf("Erro de sintaxe na linha %d\n", getLineNumber());
+	exit(IKS_SYNTAX_ERRO);
 }
