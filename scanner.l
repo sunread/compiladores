@@ -1,6 +1,5 @@
 /* Projeto de Compiladores 2013-2 - Etapa 1
    Fernando Soller Mecking
-   Lucas Herbert Jones
    Mateus Cardoso da Silva
 */
 
@@ -11,16 +10,17 @@
 
 %{
 
-#include "tokens.h"
 #include "comp_dict.h"
+#include "parser.h"
 
-#define IKS_SIMBOLO_INDEFINIDO		0
-#define IKS_SIMBOLO_LITERAL_INT		1
-#define IKS_SIMBOLO_LITERAL_FLOAT 	2
-#define IKS_SIMBOLO_LITERAL_CHAR 	3
-#define IKS_SIMBOLO_LITERAL_STRING	4
-#define IKS_SIMBOLO_LITERAL_BOOL	5
-#define IKS_SIMBOLO_IDENTIFICADOR	6
+#define IKS_SIMBOLO_INDEFINIDO 0
+#define IKS_SIMBOLO_LITERAL_INT 1
+#define IKS_SIMBOLO_LITERAL_FLOAT 2
+#define IKS_SIMBOLO_LITERAL_CHAR 3
+#define IKS_SIMBOLO_LITERAL_STRING 4
+#define IKS_SIMBOLO_LITERAL_BOOL 5
+#define IKS_SIMBOLO_IDENTIFICADOR 6
+
 %}
 
 /* Expressões Regulares */
@@ -50,8 +50,8 @@ WHITESPACE  [ \t\v\f]*
 "input"         { return TK_PR_INPUT; }
 "output"        { return TK_PR_OUTPUT; }
 "return"        { return TK_PR_RETURN; }
-"false"         { return TK_LIT_FALSE; }
-"true"          { return TK_LIT_TRUE; }
+"false"         { yylval.symbol = dict_insert(dictionary, yytext, IKS_SIMBOLO_LITERAL_BOOL, yylineno, "s"); return TK_LIT_FALSE; }
+"true"          { yylval.symbol = dict_insert(dictionary, yytext, IKS_SIMBOLO_LITERAL_BOOL, yylineno, "s"); return TK_LIT_TRUE; }
 ","|";"|":"     { return yytext[0]; }
 "("|")"	        { return yytext[0]; }
 "["|"]"         { return yytext[0]; }
@@ -67,11 +67,11 @@ WHITESPACE  [ \t\v\f]*
 "!="		    { return TK_OC_NE; }
 "&&"		    { return TK_OC_AND; }
 "||"		    { return TK_OC_OR; }
-{ID}            { dict_insert(dictionary, yytext, TK_IDENTIFICADOR, yylineno); return TK_IDENTIFICADOR; }
-{INT}           { dict_insert(dictionary, yytext, TK_LIT_INT, yylineno); return TK_LIT_INT; }
-{FLOAT}         { dict_insert(dictionary, yytext, TK_LIT_FLOAT, yylineno); return TK_LIT_FLOAT; }
-{CHAR}          { dict_insert(dictionary, yytext, TK_LIT_CHAR, yylineno); return TK_LIT_CHAR; }
-{STRING}        { dict_insert(dictionary, yytext, TK_LIT_STRING, yylineno); return TK_LIT_STRING; }
+{ID}            { yylval.symbol = dict_insert(dictionary, yytext, IKS_SIMBOLO_IDENTIFICADOR, yylineno, "s"); return TK_IDENTIFICADOR; }
+{INT}           { yylval.symbol = dict_insert(dictionary, yytext, IKS_SIMBOLO_LITERAL_INT, yylineno, "i"); return TK_LIT_INT; }
+{FLOAT}         { yylval.symbol = dict_insert(dictionary, yytext, IKS_SIMBOLO_LITERAL_FLOAT, yylineno, "f"); return TK_LIT_FLOAT; }
+{CHAR}          { yylval.symbol = dict_insert(dictionary, yytext, IKS_SIMBOLO_LITERAL_CHAR, yylineno, "c"); return TK_LIT_CHAR; }
+{STRING}        { yylval.symbol = dict_insert(dictionary, yytext, IKS_SIMBOLO_LITERAL_STRING, yylineno, "s"); return TK_LIT_STRING; }
 "/*"	        { BEGIN( MLCOMMENT ); }
 "//"[^\r\n]*    { }
 <MLCOMMENT>"*/" { BEGIN( INITIAL ); }
