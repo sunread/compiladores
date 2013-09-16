@@ -1,15 +1,10 @@
 /* Projeto de Compiladores 2013-2 - Etapa 1
    Fernando Soller Mecking
-   Lucas Herbert Jones
    Mateus Cardoso da Silva
 */
 
 #include <stdio.h>
-#include "comp_dict.h"
-#include "comp_list.h"
-#include "comp_tree.h"
-#include "comp_graph.h"
-#include "tokens.h"
+#include "main.h"
 
 
 int main (int argc, char **argv)
@@ -26,20 +21,13 @@ int main (int argc, char **argv)
 
   dictionary = dict_new();
 
-  int token;
+  gv_init(NULL);
 
-  while (running)
-  {
-    if (!(token = yylex()) && feof(getYyin()))
-    {
-      running = 0;
-      break;
-    }
+  int resultado = yyparse();
 
-    printf ("token <%d> at %d\n", token, getLineNumber());
-  }
+  gv_close();
 
   dict_print(dictionary);
 
-  return 0;
+  return resultado;
 }
