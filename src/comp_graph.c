@@ -217,22 +217,6 @@ comp_graph* graph_FindFatherNode(comp_graph* node, comp_graph* root){
 comp_graph* graph_Edit(int new_data, comp_graph* node, comp_graph* root, adjList* adj);
 
 /*
-	graph_Contains
-	Faz uma busca na arvore auxiliar para determinar que um certo no esta contido no grafo
-*/
-comp_graph* graph_Contains(comp_graph* node, comp_graph* root){
-	if(root == NULL)
-			return NULL;
-		else{
-			if(node == root)
-				return node;
-			else if(tree_Search(node, root->left) != NULL || tree_Search(node, root->right) != NULL)
-					return node;
-				else return NULL;
-		}
-}
-
-/*
 	graph_Create
 	Inicializa um grafo vazio como sendo NULL
 */
