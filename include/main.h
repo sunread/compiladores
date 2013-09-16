@@ -10,8 +10,6 @@
 #include "comp_list.h"
 #include "comp_tree.h"
 #include "comp_graph.h"
-#include "iks_ast.h"
-#include "gv.h"
 
 /*
   Constantes a serem utilizadas como valor de retorno no caso de
@@ -25,10 +23,12 @@
   Constantes a serem utilizadas para diferenciar os lexemas que estão
   registrados na tabela de símbolos.
 */
-#define IKS_SIMBOLO_INT    1
-#define IKS_SIMBOLO_FLOAT  2
-#define IKS_SIMBOLO_CHAR   3
-#define IKS_SIMBOLO_STRING 4
-#define IKS_SIMBOLO_BOOL   5
+#define IKS_SIMBOLO_INDEFINIDO     0
+#define IKS_SIMBOLO_LITERAL_INT    1
+#define IKS_SIMBOLO_LITERAL_FLOAT  2
+#define IKS_SIMBOLO_LITERAL_CHAR   3
+#define IKS_SIMBOLO_LITERAL_STRING 4
+#define IKS_SIMBOLO_LITERAL_BOOL   5
+#define IKS_SIMBOLO_IDENTIFICADOR  6
 
 #endif
