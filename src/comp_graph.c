@@ -1,6 +1,17 @@
+/* Projeto de Compiladores 2013-2 - Etapa 0
+   Fernando Soller Mecking
+   Mateus Cardoso da Silva
+
+   comp_graph.c
+   Funções para o funcionamento do grafo
+*/
 #include "comp_graph.h"
 #include <stdlib.h>
 
+/*
+	graph_InsertEnd
+	Adiciona um novo item a lista de adjacencia de um no do grafo
+*/
 adjList* graph_InsertEnd(comp_graph* node, adjList* list)
 {
 	adjList* aux = list;
@@ -18,12 +29,21 @@ adjList* graph_InsertEnd(comp_graph* node, adjList* list)
 	}
 	return list;
 }
+
+/*
+	graph_RemoveFirst
+	Remove o primeiro item da lista de adjacencia
+*/
 adjList* graph_RemoveFirst(adjList* list){
 	adjList* aux = list->next;
 	free(list);
 	return aux;
 }
 
+/*
+	graph_RemoveItem
+	Remove um no da lista de adjacencia
+*/
 adjList* graph_RemoveItem(comp_graph* node, adjList* list){
 	adjList* current = list;
 	adjList* previous = NULL;
@@ -45,11 +65,19 @@ adjList* graph_RemoveItem(comp_graph* node, adjList* list){
 	return aux;
 }
 
+/*
+	graph_CreateList
+	Inicializa como NULL a lista de adjacencia de um no do grafo
+*/
 adjList* graph_CreateList()
 {
 	return NULL;
 }
 
+/*
+	graph_DestroyList
+	Desaloca todo o espaco de enderecamento da lista de adjacencia
+*/
 adjList* graph_DestroyList(adjList* list)
 {
 	adjList* aux;
@@ -63,7 +91,10 @@ adjList* graph_DestroyList(adjList* list)
 	return NULL;
 }
 
-
+/*
+	graph_Add
+	Insere um novo no em um grafo, utilizando uma arvore binaria como estrutura auxiliar
+*/
 comp_graph* graph_Add(int data, comp_graph* root, adjList* adj){
 		comp_graph* newNode = malloc(sizeof(comp_graph));
 		newNode->data = data;
@@ -102,7 +133,10 @@ comp_graph* graph_Add(int data, comp_graph* root, adjList* adj){
 		}
 }
 
-
+/*
+	graph_Delete
+	Remove um no do grafo, assim como todas as referencias a ele em outros nos
+*/
 comp_graph* graph_Delete(comp_graph* node, comp_graph* root)
 {
     adjList* auxList = node->list;
@@ -154,6 +188,10 @@ comp_graph* graph_Delete(comp_graph* node, comp_graph* root)
 	}
 }
 
+/*
+	graph_FindFatherNode
+	Funcao que identifica um melhor balanceamento da arvore auxiliar
+*/
 comp_graph* graph_FindFatherNode(comp_graph* node, comp_graph* root){
 	comp_graph* auxGraph = root;
 	comp_graph* fatherNode = NULL;
@@ -172,8 +210,16 @@ comp_graph* graph_FindFatherNode(comp_graph* node, comp_graph* root){
 	return fatherNode;
 }
 
+/*
+	graph_Edit
+	
+*/
 comp_graph* graph_Edit(int new_data, comp_graph* node, comp_graph* root, adjList* adj);
 
+/*
+	graph_Contains
+	Faz uma busca na arvore auxiliar para determinar que um certo no esta contido no grafo
+*/
 comp_graph* graph_Contains(comp_graph* node, comp_graph* root){
 	if(root == NULL)
 			return NULL;
@@ -186,10 +232,16 @@ comp_graph* graph_Contains(comp_graph* node, comp_graph* root){
 		}
 }
 
-
+/*
+	graph_Create
+	Inicializa um grafo vazio como sendo NULL
+*/
 comp_graph* graph_Create(){
 	return NULL;
 }
 
+/*
+	graph_Destroy
 
+*/
 void graph_Destroy(comp_graph* root);

@@ -1,4 +1,4 @@
-/* Projeto de Compiladores 2013-2 - Etapa 1
+/* Projeto de Compiladores 2013-2 - Etapa 0
    Fernando Soller Mecking
    Mateus Cardoso da Silva
 
