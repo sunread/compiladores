@@ -53,7 +53,6 @@ int dict_find(comp_dict_t_p dict, char *text)
 comp_dict_item_t_p dict_insert(comp_dict_t_p dict, char *text, int type, int lineNumber)
 {
    int index = dict_find_index(dict, text); // Procura o item
-   comp_dict_item_t_p itemPointer;
 
    if (index == -1)
    {
@@ -86,9 +85,7 @@ comp_dict_item_t_p dict_insert(comp_dict_t_p dict, char *text, int type, int lin
        dict->item[dict->length].lineNumber = lineNumber;
        dict->length++;
 
-       *itemPointer = dict->item[dict->length];
-
-       return itemPointer; // Retorna o ponteiro para o item criado
+       return dict->item;
    }
 }
 
