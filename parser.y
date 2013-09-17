@@ -1,18 +1,20 @@
-/* Projeto de Compiladores 2013-2 - Etapa 1
+/* Projeto de Compiladores 2013-2 - Etapa 2
    Fernando Soller Mecking
    Mateus Cardoso da Silva
 */
 
 %{
 #include <stdio.h>
+#include "comp_tree.h"
 #include "comp_dict.h"
-
+#include "iks_ast.h"
 #define IKS_SYNTAX_ERRO 1
 
 %}
 
 %union {
     comp_dict_item_t_p symbol;
+    comp_tree AST;
 }
 
 /* Declaração dos tokens da gramática da Linguagem K */
@@ -52,7 +54,7 @@
 %%
  /* Regras (e ações) da gramática da Linguagem IKS */
 
- programa : dec_global programa | dec_funcao programa | ;
+ programa : dec_global programa | dec_funcao programa {$$ = treeAdd(IKS_AST_PROGRAMA, NULL, $2); } | ;
  dec_global : dec_variavel ';' | dec_vetor ';' ;
  dec_variavel : tipo_variavel ':' TK_IDENTIFICADOR ;
  dec_vetor : tipo_variavel ':' TK_IDENTIFICADOR '[' TK_LIT_INT ']' ;
