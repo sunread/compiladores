@@ -82,16 +82,16 @@
 
  programa : dec_global programa
 			| dec_funcao programa {$$ = tree_Add(IKS_AST_PROGRAMA, NULL, 1, $1);}
-			| {$$ = NULL};
+			| {$$ = NULL;};
 			
  dec_global : dec_variavel ';' | dec_vetor ';' ;
  dec_variavel : tipo_variavel ':' TK_IDENTIFICADOR ;
  dec_vetor : tipo_variavel ':' TK_IDENTIFICADOR '[' TK_LIT_INT ']' ;
  tipo_variavel : TK_PR_INT | TK_PR_FLOAT | TK_PR_BOOL | TK_PR_CHAR | TK_PR_STRING ;
  
- dec_funcao : cabecalho dec_local bloco_comando {$$ = tree_Add(IKS_AST_FUNCAO, NULL, 1, $3);};
+ dec_funcao : cabecalho dec_local bloco_comando {$$ = tree_Add(IKS_AST_FUNCAO, ((comp_dict_t_p)$1)->item, 1, $3);};
  
- cabecalho : tipo_variavel ':' TK_IDENTIFICADOR '(' lista_param ')'	;
+ cabecalho : tipo_variavel ':' TK_IDENTIFICADOR '(' lista_param ')' {$$ = $3;}	;
  lista_param : lista_param_nao_vazia | ;
  lista_param_nao_vazia : parametro ',' lista_param_nao_vazia | parametro ;
  parametro : tipo_variavel ':' TK_IDENTIFICADOR ;
@@ -120,7 +120,7 @@
  lista_expressoes_nao_vazia: expressao ',' lista_expressoes_nao_vazia {$$ = tree_Add(IKS_AST_OUTPUT, NULL, 2, $1, $3);}
 			| expressao {$$ = tree_Add(IKS_AST_OUTPUT, NULL, 1, $1);};
 			
- return : TK_PR_RETURN expressao {$$ = tree_Add(IKS_AST_RETURN, NULL, 1, $2} ;
+ return : TK_PR_RETURN expressao {$$ = tree_Add(IKS_AST_RETURN, NULL, 1, $2);} ;
  
  controle_fluxo : TK_PR_IF '(' expressao ')' TK_PR_THEN comando {$$ = tree_Add(IKS_AST_IF_ELSE, NULL, 2, $3, $6);}|
                   TK_PR_IF '(' expressao ')' TK_PR_THEN ';' {$$ = tree_Add(IKS_AST_IF_ELSE, NULL, 1, $3);}|
@@ -134,32 +134,32 @@
                   TK_PR_DO comando TK_PR_WHILE '(' expressao ')' {$$ = tree_Add(IKS_AST_DO_WHILE, NULL, 2, $2, $5);}|
                   TK_PR_DO ';' TK_PR_WHILE '(' expressao ')' {$$ = tree_Add(IKS_AST_DO_WHILE, NULL, 1, $5);};
                   
- expressao : TK_IDENTIFICADOR
-| TK_IDENTIFICADOR '[' expressao ']'
-| TK_LIT_INT
-| TK_LIT_FLOAT
-| TK_LIT_FALSE
-| TK_LIT_TRUE
-| TK_LIT_CHAR
-| TK_LIT_STRING
-| expressao '+' expressao
-| expressao '-' expressao
-| '-' expressao
-| expressao '*' expressao
-| expressao '/' expressao
-| expressao '<' expressao
-| expressao '>' expressao
+ expressao : TK_IDENTIFICADOR {$$  = tree_Add(IKS_AST_IDENTIFICADOR, ((comp_dict_t_p)$1)->item, 0);}
+| TK_IDENTIFICADOR '[' expressao ']' {$$  = tree_Add(IKS_AST_VETOR_INDEXADO, NULL, 2, $1, $3);}
+| TK_LIT_INT {$$  = tree_Add(IKS_AST_LITERAL, ((comp_dict_t_p)$1)->item, 0);}
+| TK_LIT_FLOAT {$$  = tree_Add(IKS_AST_LITERAL, ((comp_dict_t_p)$1)->item, 0);}
+| TK_LIT_FALSE {$$  = tree_Add(IKS_AST_LITERAL, ((comp_dict_t_p)$1)->item, 0);}
+| TK_LIT_TRUE {$$  = tree_Add(IKS_AST_LITERAL, ((comp_dict_t_p)$1)->item, 0);}
+| TK_LIT_CHAR {$$  = tree_Add(IKS_AST_LITERAL, ((comp_dict_t_p)$1)->item, 0);}
+| TK_LIT_STRING {$$  = tree_Add(IKS_AST_LITERAL, ((comp_dict_t_p)$1)->item, 0);}
+| expressao '+' expressao {$$ = tree_Add(IKS_AST_ARIM_SOMA, NULL, 2, $1, $3);}
+| expressao '-' expressao {$$ = tree_Add(IKS_AST_ARIM_SUBTRACAO, NULL, 2, $1, $3);}
+| '-' expressao {$$ = tree_Add(IKS_AST_ARIM_INVERSAO, NULL, 1, $2);}
+| expressao '*' expressao {$$ = tree_Add(IKS_AST_ARIM_MULTIPLICACAO, NULL, 2, $1, $3);}
+| expressao '/' expressao {$$ = tree_Add(IKS_AST_ARIM_DIVISAO, NULL, 2, $1, $3);}
+| expressao '<' expressao {$$ = tree_Add(IKS_AST_LOGICO_COMP_L, NULL, 2, $1, $3);}
+| expressao '>' expressao {$$ = tree_Add(IKS_AST_LOGICO_COMP_G, NULL, 2, $1, $3);}
 | '(' expressao ')'
-| expressao TK_OC_LE expressao
-| expressao TK_OC_GE expressao
-| expressao TK_OC_EQ expressao
-| expressao TK_OC_NE expressao
-| expressao TK_OC_AND expressao
-| expressao TK_OC_OR expressao
-| TK_IDENTIFICADOR '(' lista_expressoes ')'
+| expressao TK_OC_LE expressao {$$ = tree_Add(IKS_AST_LOGICO_COMP_LE, NULL, 2, $1, $3);}
+| expressao TK_OC_GE expressao {$$ = tree_Add(IKS_AST_LOGICO_COMP_GE, NULL, 2, $1, $3);}
+| expressao TK_OC_EQ expressao {$$ = tree_Add(IKS_AST_LOGICO_COMP_IGUAL, NULL, 2, $1, $3);}
+| expressao TK_OC_NE expressao {$$ = tree_Add(IKS_AST_LOGICO_COMP_DIF, NULL, 2, $1, $3);}
+| expressao TK_OC_AND expressao {$$ = tree_Add(IKS_AST_LOGICO_E, NULL, 2, $1, $3);}
+| expressao TK_OC_OR expressao {$$ = tree_Add(IKS_AST_LOGICO_OU, NULL, 2, $1, $3);}
+| TK_IDENTIFICADOR '(' lista_expressoes ')' {$$ = tree_Add(IKS_AST_CHAMADA_DE_FUNCAO, NULL, 2, $1, $3);}
 ;
 
- lista_expressoes : lista_expressoes_nao_vazia | ;
+ lista_expressoes : lista_expressoes_nao_vazia {$$ = $1;}| {$$ = NULL};
 
 %%
 
