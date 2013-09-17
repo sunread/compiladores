@@ -1,0 +1,38 @@
+int: main()
+{
+
+   int: ret;
+   int: number;
+   int: array[1000];
+
+   ret = arraySearch(array, number);
+
+   if(ret == 0) then
+   {
+     output "Número não encontrado";
+   }
+   else
+   {
+     output "Número encontrado";
+   };
+
+   return 0;
+}
+
+
+int: arraySearch(int: array, int: number)
+{
+  int: k;
+
+  while (k <= 1000) do
+  {
+    if(array[k] == number) then
+    {
+       	return number;
+    };
+
+    k = k + 1;
+  };
+
+  return 0;
+}
