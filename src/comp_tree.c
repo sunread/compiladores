@@ -12,12 +12,12 @@
 	tree_Add
 	Adiciona um novo no a uma arvore n-aria
 */
- void tree_Add(int data, comp_tree* father_node){
+comp_tree* tree_Add(int type, comp_dict_item_t* symbol, comp_tree* node){
 	comp_tree* new = malloc(sizeof(comp_tree*));
-	new->data = data;
-	new->list = NULL;
-	father_node->list = nodeListAdd(father_node->list, new);
-	
+	new->type = type;
+	new->symbol = symbol;
+	new->list = nodeListAdd(new->list, node);
+	return new;	
 }
 /*
 	nodeListAdd
