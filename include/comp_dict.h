@@ -5,7 +5,8 @@
    comp_dict.h
    Estruturas de dados e definições do dicionário
 */
-
+#ifndef COMP_DICT_H
+#define COMP_DICT_H
 union dataValue
 {
     int i;
@@ -36,4 +37,6 @@ comp_dict_item_t_p dict_insert();
 comp_dict_t* dict_new();
 void dict_free();
 void dict_print();
+
+#endif
 

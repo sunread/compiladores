@@ -6,16 +6,21 @@
    Estruturas de dados e definições da arvore
 */
 
+#include "comp_dict.h"
+
+
+
 typedef struct nodeList_t{
 	struct comp_tree_t* node;
 	struct nodeList_t* next;
 }nodeList;
 
 typedef struct comp_tree_t {
-	int data;
+	int type;
+	comp_dict_item_t* symbol;
 	struct nodeList_t* list;
 }comp_tree;
 
 
-void tree_Add(int data, comp_tree* father_node);
+comp_tree* tree_Add(int type, comp_dict_item_t* symbol, comp_tree* node);
 nodeList* nodeListAdd(nodeList* list, comp_tree* node);
