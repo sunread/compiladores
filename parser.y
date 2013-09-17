@@ -115,21 +115,25 @@
 			
  input : TK_PR_INPUT TK_IDENTIFICADOR {$$ = tree_Add(IKS_AST_INPUT, NULL, 1, $2);};
  
- output : TK_PR_OUTPUT lista_expressoes_nao_vazia ;
+ output : TK_PR_OUTPUT lista_expressoes_nao_vazia {$$ = $2;};
  
- lista_expressoes_nao_vazia: expressao ',' lista_expressoes_nao_vazia | expressao ;
- return : TK_PR_RETURN expressao ;
- controle_fluxo : TK_PR_IF '(' expressao ')' TK_PR_THEN comando |
-                  TK_PR_IF '(' expressao ')' TK_PR_THEN ';' |
-                  TK_PR_IF '(' expressao ')' TK_PR_THEN comando TK_PR_ELSE comando |
-                  TK_PR_IF '(' expressao ')' TK_PR_THEN ';' TK_PR_ELSE comando |
-                  TK_PR_IF '(' expressao ')' TK_PR_THEN comando TK_PR_ELSE ';' |
-                  TK_PR_IF '(' expressao ')' TK_PR_THEN ';' TK_PR_ELSE ';' |
+ lista_expressoes_nao_vazia: expressao ',' lista_expressoes_nao_vazia {$$ = tree_Add(IKS_AST_OUTPUT, NULL, 2, $1, $3);}
+			| expressao {$$ = tree_Add(IKS_AST_OUTPUT, NULL, 1, $1);};
+			
+ return : TK_PR_RETURN expressao {$$ = tree_Add(IKS_AST_RETURN, NULL, 1, $2} ;
+ 
+ controle_fluxo : TK_PR_IF '(' expressao ')' TK_PR_THEN comando {$$ = tree_Add(IKS_AST_IF_ELSE, NULL, 2, $3, $6);}|
+                  TK_PR_IF '(' expressao ')' TK_PR_THEN ';' {$$ = tree_Add(IKS_AST_IF_ELSE, NULL, 1, $3);}|
+                  TK_PR_IF '(' expressao ')' TK_PR_THEN comando TK_PR_ELSE comando {$$ = tree_Add(IKS_AST_IF_ELSE, NULL, 3, $3, $6, $8);}|
+                  TK_PR_IF '(' expressao ')' TK_PR_THEN ';' TK_PR_ELSE comando {$$ = tree_Add(IKS_AST_IF_ELSE, NULL, 2, $3, $8);}|
+                  TK_PR_IF '(' expressao ')' TK_PR_THEN comando TK_PR_ELSE ';' {$$ = tree_Add(IKS_AST_IF_ELSE, NULL, 2, $3, $6);}|
+                  TK_PR_IF '(' expressao ')' TK_PR_THEN ';' TK_PR_ELSE ';' {$$ = tree_Add(IKS_AST_IF_ELSE, NULL, 1, $3);}|
 
-                  TK_PR_WHILE '(' expressao ')' TK_PR_DO comando |
-                  TK_PR_WHILE '(' expressao ')' TK_PR_DO ';' |
-                  TK_PR_DO comando TK_PR_WHILE '(' expressao ')' |
-                  TK_PR_DO ';' TK_PR_WHILE '(' expressao ')' ;
+                  TK_PR_WHILE '(' expressao ')' TK_PR_DO comando {$$ = tree_Add(IKS_AST_WHILE_DO, NULL, 2, $3, $6);}|
+                  TK_PR_WHILE '(' expressao ')' TK_PR_DO ';' {$$ = tree_Add(IKS_AST_WHILE_DO, NULL, 1, $3);}|
+                  TK_PR_DO comando TK_PR_WHILE '(' expressao ')' {$$ = tree_Add(IKS_AST_DO_WHILE, NULL, 2, $2, $5);}|
+                  TK_PR_DO ';' TK_PR_WHILE '(' expressao ')' {$$ = tree_Add(IKS_AST_DO_WHILE, NULL, 1, $5);};
+                  
  expressao : TK_IDENTIFICADOR
 | TK_IDENTIFICADOR '[' expressao ']'
 | TK_LIT_INT
