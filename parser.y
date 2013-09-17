@@ -37,13 +37,13 @@
 %token TK_OC_NE
 %token TK_OC_AND
 %token TK_OC_OR
-%token TK_LIT_INT
-%token TK_LIT_FLOAT
-%token TK_LIT_FALSE
-%token TK_LIT_TRUE
-%token TK_LIT_CHAR
-%token TK_LIT_STRING
-%token TK_IDENTIFICADOR
+%token<symbol> TK_LIT_INT
+%token<symbol> TK_LIT_FLOAT
+%token<symbol> TK_LIT_FALSE
+%token<symbol> TK_LIT_TRUE
+%token<symbol> TK_LIT_CHAR
+%token<symbol> TK_LIT_STRING
+%token<symbol> TK_IDENTIFICADOR
 %token TOKEN_ERRO
 
 %type<ast> programa
@@ -74,6 +74,9 @@
 %left '+' '-'
 %left '*' '/'
 
+%nonassoc TK_PR_THEN ';'
+%nonassoc TK_PR_ELSE
+
 %%
  /* Regras (e ações) da gramática da Linguagem IKS */
 
@@ -94,9 +97,9 @@
  parametro : tipo_variavel ':' TK_IDENTIFICADOR ;
  dec_local : dec_variavel ';' dec_local	| ;
  
- bloco_comando: '{' sequencia_comandos '}' {$$ = $2};
+ bloco_comando: '{' sequencia_comandos '}' {$$ = $2;};
  
- sequencia_comandos : comando {$$ = $1}| comando';' sequencia_comandos {$$ = tree_Add(IKS_AST_BLOCO, NULL, 2, $1, $3)};
+ sequencia_comandos : comando {$$ = $1;}| comando';' sequencia_comandos {$$ = tree_Add(IKS_AST_BLOCO, NULL, 2, $1, $3);};
  
  comando: bloco_comando 	{$$ = $1;}
 			| dec_variavel 
@@ -105,50 +108,57 @@
 			| atribuicao 	{$$ = $1;}
 			| input 		{$$ = $1;}
 			| output 		{$$ = $1;}
-			| return ;		{$$ = $1;}
+			| return 		{$$ = $1;};
 			
  atribuicao : TK_IDENTIFICADOR '=' expressao {$$ = tree_Add(IKS_AST_ATRIBUICAO, NULL, 2, $1, $3);}
 			| TK_IDENTIFICADOR '[' expressao ']' '=' expressao {$$ = tree_Add(IKS_AST_ATRIBUICAO, NULL, 2, $1, $6);};
 			
  input : TK_PR_INPUT TK_IDENTIFICADOR {$$ = tree_Add(IKS_AST_INPUT, NULL, 1, $2);};
  
- output : TK_PR_OUTPUT lista_expressoes_nao_vazia {$$ = };
+ output : TK_PR_OUTPUT lista_expressoes_nao_vazia ;
  
  lista_expressoes_nao_vazia: expressao ',' lista_expressoes_nao_vazia | expressao ;
  return : TK_PR_RETURN expressao ;
  controle_fluxo : TK_PR_IF '(' expressao ')' TK_PR_THEN comando |
+                  TK_PR_IF '(' expressao ')' TK_PR_THEN ';' |
                   TK_PR_IF '(' expressao ')' TK_PR_THEN comando TK_PR_ELSE comando |
+                  TK_PR_IF '(' expressao ')' TK_PR_THEN ';' TK_PR_ELSE comando |
+                  TK_PR_IF '(' expressao ')' TK_PR_THEN comando TK_PR_ELSE ';' |
+                  TK_PR_IF '(' expressao ')' TK_PR_THEN ';' TK_PR_ELSE ';' |
+
                   TK_PR_WHILE '(' expressao ')' TK_PR_DO comando |
-                  TK_PR_DO comando TK_PR_WHILE '(' expressao ')' ;
+                  TK_PR_WHILE '(' expressao ')' TK_PR_DO ';' |
+                  TK_PR_DO comando TK_PR_WHILE '(' expressao ')' |
+                  TK_PR_DO ';' TK_PR_WHILE '(' expressao ')' ;
  expressao : TK_IDENTIFICADOR
-			| TK_IDENTIFICADOR '[' expressao ']'
-			| TK_LIT_INT
-			| TK_LIT_FLOAT
-			| TK_LIT_FALSE
-			| TK_LIT_TRUE
-			| TK_LIT_CHAR
-			| TK_LIT_STRING
-			| expressao '+' expressao
-			| expressao '-' expressao
-			| expressao '*' expressao
-			| expressao '/' expressao
-			| expressao '<' expressao
-			| expressao '>' expressao
-			| '(' expressao ')'
-			| expressao TK_OC_LE expressao
-			| expressao TK_OC_GE expressao
-			| expressao TK_OC_EQ expressao
-			| expressao TK_OC_NE expressao
-			| expressao TK_OC_AND expressao
-			| expressao TK_OC_OR expressao
-			| TK_IDENTIFICADOR '(' lista_expressoes ')'
-			;
+| TK_IDENTIFICADOR '[' expressao ']'
+| TK_LIT_INT
+| TK_LIT_FLOAT
+| TK_LIT_FALSE
+| TK_LIT_TRUE
+| TK_LIT_CHAR
+| TK_LIT_STRING
+| expressao '+' expressao
+| expressao '-' expressao
+| expressao '*' expressao
+| expressao '/' expressao
+| expressao '<' expressao
+| expressao '>' expressao
+| '(' expressao ')'
+| expressao TK_OC_LE expressao
+| expressao TK_OC_GE expressao
+| expressao TK_OC_EQ expressao
+| expressao TK_OC_NE expressao
+| expressao TK_OC_AND expressao
+| expressao TK_OC_OR expressao
+| TK_IDENTIFICADOR '(' lista_expressoes ')'
+;
 
  lista_expressoes : lista_expressoes_nao_vazia | ;
 
 %%
 
 int yyerror(char *t) {
-	printf("Erro de sintaxe na linha %d\n", getLineNumber());
-	exit(IKS_SYNTAX_ERRO);
+printf("Erro de sintaxe na linha %d\n", getLineNumber());
+exit(IKS_SYNTAX_ERRO);
 }

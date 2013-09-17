@@ -7,17 +7,23 @@
 */
 #include <stdlib.h>
 #include "comp_tree.h"
+#include <stdarg.h>
 
 /*
 	tree_Add
 	Adiciona um novo no a uma arvore n-aria
 */
-comp_tree* tree_Add(int type, comp_dict_item_t* symbol, comp_tree* node){
+comp_tree* tree_Add(int type, comp_dict_item_t* symbol, int count, ...){
+	va_list ap;
+	int j;
 	comp_tree* new = malloc(sizeof(comp_tree*));
 	new->type = type;
 	new->symbol = symbol;
-	new->list = nodeListAdd(new->list, node);
+	va_start(ap, count);
+	for(j=0; j<count; j++)
+	   new->list = nodeListAdd(new->list, va_arg(ap, comp_tree*));
 	return new;	
+	va_end(ap);
 }
 /*
 	nodeListAdd

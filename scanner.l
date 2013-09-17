@@ -11,6 +11,7 @@
 %{
 
 #include "comp_dict.h"
+#include "comp_tree.h"
 #include "parser.h"
 
 #define IKS_SIMBOLO_INDEFINIDO 0

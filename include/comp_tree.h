@@ -8,7 +8,8 @@
 
 #include "comp_dict.h"
 
-
+#ifndef COMP_TREE_H
+#define COMP_TREE_H
 
 typedef struct nodeList_t{
 	struct comp_tree_t* node;
@@ -22,5 +23,6 @@ typedef struct comp_tree_t {
 }comp_tree;
 
 
-comp_tree* tree_Add(int type, comp_dict_item_t* symbol, comp_tree* node);
+comp_tree* tree_Add(int type, comp_dict_item_t* symbol, int count, ...);
 nodeList* nodeListAdd(nodeList* list, comp_tree* node);
+#endif
