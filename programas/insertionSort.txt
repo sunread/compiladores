@@ -1,0 +1,32 @@
+int: main()
+{
+  int: n;
+  int: array[1000];
+  int: c;
+  int: d;
+  int: t;
+  c = 1;
+
+  while (c <= n) do
+  {
+    d = c;
+
+    while ( d > 0 && array[d] < array[d-1]) do
+    {
+      t          = array[d];
+      array[d]   = array[d-1];
+      array[d-1] = t;
+
+      d = d-1;
+    };
+
+    c = c+1;
+  };
+
+  d = 0;
+
+  while(d <= 1000) do
+  {
+    output "Número", d, ": ", array[d];
+  }
+}
