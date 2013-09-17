@@ -144,6 +144,7 @@
 | TK_LIT_STRING
 | expressao '+' expressao
 | expressao '-' expressao
+| '-' expressao
 | expressao '*' expressao
 | expressao '/' expressao
 | expressao '<' expressao
