@@ -158,5 +158,4 @@
 
 int yyerror(char *t) {
 printf("Erro de sintaxe na linha %d\n", getLineNumber());
-exit(IKS_SYNTAX_ERRO);
 }
