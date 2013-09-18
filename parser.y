@@ -2,7 +2,7 @@
    Fernando Soller Mecking
    Mateus Cardoso da Silva
 */
-
+ 
 %{
 #include <stdio.h>
 #include "comp_tree.h"
@@ -47,16 +47,7 @@
 %token TOKEN_ERRO
 
 %type<ast> programa
-%type<ast> dec_global
-%type<ast> dec_variavel
-%type<ast> dec_vetor
-%type<ast> tipo_variavel
 %type<ast> dec_funcao
-%type<ast> cabecalho
-%type<ast> lista_param
-%type<ast> lista_param_nao_vazia
-%type<ast> parametro
-%type<ast> dec_local
 %type<ast> bloco_comando
 %type<ast> sequencia_comandos
 %type<ast> comando
@@ -69,6 +60,8 @@
 %type<ast> expressao
 %type<ast> lista_expressoes
 
+%type<symbol> cabecalho
+
 %left TK_OC_OR TK_OC_AND
 %left '<' '>' TK_OC_LE TK_OC_GE TK_OC_EQ TK_OC_NE
 %left '+' '-'
@@ -80,18 +73,18 @@
 %%
  /* Regras (e ações) da gramática da Linguagem IKS */
 
- programa : dec_global programa
+ programa : dec_global programa {$$ = tree_Add(IKS_AST_PROGRAMA, NULL, 0);}
 			| dec_funcao programa {$$ = tree_Add(IKS_AST_PROGRAMA, NULL, 1, $1);}
 			| {$$ = NULL;};
 			
  dec_global : dec_variavel ';' | dec_vetor ';' ;
  dec_variavel : tipo_variavel ':' TK_IDENTIFICADOR ;
  dec_vetor : tipo_variavel ':' TK_IDENTIFICADOR '[' TK_LIT_INT ']' ;
- tipo_variavel : TK_PR_INT | TK_PR_FLOAT | TK_PR_BOOL | TK_PR_CHAR | TK_PR_STRING ;
+ tipo_variavel : TK_PR_INT | TK_PR_FLOAT | TK_PR_BOOL| TK_PR_CHAR | TK_PR_STRING ;
  
  dec_funcao : cabecalho dec_local bloco_comando {$$ = tree_Add(IKS_AST_FUNCAO, ((comp_dict_t_p)$1)->item, 1, $3);};
  
- cabecalho : tipo_variavel ':' TK_IDENTIFICADOR '(' lista_param ')' {$$ = $3;}	;
+ cabecalho : tipo_variavel ':' TK_IDENTIFICADOR '(' lista_param ')'	{$$ = $3;};
  lista_param : lista_param_nao_vazia | ;
  lista_param_nao_vazia : parametro ',' lista_param_nao_vazia | parametro ;
  parametro : tipo_variavel ':' TK_IDENTIFICADOR ;
@@ -102,8 +95,8 @@
  sequencia_comandos : comando {$$ = $1;}| comando';' sequencia_comandos {$$ = tree_Add(IKS_AST_BLOCO, NULL, 2, $1, $3);};
  
  comando: bloco_comando 	{$$ = $1;}
-			| dec_variavel 
-			| dec_vetor 
+			| dec_variavel  {$$ = NULL;}
+			| dec_vetor 	{$$ = NULL;}
 			| controle_fluxo {$$ = $1;}
 			| atribuicao 	{$$ = $1;}
 			| input 		{$$ = $1;}
@@ -149,7 +142,7 @@
 | expressao '/' expressao {$$ = tree_Add(IKS_AST_ARIM_DIVISAO, NULL, 2, $1, $3);}
 | expressao '<' expressao {$$ = tree_Add(IKS_AST_LOGICO_COMP_L, NULL, 2, $1, $3);}
 | expressao '>' expressao {$$ = tree_Add(IKS_AST_LOGICO_COMP_G, NULL, 2, $1, $3);}
-| '(' expressao ')'
+| '(' expressao ')' {$$ = $2;}
 | expressao TK_OC_LE expressao {$$ = tree_Add(IKS_AST_LOGICO_COMP_LE, NULL, 2, $1, $3);}
 | expressao TK_OC_GE expressao {$$ = tree_Add(IKS_AST_LOGICO_COMP_GE, NULL, 2, $1, $3);}
 | expressao TK_OC_EQ expressao {$$ = tree_Add(IKS_AST_LOGICO_COMP_IGUAL, NULL, 2, $1, $3);}
@@ -159,7 +152,7 @@
 | TK_IDENTIFICADOR '(' lista_expressoes ')' {$$ = tree_Add(IKS_AST_CHAMADA_DE_FUNCAO, NULL, 2, $1, $3);}
 ;
 
- lista_expressoes : lista_expressoes_nao_vazia {$$ = $1;}| {$$ = NULL};
+ lista_expressoes : lista_expressoes_nao_vazia {$$ = $1;}| {$$ = NULL;};
 
 %%
 
