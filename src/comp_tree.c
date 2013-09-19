@@ -21,10 +21,12 @@ comp_tree* tree_Add(int type, comp_dict_item_t* symbol, int count, ...){
 	new->type = type;
 	new->symbol = symbol;
 	new->list = NULL;
-	va_start(ap, count);
-	for(j=0; j<count; j++)
-	   new->list = nodeListAdd(new->list, va_arg(ap, comp_tree*));
-	va_end(ap);
+	if(count>0){
+		va_start(ap, count);
+		for(j=0; j<count; j++)
+		   new->list = nodeListAdd(new->list, va_arg(ap, comp_tree*));
+		va_end(ap);
+	}
 	return new;	
 }
 /*

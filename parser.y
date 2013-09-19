@@ -61,6 +61,8 @@
 %type<ast> controle_fluxo
 %type<ast> expressao
 %type<ast> lista_expressoes
+%type<ast> dec_variavel
+%type<ast> dec_vetor
 
 %type<symbol> cabecalho
 
@@ -78,11 +80,11 @@
 	
  programa : dec_global programa {$$ = tree_Add(IKS_AST_PROGRAMA, NULL, 1, $2);}
 			| dec_funcao programa {$$ = tree_Add(IKS_AST_PROGRAMA, NULL, 2, $1, $2);}
-			| {$$ = NULL;};
+			| {$$ = tree_Add(IKS_AST_PROGRAMA, NULL, 0);};
 			
  dec_global : dec_variavel ';' | dec_vetor ';' ;
- dec_variavel : tipo_variavel ':' TK_IDENTIFICADOR ;
- dec_vetor : tipo_variavel ':' TK_IDENTIFICADOR '[' TK_LIT_INT ']' ;
+ dec_variavel : tipo_variavel ':' TK_IDENTIFICADOR  {$$ = tree_Add(IKS_AST_DECL, NULL, 0);};
+ dec_vetor : tipo_variavel ':' TK_IDENTIFICADOR '[' TK_LIT_INT ']' {$$  = tree_Add(IKS_AST_DECL_VETOR, NULL, 0);};
  tipo_variavel : TK_PR_INT | TK_PR_FLOAT | TK_PR_BOOL| TK_PR_CHAR | TK_PR_STRING ;
  
  dec_funcao : cabecalho dec_local corpo {$$ = tree_Add(IKS_AST_FUNCAO, $1, 1, $3);};
@@ -96,7 +98,7 @@
  
  bloco_comando : comando_final {$$ = $1;}
 				| comando';' bloco_comando {$$ = tree_Add(IKS_AST_BLOCO, NULL, 2, $1, $3);}
-				|';' bloco_comando {$$ = $2;};
+				|';' bloco_comando {$$ = $2;}
 				
  comando_final : comando {$$ = $1;}
 				| {$$ = NULL;};

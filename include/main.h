@@ -6,9 +6,10 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 #include <stdio.h>
+#include "comp_tree.h"
 #include "comp_dict.h"
 #include "comp_list.h"
-#include "comp_tree.h"
+
 #include "comp_graph.h"
 #include "iks_ast.h"
 #include "gv.h"

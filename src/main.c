@@ -4,6 +4,7 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "main.h"
 
@@ -22,10 +23,9 @@ int main (int argc, char **argv)
   }
 
   dictionary = dict_new();
-
   int resultado = yyparse();	
   gv_init("arvore.dot");
-
+  
   makeTree(ast);
 
   gv_close();
@@ -46,7 +46,8 @@ void makeTree(comp_tree *ast){
 			gv_declare(aux->type, aux, aux->symbol->text);
 		else
 			gv_declare(aux->type, aux, NULL);
-		gv_connect(aux, list->node);
+		if(list->node!=NULL)
+			gv_connect(aux, list->node);
 		makeTree(list->node);
 		list = list->next;
 	}
