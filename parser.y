@@ -46,6 +46,7 @@
 %token<symbol> TK_IDENTIFICADOR
 %token TOKEN_ERRO
 
+%type<ast> p
 %type<ast> programa
 %type<ast> dec_funcao
 %type<ast> bloco_comando
@@ -73,6 +74,7 @@
 
 %%
  /* Regras (e ações) da gramática da Linguagem IKS */
+ p: programa {$$ = $1; ast = $$;};
 	
  programa : dec_global programa {$$ = tree_Add(IKS_AST_PROGRAMA, NULL, 1, $2);}
 			| dec_funcao programa {$$ = tree_Add(IKS_AST_PROGRAMA, NULL, 2, $1, $2);}
