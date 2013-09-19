@@ -22,7 +22,7 @@ typedef struct comp_tree_t {
 	struct nodeList_t* list;
 }comp_tree;
 
-
+comp_tree* ast;
 comp_tree* tree_Add(int type, comp_dict_item_t* symbol, int count, ...);
 nodeList* nodeListAdd(nodeList* list, comp_tree* node);
 #endif
