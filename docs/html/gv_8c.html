@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>Compilador IKS - Compiladores UFRGS 2013/2: Referência do Arquivo gv.c</title>
+
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">Compilador IKS - Compiladores UFRGS 2013/2
+   
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- Gerado por Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Busca');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Página&#160;Principal</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="files.html"><span>Arquivos</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Busca" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Lista&#160;de&#160;Arquivos</span></a></li>
+      <li><a href="globals.html"><span>Arquivos&#160;Membros</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Funções</a>  </div>
+  <div class="headertitle">
+<div class="title">Referência do Arquivo gv.c</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>As funções deste arquivo, se corretamente utilizadas, permitem a geração de um grafo no formato dot (graphviz).  
+<a href="#details">Mais...</a></p>
+<div class="textblock"><code>#include &lt;stdio.h&gt;</code><br/>
+<code>#include &lt;stdlib.h&gt;</code><br/>
+<code>#include &quot;<a class="el" href="iks__ast_8h_source.html">iks_ast.h</a>&quot;</code><br/>
+</div><table class="memberdecls">
+<tr><td colspan="2"><h2><a name="func-members"></a>
+Funções</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gv_8c.html#a93b2805bfe8f8a6367330ffc72b0b2e2">gv_init</a> (const char *filename)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gv_8c.html#a968b05ac409ae707c0a23eadaf73cf3a">gv_close</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gv_8c.html#a7b8c439347a2c3b842aa84ddcd35846e">gv_declare</a> (const int tipo, const void *pointer, char *name)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gv_8c.html#a620f493bc6bec666fe0efbeddd59d13b">gv_connect</a> (const void *p1, const void *p2)</td></tr>
+</table>
+<hr/><a name="details" id="details"></a><h2>Descrição Detalhada</h2>
+<div class="textblock"><p>As funções deste arquivo, se corretamente utilizadas, permitem a geração de um grafo no formato dot (graphviz). </p>
+<dl class="author"><dt><b>Autor:</b></dt><dd>Lucas Schnorr </dd></dl>
+<dl class="date"><dt><b>Data:</b></dt><dd>16 Sep 2013 As funções deste arquivo, se corretamente utilizadas, permitem a geração de um grafo no formato dot (graphviz). Ele imprime na saída de erro do programa o grafo. Para utilizar, chame gv_init no início do programa, depois chame gv_declare para declarar um nó da AST (passando o seu tipo - de acordo com ast.h, o pointeiro para o nó da AST e o seu nome). Para conectar dois nós da AST, utilize gv_connect e para fechar o arquivo utilize gv_close.</dd></dl>
+<p>Atenção: não altere este arquivo</p>
+<p>Supondo que o arquivo de saída deste módulo encontra-se no arquivo "saida.dot", ele pode ser visualizado da seguinte maneira:</p>
+<p>1 - instale o pacote graphviz 2 - execute o comando "dot saida.dot -Tpng -o saida.png" </p>
+</div><hr/><h2>Funções</h2>
+<a class="anchor" id="a968b05ac409ae707c0a23eadaf73cf3a"></a><!-- doxytag: member="gv.c::gv_close" ref="a968b05ac409ae707c0a23eadaf73cf3a" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="gv_8c.html#a968b05ac409ae707c0a23eadaf73cf3a">gv_close</a> </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>gv_close</p>
+<p>Esta função deve ser chamada para fechar o arquivo com o grafo registrado. Ela deve ser chamada no final do compilador. </p>
+
+</div>
+</div>
+<a class="anchor" id="a620f493bc6bec666fe0efbeddd59d13b"></a><!-- doxytag: member="gv.c::gv_connect" ref="a620f493bc6bec666fe0efbeddd59d13b" args="(const void *p1, const void *p2)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="gv_8c.html#a620f493bc6bec666fe0efbeddd59d13b">gv_connect</a> </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>p1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>p2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>gv_connect</p>
+<p>Esta função deve ser utilizada para conectar dois nós da AST na saída em dot. Ela recebe como parâmetro ponteiros para os dois nós da AST que devem ser conectados. Note que esses ponteiros servem como identificadores únicos dos nós da AST. </p>
+
+</div>
+</div>
+<a class="anchor" id="a7b8c439347a2c3b842aa84ddcd35846e"></a><!-- doxytag: member="gv.c::gv_declare" ref="a7b8c439347a2c3b842aa84ddcd35846e" args="(const int tipo, const void *pointer, char *name)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="gv_8c.html#a7b8c439347a2c3b842aa84ddcd35846e">gv_declare</a> </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>tipo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>pointer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>gv_declare</p>
+<p>Esta função deve ser chamada para declarar um nó da AST, registrando esse novo nó no arquivo. Ela tem três parâmetros:</p>
+<p>1/ tipo, que deve ser obrigatoriamente um dos valores das constantes declaradas no arquivo <a class="el" href="iks__ast_8h.html" title="Este arquivo contém as constantes para os tipos dos nós da AST.">iks_ast.h</a>;</p>
+<p>2/ pointer, que deve ser um pointeiro para o nó da árvore AST que está sendo declarado servindo a partir de agora como identificador único do nó; e</p>
+<p>3/ name, que deve ser um lexema válido somente se o tipo for um desses três valores: IKS_AST_IDENTIFICADOR (o lexema do identificador), IKS_AST_LITERAL (o lexema do literal) ou IKS_AST_FUNCAO (o lexema do identificador da função). </p>
+
+</div>
+</div>
+<a class="anchor" id="a93b2805bfe8f8a6367330ffc72b0b2e2"></a><!-- doxytag: member="gv.c::gv_init" ref="a93b2805bfe8f8a6367330ffc72b0b2e2" args="(const char *filename)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="gv_8c.html#a93b2805bfe8f8a6367330ffc72b0b2e2">gv_init</a> </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>filename</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>gv_init</p>
+<p>Esta função deve ser chamada para inicializar o arquivo onde o grafo será registrado. Um nome de arquivo, opcional, pode ser passado como argumento para esta função. Caso o parâmetro com o nome do arquivo seja NULL, a saída será impressa na saída de erro. </p>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Todos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Arquivos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funções</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Definições e Macros</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+
+<hr class="footer"/><address class="footer"><small>
+Gerado em Quinta, 19 de Setembro de 2013 03:09:15 para Compilador IKS - Compiladores UFRGS 2013/2 por &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.7.6.1
+</small></address>
+
+</body>
+</html>

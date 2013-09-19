@@ -1,13 +1,14 @@
-/* Projeto de Compiladores 2013-2 - Etapa 0
-   Fernando Soller Mecking
-   Mateus Cardoso da Silva
+/**
+ * @file comp_list.h
+ * @author Fernando Soller Mecking; Mateus Cardoso da Silva
+ * @date 16 Sep 2013
+ * @brief Estruturas de dados e definições da lista
+ */
 
-   comp_list.h
-   Estruturas de dados e definições da lista
-*/
 
 #ifndef COMP_LIST_H
 #define COMP_LIST_H
+
 typedef struct comp_list_t{
 	int data;
 	struct comp_list_t *next;

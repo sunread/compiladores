@@ -1,8 +1,10 @@
-/*
-  main.h
+/**
+ * @file main.h
+ * @author Fernando Soller Mecking; Mateus Cardoso da Silva
+ * @date 16 Sep 2013
+ * @brief Cabeçalho principal do analisador sintático
+ */
 
-  Cabeçalho principal do analisador sintático
-*/
 #ifndef __MAIN_H
 #define __MAIN_H
 #include <stdio.h>
@@ -14,7 +16,7 @@
 #include "iks_ast.h"
 #include "gv.h"
 
-/*
+/**
   Constantes a serem utilizadas como valor de retorno no caso de
   sucesso (IKS_SYNTAX_SUCESS) e erro (IKS_SYNTAX_ERRO) do analisador
   sintático.
@@ -22,7 +24,7 @@
 #define IKS_SYNTAX_SUCESSO 0
 #define IKS_SYNTAX_ERRO    1
 
-/*
+/**
   Constantes a serem utilizadas para diferenciar os lexemas que estão
   registrados na tabela de símbolos.
 */

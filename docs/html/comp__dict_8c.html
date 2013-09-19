@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>Compilador IKS - Compiladores UFRGS 2013/2: Referência do Arquivo comp_dict.c</title>
+
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">Compilador IKS - Compiladores UFRGS 2013/2
+   
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- Gerado por Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Busca');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Página&#160;Principal</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="files.html"><span>Arquivos</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Busca" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Lista&#160;de&#160;Arquivos</span></a></li>
+      <li><a href="globals.html"><span>Arquivos&#160;Membros</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Funções</a>  </div>
+  <div class="headertitle">
+<div class="title">Referência do Arquivo comp_dict.c</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>Funções para o funcionamento do dicionário.  
+<a href="#details">Mais...</a></p>
+<div class="textblock"><code>#include &lt;stdio.h&gt;</code><br/>
+<code>#include &lt;string.h&gt;</code><br/>
+<code>#include &lt;stdlib.h&gt;</code><br/>
+<code>#include &quot;<a class="el" href="comp__dict_8h_source.html">comp_dict.h</a>&quot;</code><br/>
+</div><table class="memberdecls">
+<tr><td colspan="2"><h2><a name="func-members"></a>
+Funções</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__dict_8c.html#a974b9428e4e82ae24fc366330de052b5">dict_find_index</a> (<a class="el" href="structcomp__dict__t.html">comp_dict_t_p</a> dict, char *text)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__dict_8c.html#aa3e921436105553f8100304ac2c93e90">dict_find</a> (<a class="el" href="structcomp__dict__t.html">comp_dict_t_p</a> dict, char *text)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__dict_8c.html#a05ec30c99da16524b15a20fcfd318419">dict_insert</a> (<a class="el" href="structcomp__dict__t.html">comp_dict_t_p</a> dict, char *text, int type, int lineNumber)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcomp__dict__t.html">comp_dict_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__dict_8c.html#a870169718e30ad09864ad4ec84cb891c">dict_new</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__dict_8c.html#a9a22b4d6f0232dd5e5cdc1b6f8e26992">dict_free</a> (<a class="el" href="structcomp__dict__t.html">comp_dict_t_p</a> dict)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__dict_8c.html#abe87253abb9d3db9a9ab15e9229e3d21">dict_print</a> (<a class="el" href="structcomp__dict__t.html">comp_dict_t</a> *dict)</td></tr>
+</table>
+<hr/><a name="details" id="details"></a><h2>Descrição Detalhada</h2>
+<div class="textblock"><p>Funções para o funcionamento do dicionário. </p>
+<dl class="author"><dt><b>Autor:</b></dt><dd>Fernando Soller Mecking; Mateus Cardoso da Silva </dd></dl>
+<dl class="date"><dt><b>Data:</b></dt><dd>16 Sep 2013 </dd></dl>
+</div><hr/><h2>Funções</h2>
+<a class="anchor" id="aa3e921436105553f8100304ac2c93e90"></a><!-- doxytag: member="comp_dict.c::dict_find" ref="aa3e921436105553f8100304ac2c93e90" args="(comp_dict_t_p dict, char *text)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="comp__dict_8c.html#aa3e921436105553f8100304ac2c93e90">dict_find</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcomp__dict__t.html">comp_dict_t_p</a>&#160;</td>
+          <td class="paramname"><em>dict</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>text</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>dict_find Procura no dicionário uma entrada de texto e retorna o type caso encontre, se não retorna -1 </p>
+
+</div>
+</div>
+<a class="anchor" id="a974b9428e4e82ae24fc366330de052b5"></a><!-- doxytag: member="comp_dict.c::dict_find_index" ref="a974b9428e4e82ae24fc366330de052b5" args="(comp_dict_t_p dict, char *text)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="comp__dict_8c.html#a974b9428e4e82ae24fc366330de052b5">dict_find_index</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcomp__dict__t.html">comp_dict_t_p</a>&#160;</td>
+          <td class="paramname"><em>dict</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>text</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>dict_find_index Procura no dicionário uma entrada de texto e retorna o índice caso encontre, se não retorna -1 </p>
+
+</div>
+</div>
+<a class="anchor" id="a9a22b4d6f0232dd5e5cdc1b6f8e26992"></a><!-- doxytag: member="comp_dict.c::dict_free" ref="a9a22b4d6f0232dd5e5cdc1b6f8e26992" args="(comp_dict_t_p dict)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="comp__dict_8c.html#a9a22b4d6f0232dd5e5cdc1b6f8e26992">dict_free</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcomp__dict__t.html">comp_dict_t_p</a>&#160;</td>
+          <td class="paramname"><em>dict</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>dict_free Desaloca a memória utilizada por um dicionário </p>
+
+</div>
+</div>
+<a class="anchor" id="a05ec30c99da16524b15a20fcfd318419"></a><!-- doxytag: member="comp_dict.c::dict_insert" ref="a05ec30c99da16524b15a20fcfd318419" args="(comp_dict_t_p dict, char *text, int type, int lineNumber)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t_p</a> <a class="el" href="comp__dict_8c.html#a05ec30c99da16524b15a20fcfd318419">dict_insert</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcomp__dict__t.html">comp_dict_t_p</a>&#160;</td>
+          <td class="paramname"><em>dict</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>lineNumber</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>dict_insert Insere um item no dicionário </p>
+
+</div>
+</div>
+<a class="anchor" id="a870169718e30ad09864ad4ec84cb891c"></a><!-- doxytag: member="comp_dict.c::dict_new" ref="a870169718e30ad09864ad4ec84cb891c" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcomp__dict__t.html">comp_dict_t</a>* <a class="el" href="comp__dict_8c.html#a870169718e30ad09864ad4ec84cb891c">dict_new</a> </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>dict_new Aloca um novo dicionário </p>
+
+</div>
+</div>
+<a class="anchor" id="abe87253abb9d3db9a9ab15e9229e3d21"></a><!-- doxytag: member="comp_dict.c::dict_print" ref="abe87253abb9d3db9a9ab15e9229e3d21" args="(comp_dict_t *dict)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="comp__dict_8c.html#abe87253abb9d3db9a9ab15e9229e3d21">dict_print</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcomp__dict__t.html">comp_dict_t</a> *&#160;</td>
+          <td class="paramname"><em>dict</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>dict_print Imprime os itens do dicionário </p>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Todos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Arquivos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funções</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Definições e Macros</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+
+<hr class="footer"/><address class="footer"><small>
+Gerado em Quinta, 19 de Setembro de 2013 03:09:15 para Compilador IKS - Compiladores UFRGS 2013/2 por &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.7.6.1
+</small></address>
+
+</body>
+</html>

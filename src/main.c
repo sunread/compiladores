@@ -1,11 +1,12 @@
-/* Projeto de Compiladores 2013-2 - Etapa 1
-   Fernando Soller Mecking
-   Mateus Cardoso da Silva
-*/
+/**
+ * @file main.c
+ * @author Fernando Soller Mecking; Mateus Cardoso da Silva
+ * @date 16 Sep 2013
+ * @brief Arquivo contendo a classe Main
+ */
+
 
 #include <stdio.h>
-#include <stdlib.h>
-
 #include "main.h"
 
 void makeTree(comp_tree *ast);
@@ -23,7 +24,9 @@ int main (int argc, char **argv)
   }
 
   dictionary = dict_new();
-  int resultado = yyparse();	
+
+  int resultado = yyparse();
+
   gv_init("arvore.dot");
   
   makeTree(ast);

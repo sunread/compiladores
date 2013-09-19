@@ -1,8 +1,10 @@
-/*
-  iks_ast.h
+/**
+ * @file iks_ast.h
+ * @author Lucas Schnorr
+ * @date 16 Sep 2013
+ * @brief Este arquivo contém as constantes para os tipos dos nós da AST.
+ */
 
-  Este arquivo contém as constantes para os tipos dos nós da AST.
-*/
 #ifndef __IKS_AST_H
 #define __IKS_AST_H
 #define IKS_AST_PROGRAMA             0
@@ -35,5 +37,5 @@
 #define IKS_AST_CHAMADA_DE_FUNCAO   27
 #define IKS_AST_DECL   				28
 #define IKS_AST_DECL_VETOR			29
-#define IKS_AST_VAZIO			29
+
 #endif

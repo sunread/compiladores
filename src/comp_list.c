@@ -1,13 +1,14 @@
-/* Projeto de Compiladores 2013-2 - Etapa 0
-   Fernando Soller Mecking
-   Mateus Cardoso da Silva
+/**
+ * @file comp_list.c
+ * @author Fernando Soller Mecking; Mateus Cardoso da Silva
+ * @date 16 Sep 2013
+ * @brief Funções para o funcionamento da lista
+ */
 
-   comp_list.c
-   Funções para o funcionamento da lista
-*/
+
 #include "comp_list.h"
 #include <stdlib.h>
-/*
+/**
 	list_Create
 	Seta como NULL o uma lista vazia
 */
@@ -15,7 +16,7 @@ comp_list* list_Create(){
 	return NULL;
 }
 
-/*
+/**
 	list_Add
 	Adiciona um novo item ao final de uma lista duplamente encadeada circular
 */
@@ -40,7 +41,7 @@ comp_list* list_Add(int data, comp_list* first){
 	}
 }
 
-/*
+/**
 	list_Search
 	Procura um elemento na lista a partir de um argumento
 */
@@ -54,7 +55,7 @@ comp_list* list_Search(int data, comp_list* first){
 	else return NULL;
 }
 
-/*
+/**
 	list_Remove
 	Remove um item qualquer de uma lista
 */
@@ -64,7 +65,7 @@ void list_Remove(comp_list* node){
 	free(node);
 }
 
-/*
+/**
 	list_Concat
 	Concatena duas listas circulares
 */

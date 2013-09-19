@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>Compilador IKS - Compiladores UFRGS 2013/2: Referência do Arquivo comp_tree.h</title>
+
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">Compilador IKS - Compiladores UFRGS 2013/2
+   
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- Gerado por Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Busca');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Página&#160;Principal</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="files.html"><span>Arquivos</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Busca" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Lista&#160;de&#160;Arquivos</span></a></li>
+      <li><a href="globals.html"><span>Arquivos&#160;Membros</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Componentes</a> &#124;
+<a href="#define-members">Definições e Macros</a> &#124;
+<a href="#typedef-members">Definições de Tipos</a> &#124;
+<a href="#func-members">Funções</a> &#124;
+<a href="#var-members">Variáveis</a>  </div>
+  <div class="headertitle">
+<div class="title">Referência do Arquivo comp_tree.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>Estruturas de dados e definições da arvore.  
+<a href="#details">Mais...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="comp__dict_8h_source.html">comp_dict.h</a>&quot;</code><br/>
+</div>
+<p><a href="comp__tree_8h_source.html">Vá para o código-fonte deste arquivo.</a></p>
+<table class="memberdecls">
+<tr><td colspan="2"><h2><a name="nested-classes"></a>
+Componentes</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structnodeList__t.html">nodeList_t</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcomp__tree__t.html">comp_tree_t</a></td></tr>
+<tr><td colspan="2"><h2><a name="typedef-members"></a>
+Definições de Tipos</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aae4f5ed6bb4270eea9a2b1f96677800f"></a><!-- doxytag: member="comp_tree.h::nodeList" ref="aae4f5ed6bb4270eea9a2b1f96677800f" args="" -->
+typedef struct <a class="el" href="structnodeList__t.html">nodeList_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>nodeList</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a60036fa4aa0b863be67a7f7fd4e6d64d"></a><!-- doxytag: member="comp_tree.h::comp_tree" ref="a60036fa4aa0b863be67a7f7fd4e6d64d" args="" -->
+typedef struct <a class="el" href="structcomp__tree__t.html">comp_tree_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>comp_tree</b></td></tr>
+<tr><td colspan="2"><h2><a name="func-members"></a>
+Funções</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcomp__tree__t.html">comp_tree</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__tree_8h.html#a631d1e603445d4105b020d8f94d7a0c7">tree_Add</a> (int type, <a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t</a> *symbol, int count,...)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structnodeList__t.html">nodeList</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__tree_8h.html#a836a3cecb496c93e7093226d529263e1">nodeListAdd</a> (<a class="el" href="structnodeList__t.html">nodeList</a> *list, <a class="el" href="structcomp__tree__t.html">comp_tree</a> *node)</td></tr>
+<tr><td colspan="2"><h2><a name="var-members"></a>
+Variáveis</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afcc4740f80fa4ebfaec5b26eabe3e9d8"></a><!-- doxytag: member="comp_tree.h::ast" ref="afcc4740f80fa4ebfaec5b26eabe3e9d8" args="" -->
+<a class="el" href="structcomp__tree__t.html">comp_tree</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>ast</b></td></tr>
+</table>
+<hr/><a name="details" id="details"></a><h2>Descrição Detalhada</h2>
+<div class="textblock"><p>Estruturas de dados e definições da arvore. </p>
+<dl class="author"><dt><b>Autor:</b></dt><dd>Fernando Soller Mecking; Mateus Cardoso da Silva </dd></dl>
+<dl class="date"><dt><b>Data:</b></dt><dd>16 Sep 2013 </dd></dl>
+</div><hr/><h2>Funções</h2>
+<a class="anchor" id="a836a3cecb496c93e7093226d529263e1"></a><!-- doxytag: member="comp_tree.h::nodeListAdd" ref="a836a3cecb496c93e7093226d529263e1" args="(nodeList *list, comp_tree *node)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structnodeList__t.html">nodeList</a>* <a class="el" href="comp__tree_8c.html#a836a3cecb496c93e7093226d529263e1">nodeListAdd</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structnodeList__t.html">nodeList</a> *&#160;</td>
+          <td class="paramname"><em>list</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcomp__tree__t.html">comp_tree</a> *&#160;</td>
+          <td class="paramname"><em>node</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>nodeListAdd Adiciona um novo item ao final de uma lista encadeada,que representa os filhos de um no </p>
+
+</div>
+</div>
+<a class="anchor" id="a631d1e603445d4105b020d8f94d7a0c7"></a><!-- doxytag: member="comp_tree.h::tree_Add" ref="a631d1e603445d4105b020d8f94d7a0c7" args="(int type, comp_dict_item_t *symbol, int count,...)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcomp__tree__t.html">comp_tree</a>* <a class="el" href="comp__tree_8c.html#a631d1e603445d4105b020d8f94d7a0c7">tree_Add</a> </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t</a> *&#160;</td>
+          <td class="paramname"><em>symbol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>count</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>tree_Add Adiciona um novo no a uma arvore n-aria </p>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Todos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Arquivos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funções</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Definições e Macros</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+
+<hr class="footer"/><address class="footer"><small>
+Gerado em Quinta, 19 de Setembro de 2013 03:09:15 para Compilador IKS - Compiladores UFRGS 2013/2 por &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.7.6.1
+</small></address>
+
+</body>
+</html>

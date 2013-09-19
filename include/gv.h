@@ -1,11 +1,11 @@
-/*
-  gv.h
+/**
+ * @file gv.h
+ * @author Lucas Schnorr
+ * @date 16 Sep 2013
+ * @brief Funções públicas do módulo gv. Verifique a implementação para
+ *  maiores detalhes de como utilizar cada uma. 
+ */
 
-  Funções públicas do módulo gv. Verifique a implementação para
-  maiores detalhes de como utilizar cada uma. 
-
-  Atenção: não altere este arquivo
-*/
 #ifndef __GV_H__
 #define __GV_H__
 void gv_init (const char *filename);

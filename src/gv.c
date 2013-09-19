@@ -1,22 +1,28 @@
 /**
-  gv.c
-
-  As funções deste arquivo, se corretamente utilizadas, permitem a
-  geração de um grafo no formato dot (graphviz). Ele imprime na saída
-  de erro do programa o grafo. Para utilizar, chame gv_init no início
-  do programa, depois chame gv_declare para declarar um nó da AST
-  (passando o seu tipo - de acordo com ast.h, o pointeiro para o nó da
-  AST e o seu nome). Para conectar dois nós da AST, utilize gv_connect
-  e para fechar o arquivo utilize gv_close.
-
-  Atenção: não altere este arquivo
-
-  Supondo que o arquivo de saída deste módulo encontra-se no arquivo
-  "saida.dot", ele pode ser visualizado da seguinte maneira:
-
-  1 - instale o pacote graphviz
-  2 - execute o comando "dot saida.dot -Tpng -o saida.png"
+ * @file gv.c
+ * @author Lucas Schnorr
+ * @date 16 Sep 2013
+ * @brief As funções deste arquivo, se corretamente utilizadas, permitem a
+ * geração de um grafo no formato dot (graphviz).
+ *
+ * As funções deste arquivo, se corretamente utilizadas, permitem a
+ * geração de um grafo no formato dot (graphviz). Ele imprime na saída
+ * de erro do programa o grafo. Para utilizar, chame gv_init no início
+ * do programa, depois chame gv_declare para declarar um nó da AST
+ * (passando o seu tipo - de acordo com ast.h, o pointeiro para o nó da
+ * AST e o seu nome). Para conectar dois nós da AST, utilize gv_connect
+ * e para fechar o arquivo utilize gv_close.
+ *
+ * Atenção: não altere este arquivo
+ *
+ * Supondo que o arquivo de saída deste módulo encontra-se no arquivo
+ * "saida.dot", ele pode ser visualizado da seguinte maneira:
+ *
+ * 1 - instale o pacote graphviz
+ * 2 - execute o comando "dot saida.dot -Tpng -o saida.png"	
+ *
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "iks_ast.h"
