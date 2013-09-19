@@ -37,17 +37,20 @@ comp_tree* tree_Add(int type, comp_dict_item_t* symbol, int count, ...){
 */
 
 nodeList* nodeListAdd(nodeList* list, comp_tree* node){
-	nodeList* new = (nodeList*)malloc(sizeof(nodeList));
-	new->node = node;
-	new->next = NULL;
-	if(list != NULL){
-		nodeList* auxList = list;
-		while(auxList->next != NULL){
-			auxList = auxList->next;
+	if(node != NULL){
+		nodeList* new = (nodeList*)malloc(sizeof(nodeList));
+		new->node = node;
+		new->next = NULL;
+		if(list != NULL){
+			nodeList* auxList = list;
+			while(auxList->next != NULL){
+				auxList = auxList->next;
+			}
+			auxList->next = new;
+			return list;
 		}
-		auxList->next = new;
-		return list;
+		else
+			return new;
 	}
-	else
-		return new;
+	else return list;
 }

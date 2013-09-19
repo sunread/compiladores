@@ -52,7 +52,7 @@
 %type<ast> programa
 %type<ast> dec_funcao
 %type<ast> bloco_comando
-%type<ast> corpo
+%type<ast> lista_comando
 %type<ast> comando
 %type<ast> comando_final
 %type<ast> atribuicao
@@ -63,8 +63,7 @@
 %type<ast> controle_fluxo
 %type<ast> expressao
 %type<ast> lista_expressoes
-%type<ast> dec_variavel
-%type<ast> dec_vetor
+
 
 %type<symbol> cabecalho
 
@@ -85,37 +84,37 @@
 			| {$$ = tree_Add(IKS_AST_PROGRAMA, NULL, 0);};
 
  dec_global : dec_variavel ';' | dec_vetor ';' ;
- dec_variavel : tipo_variavel ':' TK_IDENTIFICADOR  {$$ = tree_Add(IKS_AST_DECL, NULL, 0);};
- dec_vetor : tipo_variavel ':' TK_IDENTIFICADOR '[' TK_LIT_INT ']' {$$  = tree_Add(IKS_AST_DECL_VETOR, NULL, 0);};
+ dec_variavel : tipo_variavel ':' TK_IDENTIFICADOR  ;
+ dec_vetor : tipo_variavel ':' TK_IDENTIFICADOR '[' TK_LIT_INT ']' ;
  tipo_variavel : TK_PR_INT | TK_PR_FLOAT | TK_PR_BOOL| TK_PR_CHAR | TK_PR_STRING ;
 
- dec_funcao : cabecalho dec_local corpo {$$ = tree_Add(IKS_AST_FUNCAO, $1, 1, $3);};
+ dec_funcao : cabecalho dec_local bloco_comando {$$ = tree_Add(IKS_AST_FUNCAO, $1, 1, $3);};
 
  cabecalho : tipo_variavel ':' TK_IDENTIFICADOR '(' lista_param ')'	{$$ = $3;};
  lista_param : lista_param_nao_vazia | ;
  lista_param_nao_vazia : parametro ',' lista_param_nao_vazia | parametro ;
  parametro : tipo_variavel ':' TK_IDENTIFICADOR ;
  dec_local : dec_variavel ';' dec_local	| ;
- corpo: '{' bloco_comando '}'{$$ = $2;};
+ bloco_comando: '{' lista_comando '}'{$$ = $2;};
 
- bloco_comando : comando_final {$$ = $1;}
-				| comando';' bloco_comando {$$ = tree_Add(IKS_AST_BLOCO, NULL, 2, $1, $3);}
+ lista_comando : comando_final {$$ = $1;}
+				| comando';' lista_comando {$$ = tree_Add(IKS_AST_BLOCO, NULL, 2, $1, $3);}
 				|';' bloco_comando {$$ = $2;}
 
  comando_final : comando {$$ = $1;}
 				| {$$ = NULL;};
 
- comando: 	corpo {$$ = $1;}
-			| dec_variavel  {$$ = $1;}
-			| dec_vetor 	{$$ = $1;}
+ comando: 	bloco_comando {$$ = $1;}
+			| dec_variavel  {$$ = NULL;}
+			| dec_vetor 	{$$ = NULL;}
 			| controle_fluxo {$$ = $1;}
 			| atribuicao 	{$$ = $1;}
 			| input 		{$$ = $1;}
 			| output 		{$$ = $1;}
 			| return 		{$$ = $1;};
 
- atribuicao : TK_IDENTIFICADOR '=' expressao {$$ = tree_Add(IKS_AST_ATRIBUICAO, NULL, 2, $1, $3);}
-			| TK_IDENTIFICADOR '[' expressao ']' '=' expressao {$$ = tree_Add(IKS_AST_ATRIBUICAO, NULL, 2, $1, $6);};
+ atribuicao : TK_IDENTIFICADOR '=' expressao {$$ = tree_Add(IKS_AST_ATRIBUICAO, NULL, 2, tree_Add(IKS_AST_IDENTIFICADOR, $1, 0), $3);}
+			| TK_IDENTIFICADOR '[' expressao ']' '=' expressao {$$ = tree_Add(IKS_AST_ATRIBUICAO, NULL, 2, tree_Add(IKS_AST_IDENTIFICADOR, $1, 0), $6);};
 
  input : TK_PR_INPUT TK_IDENTIFICADOR {$$ = tree_Add(IKS_AST_INPUT, NULL, 1, $2);};
 
@@ -133,13 +132,13 @@
                   TK_PR_IF '(' expressao ')' TK_PR_THEN comando TK_PR_ELSE ';' {$$ = tree_Add(IKS_AST_IF_ELSE, NULL, 2, $3, $6);}|
                   TK_PR_IF '(' expressao ')' TK_PR_THEN ';' TK_PR_ELSE ';' {$$ = tree_Add(IKS_AST_IF_ELSE, NULL, 1, $3);}|
 
-                  TK_PR_WHILE '(' expressao ')' TK_PR_DO corpo {$$ = tree_Add(IKS_AST_WHILE_DO, NULL, 2, $3, $6);}|
+                  TK_PR_WHILE '(' expressao ')' TK_PR_DO bloco_comando {$$ = tree_Add(IKS_AST_WHILE_DO, NULL, 2, $3, $6);}|
                   TK_PR_WHILE '(' expressao ')' TK_PR_DO ';' {$$ = tree_Add(IKS_AST_WHILE_DO, NULL, 1, $3);}|
-                  TK_PR_DO corpo TK_PR_WHILE '(' expressao ')' {$$ = tree_Add(IKS_AST_DO_WHILE, NULL, 2, $2, $5);}|
+                  TK_PR_DO bloco_comando TK_PR_WHILE '(' expressao ')' {$$ = tree_Add(IKS_AST_DO_WHILE, NULL, 2, $2, $5);}|
                   TK_PR_DO ';' TK_PR_WHILE '(' expressao ')' {$$ = tree_Add(IKS_AST_DO_WHILE, NULL, 1, $5);};
 
  expressao : TK_IDENTIFICADOR {$$  = tree_Add(IKS_AST_IDENTIFICADOR, $1, 0);}
-| TK_IDENTIFICADOR '[' expressao ']' {$$  = tree_Add(IKS_AST_VETOR_INDEXADO, $1, 2, $1, $3);}
+| TK_IDENTIFICADOR '[' expressao ']' {$$  = tree_Add(IKS_AST_VETOR_INDEXADO, $1, 2, tree_Add(IKS_AST_IDENTIFICADOR, $1, 0), $3);}
 | TK_LIT_INT {$$  = tree_Add(IKS_AST_LITERAL, $1, 0);}
 | TK_LIT_FLOAT {$$  = tree_Add(IKS_AST_LITERAL, $1, 0);}
 | TK_LIT_FALSE {$$  = tree_Add(IKS_AST_LITERAL, $1, 0);}
