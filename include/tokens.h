@@ -1,3 +1,10 @@
+/**
+ * @file tokens.h
+ * @author Lucas Schnorr
+ * @date 16 Sep 2013
+ * @brief Lista dos tokens, com valores constantes associados.
+ */
+
 /*
   tokens.h
 

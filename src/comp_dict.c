@@ -1,15 +1,16 @@
-/* Projeto de Compiladores 2013-2 - Etapa 1
-   Fernando Soller Mecking
-   Mateus Cardoso da Silva
+/**
+ * @file comp_dict.c
+ * @author Fernando Soller Mecking; Mateus Cardoso da Silva
+ * @date 16 Sep 2013
+ * @brief Funções para o funcionamento do dicionário
+ */
 
-   comp_dict.c
-   Funções para o funcionamento do dicionário
-*/
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include "comp_dict.h"
-/*
+/**
     dict_find_index
     Procura no dicionário uma entrada de texto e retorna o índice caso encontre, se não retorna -1
 */
@@ -28,7 +29,7 @@ int dict_find_index(comp_dict_t_p dict, char *text)
     return -1;
 }
 
-/*
+/**
     dict_find
     Procura no dicionário uma entrada de texto e retorna o type caso encontre, se não retorna -1
 
@@ -45,7 +46,7 @@ int dict_find(comp_dict_t_p dict, char *text)
     return -1;
 }
 
-/*
+/**
     dict_insert
     Insere um item no dicionário
 */
@@ -89,7 +90,7 @@ comp_dict_item_t_p dict_insert(comp_dict_t_p dict, char *text, int type, int lin
    }
 }
 
-/*
+/**
     dict_new
     Aloca um novo dicionário
 */
@@ -102,7 +103,7 @@ comp_dict_t* dict_new(void)
     return dict;
 }
 
-/*
+/**
     dict_free
     Desaloca a memória utilizada por um dicionário
 */
@@ -117,7 +118,7 @@ void dict_free(comp_dict_t_p dict)
     free(dict);
 }
 
-/*
+/**
     dict_print
     Imprime os itens do dicionário
 */

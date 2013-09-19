@@ -1,10 +1,10 @@
-/* Projeto de Compiladores 2013-2 - Etapa 0
-   Fernando Soller Mecking
-   Mateus Cardoso da Silva
+/**
+ * @file comp_tree.h
+ * @author Fernando Soller Mecking; Mateus Cardoso da Silva
+ * @date 16 Sep 2013
+ * @brief Estruturas de dados e definições da arvore
+ */
 
-   comp_tree.h
-   Estruturas de dados e definições da arvore
-*/
 
 #include "comp_dict.h"
 

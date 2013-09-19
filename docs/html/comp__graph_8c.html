@@ -1,0 +1,407 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>Compilador IKS - Compiladores UFRGS 2013/2: Referência do Arquivo comp_graph.c</title>
+
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">Compilador IKS - Compiladores UFRGS 2013/2
+   
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- Gerado por Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Busca');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Página&#160;Principal</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="files.html"><span>Arquivos</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Busca" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Lista&#160;de&#160;Arquivos</span></a></li>
+      <li><a href="globals.html"><span>Arquivos&#160;Membros</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Funções</a>  </div>
+  <div class="headertitle">
+<div class="title">Referência do Arquivo comp_graph.c</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>Funções para o funcionamento do grafo.  
+<a href="#details">Mais...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="comp__graph_8h_source.html">comp_graph.h</a>&quot;</code><br/>
+<code>#include &lt;stdlib.h&gt;</code><br/>
+</div><table class="memberdecls">
+<tr><td colspan="2"><h2><a name="func-members"></a>
+Funções</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structadjacencyList__t.html">adjList</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__graph_8c.html#a5ac99bc24b9fe143c8a43a3a17407414">graph_InsertEnd</a> (<a class="el" href="structcomp__graph__t.html">comp_graph</a> *node, <a class="el" href="structadjacencyList__t.html">adjList</a> *list)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structadjacencyList__t.html">adjList</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__graph_8c.html#a1d47fb065cd7296ce3ebfe3615441334">graph_RemoveFirst</a> (<a class="el" href="structadjacencyList__t.html">adjList</a> *list)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structadjacencyList__t.html">adjList</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__graph_8c.html#a1b4bfc4063241dfdd1a17a2f74ea184b">graph_RemoveItem</a> (<a class="el" href="structcomp__graph__t.html">comp_graph</a> *node, <a class="el" href="structadjacencyList__t.html">adjList</a> *list)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structadjacencyList__t.html">adjList</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__graph_8c.html#aa92729ccb020a21f5d5406d82559074a">graph_CreateList</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structadjacencyList__t.html">adjList</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__graph_8c.html#a349eee3801b788b2d3e7dfabc478238a">graph_DestroyList</a> (<a class="el" href="structadjacencyList__t.html">adjList</a> *list)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcomp__graph__t.html">comp_graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__graph_8c.html#aa7a8be82a4753b05cd6e955d138c0ffa">graph_Add</a> (int data, <a class="el" href="structcomp__graph__t.html">comp_graph</a> *root, <a class="el" href="structadjacencyList__t.html">adjList</a> *adj)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcomp__graph__t.html">comp_graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__graph_8c.html#a09a60fdc7802c6c645fb14885f763a04">graph_Delete</a> (<a class="el" href="structcomp__graph__t.html">comp_graph</a> *node, <a class="el" href="structcomp__graph__t.html">comp_graph</a> *root)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcomp__graph__t.html">comp_graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__graph_8c.html#ac012b0f063aaa0a2f61b30466a1fc2cd">graph_FindFatherNode</a> (<a class="el" href="structcomp__graph__t.html">comp_graph</a> *node, <a class="el" href="structcomp__graph__t.html">comp_graph</a> *root)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcomp__graph__t.html">comp_graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__graph_8c.html#a40ae534d9c8f8c9d4762f7636c188315">graph_Edit</a> (int new_data, <a class="el" href="structcomp__graph__t.html">comp_graph</a> *node, <a class="el" href="structcomp__graph__t.html">comp_graph</a> *root, <a class="el" href="structadjacencyList__t.html">adjList</a> *adj)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcomp__graph__t.html">comp_graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__graph_8c.html#adfd3a6cd0a58ccb7eb9b94da32feca67">graph_Create</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__graph_8c.html#a5d068da166b0348ab920eb4f6b14a83b">graph_Destroy</a> (<a class="el" href="structcomp__graph__t.html">comp_graph</a> *root)</td></tr>
+</table>
+<hr/><a name="details" id="details"></a><h2>Descrição Detalhada</h2>
+<div class="textblock"><p>Funções para o funcionamento do grafo. </p>
+<dl class="author"><dt><b>Autor:</b></dt><dd>Fernando Soller Mecking; Mateus Cardoso da Silva </dd></dl>
+<dl class="date"><dt><b>Data:</b></dt><dd>16 Sep 2013 </dd></dl>
+</div><hr/><h2>Funções</h2>
+<a class="anchor" id="aa7a8be82a4753b05cd6e955d138c0ffa"></a><!-- doxytag: member="comp_graph.c::graph_Add" ref="aa7a8be82a4753b05cd6e955d138c0ffa" args="(int data, comp_graph *root, adjList *adj)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcomp__graph__t.html">comp_graph</a>* <a class="el" href="comp__graph_8c.html#aa7a8be82a4753b05cd6e955d138c0ffa">graph_Add</a> </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcomp__graph__t.html">comp_graph</a> *&#160;</td>
+          <td class="paramname"><em>root</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structadjacencyList__t.html">adjList</a> *&#160;</td>
+          <td class="paramname"><em>adj</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>graph_Add Insere um novo no em um grafo, utilizando uma arvore binaria como estrutura auxiliar </p>
+
+</div>
+</div>
+<a class="anchor" id="adfd3a6cd0a58ccb7eb9b94da32feca67"></a><!-- doxytag: member="comp_graph.c::graph_Create" ref="adfd3a6cd0a58ccb7eb9b94da32feca67" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcomp__graph__t.html">comp_graph</a>* <a class="el" href="comp__graph_8c.html#adfd3a6cd0a58ccb7eb9b94da32feca67">graph_Create</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>graph_Create Inicializa um grafo vazio como sendo NULL </p>
+
+</div>
+</div>
+<a class="anchor" id="aa92729ccb020a21f5d5406d82559074a"></a><!-- doxytag: member="comp_graph.c::graph_CreateList" ref="aa92729ccb020a21f5d5406d82559074a" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structadjacencyList__t.html">adjList</a>* <a class="el" href="comp__graph_8c.html#aa92729ccb020a21f5d5406d82559074a">graph_CreateList</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>graph_CreateList Inicializa como NULL a lista de adjacencia de um no do grafo </p>
+
+</div>
+</div>
+<a class="anchor" id="a09a60fdc7802c6c645fb14885f763a04"></a><!-- doxytag: member="comp_graph.c::graph_Delete" ref="a09a60fdc7802c6c645fb14885f763a04" args="(comp_graph *node, comp_graph *root)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcomp__graph__t.html">comp_graph</a>* <a class="el" href="comp__graph_8c.html#a09a60fdc7802c6c645fb14885f763a04">graph_Delete</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcomp__graph__t.html">comp_graph</a> *&#160;</td>
+          <td class="paramname"><em>node</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcomp__graph__t.html">comp_graph</a> *&#160;</td>
+          <td class="paramname"><em>root</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>graph_Delete Remove um no do grafo, assim como todas as referencias a ele em outros nos </p>
+
+</div>
+</div>
+<a class="anchor" id="a5d068da166b0348ab920eb4f6b14a83b"></a><!-- doxytag: member="comp_graph.c::graph_Destroy" ref="a5d068da166b0348ab920eb4f6b14a83b" args="(comp_graph *root)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="comp__graph_8c.html#a5d068da166b0348ab920eb4f6b14a83b">graph_Destroy</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcomp__graph__t.html">comp_graph</a> *&#160;</td>
+          <td class="paramname"><em>root</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>graph_Destroy </p>
+
+</div>
+</div>
+<a class="anchor" id="a349eee3801b788b2d3e7dfabc478238a"></a><!-- doxytag: member="comp_graph.c::graph_DestroyList" ref="a349eee3801b788b2d3e7dfabc478238a" args="(adjList *list)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structadjacencyList__t.html">adjList</a>* <a class="el" href="comp__graph_8c.html#a349eee3801b788b2d3e7dfabc478238a">graph_DestroyList</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structadjacencyList__t.html">adjList</a> *&#160;</td>
+          <td class="paramname"><em>list</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>graph_DestroyList Desaloca todo o espaco de enderecamento da lista de adjacencia </p>
+
+</div>
+</div>
+<a class="anchor" id="a40ae534d9c8f8c9d4762f7636c188315"></a><!-- doxytag: member="comp_graph.c::graph_Edit" ref="a40ae534d9c8f8c9d4762f7636c188315" args="(int new_data, comp_graph *node, comp_graph *root, adjList *adj)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcomp__graph__t.html">comp_graph</a>* <a class="el" href="comp__graph_8c.html#a40ae534d9c8f8c9d4762f7636c188315">graph_Edit</a> </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>new_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcomp__graph__t.html">comp_graph</a> *&#160;</td>
+          <td class="paramname"><em>node</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcomp__graph__t.html">comp_graph</a> *&#160;</td>
+          <td class="paramname"><em>root</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structadjacencyList__t.html">adjList</a> *&#160;</td>
+          <td class="paramname"><em>adj</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>graph_Edit </p>
+
+</div>
+</div>
+<a class="anchor" id="ac012b0f063aaa0a2f61b30466a1fc2cd"></a><!-- doxytag: member="comp_graph.c::graph_FindFatherNode" ref="ac012b0f063aaa0a2f61b30466a1fc2cd" args="(comp_graph *node, comp_graph *root)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcomp__graph__t.html">comp_graph</a>* <a class="el" href="comp__graph_8c.html#ac012b0f063aaa0a2f61b30466a1fc2cd">graph_FindFatherNode</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcomp__graph__t.html">comp_graph</a> *&#160;</td>
+          <td class="paramname"><em>node</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcomp__graph__t.html">comp_graph</a> *&#160;</td>
+          <td class="paramname"><em>root</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>graph_FindFatherNode Funcao que identifica um melhor balanceamento da arvore auxiliar </p>
+
+</div>
+</div>
+<a class="anchor" id="a5ac99bc24b9fe143c8a43a3a17407414"></a><!-- doxytag: member="comp_graph.c::graph_InsertEnd" ref="a5ac99bc24b9fe143c8a43a3a17407414" args="(comp_graph *node, adjList *list)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structadjacencyList__t.html">adjList</a>* <a class="el" href="comp__graph_8c.html#a5ac99bc24b9fe143c8a43a3a17407414">graph_InsertEnd</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcomp__graph__t.html">comp_graph</a> *&#160;</td>
+          <td class="paramname"><em>node</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structadjacencyList__t.html">adjList</a> *&#160;</td>
+          <td class="paramname"><em>list</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>graph_InsertEnd Adiciona um novo item a lista de adjacencia de um no do grafo </p>
+
+</div>
+</div>
+<a class="anchor" id="a1d47fb065cd7296ce3ebfe3615441334"></a><!-- doxytag: member="comp_graph.c::graph_RemoveFirst" ref="a1d47fb065cd7296ce3ebfe3615441334" args="(adjList *list)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structadjacencyList__t.html">adjList</a>* <a class="el" href="comp__graph_8c.html#a1d47fb065cd7296ce3ebfe3615441334">graph_RemoveFirst</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structadjacencyList__t.html">adjList</a> *&#160;</td>
+          <td class="paramname"><em>list</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>graph_RemoveFirst Remove o primeiro item da lista de adjacencia </p>
+
+</div>
+</div>
+<a class="anchor" id="a1b4bfc4063241dfdd1a17a2f74ea184b"></a><!-- doxytag: member="comp_graph.c::graph_RemoveItem" ref="a1b4bfc4063241dfdd1a17a2f74ea184b" args="(comp_graph *node, adjList *list)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structadjacencyList__t.html">adjList</a>* <a class="el" href="comp__graph_8c.html#a1b4bfc4063241dfdd1a17a2f74ea184b">graph_RemoveItem</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcomp__graph__t.html">comp_graph</a> *&#160;</td>
+          <td class="paramname"><em>node</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structadjacencyList__t.html">adjList</a> *&#160;</td>
+          <td class="paramname"><em>list</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>graph_RemoveItem Remove um no da lista de adjacencia </p>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Todos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Arquivos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funções</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Definições e Macros</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+
+<hr class="footer"/><address class="footer"><small>
+Gerado em Quinta, 19 de Setembro de 2013 03:09:15 para Compilador IKS - Compiladores UFRGS 2013/2 por &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.7.6.1
+</small></address>
+
+</body>
+</html>
