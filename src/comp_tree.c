@@ -11,29 +11,47 @@
 #include <stdarg.h>
 
 /**
-	tree_Add
+	tree_CreateNode
 	Adiciona um novo no a uma arvore n-aria
 */
 
-comp_tree* tree_Add(int type, comp_dict_item_t* symbol, int count, ...){
-	va_list ap;
-	int j;
+comp_tree* tree_CreateNode(int type, comp_dict_item_t* symbol){
 	comp_tree* new = (comp_tree*)malloc(sizeof(comp_tree));
 	new->type = type;
 	new->symbol = symbol;
 	new->list = NULL;
-	if(count>0){
-		va_start(ap, count);
-		for(j=0; j<count; j++)
-		   new->list = nodeListAdd(new->list, va_arg(ap, comp_tree*));
-		va_end(ap);
-	}
+	new->son = NULL;
 	return new;
 }
 
 /**
+	tree_AddSon
+	Adiciona um no como filho
+*/
+
+void tree_AddSon(comp_tree* father, comp_tree* son){
+	father->son = son;
+}
+
+/**
+	tree_AddBro
+	Adiciona uma lista de irmaos a um no
+*/
+
+void tree_AddBro(comp_tree* brother, int count, ...){
+	va_list ap;
+	int j;
+	if(count>0){
+		va_start(ap, count);
+		for(j=0; j<count; j++)
+		   brother->list = nodeListAdd(brother->list, va_arg(ap, comp_tree*));
+		va_end(ap);
+	}
+}
+
+/**
 	nodeListAdd
-	Adiciona um novo item ao final de uma lista encadeada,que representa os filhos de um no
+	Adiciona um novo item ao final de uma lista encadeada
 */
 
 nodeList* nodeListAdd(nodeList* list, comp_tree* node){
