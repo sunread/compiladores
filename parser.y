@@ -116,7 +116,7 @@
  atribuicao : TK_IDENTIFICADOR '=' expressao {$$ = tree_Add(IKS_AST_ATRIBUICAO, NULL, 2, tree_Add(IKS_AST_IDENTIFICADOR, $1, 0), $3);}
 			| TK_IDENTIFICADOR '[' expressao ']' '=' expressao {$$ = tree_Add(IKS_AST_ATRIBUICAO, NULL, 2, tree_Add(IKS_AST_IDENTIFICADOR, $1, 0), $6);};
 
- input : TK_PR_INPUT TK_IDENTIFICADOR {$$ = tree_Add(IKS_AST_INPUT, NULL, 1, $2);};
+ input : TK_PR_INPUT TK_IDENTIFICADOR {$$ = tree_Add(IKS_AST_INPUT, NULL, 0);};
 
  output : TK_PR_OUTPUT lista_expressoes_nao_vazia {$$ = $2;};
 

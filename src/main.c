@@ -29,7 +29,7 @@ int main (int argc, char **argv)
 
   //if(resultado == 0){
 	  gv_init("arvore.dot");
-	  
+
 	  makeTree(ast);
 
 	  gv_close();

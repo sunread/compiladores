@@ -75,18 +75,29 @@ comp_dict_item_t_p dict_insert(comp_dict_t_p dict, char *text, int type, int lin
        {
            dict->item[dict->length].value.c = text[0]; // Converte a string para char e copia o valor
        }
-       else if(type == IKS_SIMBOLO_LITERAL_STRING || type == IKS_SIMBOLO_LITERAL_BOOL|| type == IKS_SIMBOLO_IDENTIFICADOR) // Se é do tipo string, bool ou identificador
+       else if(type == IKS_SIMBOLO_LITERAL_BOOL) // Se é do tipo boolean
+       {
+           if(strcmp(text, "true") == 0)
+           {
+               dict->item[dict->length].value.b = 1;
+           }
+           else
+           {
+               dict->item[dict->length].value.b = 0;
+           }
+       }
+       else if(type == IKS_SIMBOLO_LITERAL_STRING ||  type == IKS_SIMBOLO_IDENTIFICADOR) // Se é do tipo string ou identificador
        {
            dict->item[dict->length].value.str = strdup(text); // Copia a string
        }
 
-       // Preenche a estrutura de um ítem do dicionário
+       // Preenche a estrutura de um item do dicionário
        dict->item[dict->length].text = strdup(text);
        dict->item[dict->length].type = type;
        dict->item[dict->length].lineNumber = lineNumber;
        dict->length++;
 
-       return dict->item;
+       return &dict->item[dict->length-1];
    }
 }
 

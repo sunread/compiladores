@@ -1,9 +1,9 @@
 /**
- * @file comp_tree.h
- * @author Fernando Soller Mecking; Mateus Cardoso da Silva
- * @date 16 Sep 2013
- * @brief Estruturas de dados e definições da arvore
- */
+* @file comp_tree.h
+* @author Fernando Soller Mecking; Mateus Cardoso da Silva
+* @date 16 Sep 2013
+* @brief Estruturas de dados e definições da arvore
+*/
 
 
 #include "comp_dict.h"
@@ -12,20 +12,17 @@
 #define COMP_TREE_H
 
 typedef struct nodeList_t{
-	struct comp_tree_t* node;
-	struct nodeList_t* next;
+struct comp_tree_t* node;
+struct nodeList_t* next;
 }nodeList;
 
 typedef struct comp_tree_t {
-	int type;
-	struct comp_tree_t* firstSon;
-	comp_dict_item_t* symbol;
-	struct nodeList_t* list;
+int type;
+comp_dict_item_t* symbol;
+struct nodeList_t* list;
 }comp_tree;
 
 comp_tree* ast;
-comp_tree* tree_CreateNode(int type, comp_dict_item_t* symbol);
-void tree_AddSon(comp_tree* father, comp_tree* son);
-void tree_AddBro(comp_tree* brother, int count, ...);
+comp_tree* tree_Add(int type, comp_dict_item_t* symbol, int count, ...);
 nodeList* nodeListAdd(nodeList* list, comp_tree* node);
 #endif

@@ -17,10 +17,11 @@
 
 union dataValue
 {
-    int i;
-    float f;
-    char c;
-    char *str;
+    int i; // Integer Value
+    float f; // Float Value
+    int b; // Boolean Value
+    char c; // Char value
+    char *str; // String Value
 }dataValue;
 
 typedef struct comp_dict_item_t
