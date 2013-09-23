@@ -54,6 +54,9 @@ int dict_find(comp_dict_t_p dict, char *text)
 comp_dict_item_t_p dict_insert(comp_dict_t_p dict, char *text, int type, int lineNumber)
 {
    int index = dict_find_index(dict, text); // Procura o item
+   comp_dict_item_t_p item;
+
+   item = (comp_dict_item_t_p) malloc(sizeof(comp_dict_item_t));
 
    if (index == -1)
    {
@@ -80,13 +83,17 @@ comp_dict_item_t_p dict_insert(comp_dict_t_p dict, char *text, int type, int lin
            dict->item[dict->length].value.str = strdup(text); // Copia a string
        }
 
-       // Preenche a estrutura de um ítem do dicionário
+       // Preenche a estrutura de um item do dicionário
        dict->item[dict->length].text = strdup(text);
        dict->item[dict->length].type = type;
        dict->item[dict->length].lineNumber = lineNumber;
        dict->length++;
 
-       return &dict->item[dict->length-1];
+
+       item =  &dict->item[dict->length];
+
+       // return dict->item;
+       return item;
    }
 }
 
@@ -133,4 +140,22 @@ void dict_print(comp_dict_t* dict)
     {
         printf("%4.d %7.d \t%s\n", dict->item[i].lineNumber, dict->item[i].type, dict->item[i].text);
     }
+}
+
+int main()
+{
+    comp_dict_t* dict;
+    dict = dict_new();
+    comp_dict_item_t_p item;
+
+    item = dict_insert(dict, "ok", 2, 1);
+    printf("%s", item->text);
+
+    item = dict_insert(dict, "no", 3, 2);
+
+
+    item = dict_insert(dict, "ndo", 3, 2);
+
+    dict_print(dict);
+
 }

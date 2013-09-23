@@ -44,16 +44,22 @@ void makeTree(comp_tree *ast){
 	if(ast==NULL)
 		return;
 	comp_tree* aux = ast;
-	nodeList* list = ast->list;
-	nodeList* auxList;
-	while(list != NULL){
+	nodeList* auxList = aux->sonList;
+	while(aux != NULL){
 		if(aux->type == IKS_AST_FUNCAO || aux->type == IKS_AST_IDENTIFICADOR || aux->type == IKS_AST_LITERAL)
 			gv_declare(aux->type, aux, aux->symbol->text);
 		else
 			gv_declare(aux->type, aux, NULL);
-		if(list->node!=NULL)
-			gv_connect(aux, list->node);
-		makeTree(list->node);
-		list = list->next;
+		
+		if(aux->broList!=NULL)
+			gv_connect(aux, aux->broList);
+		while(auxList!=NULL){
+			if(auxList->node!=NULL)
+				gv_connect(aux, auxList->node);
+			makeTree(auxList->node);
+			auxList = auxList->next;
+		}
+		
+		aux = aux->broList;
 	}
 }

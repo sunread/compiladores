@@ -19,18 +19,25 @@ comp_tree* tree_CreateNode(int type, comp_dict_item_t* symbol){
 	comp_tree* new = (comp_tree*)malloc(sizeof(comp_tree));
 	new->type = type;
 	new->symbol = symbol;
-	new->list = NULL;
-	new->son = NULL;
+	new->broList = NULL;
+	new->sonList = NULL;
 	return new;
 }
 
 /**
 	tree_AddSon
-	Adiciona um no como filho
+	Adiciona uma lista de nos como filhos
 */
 
-void tree_AddSon(comp_tree* father, comp_tree* son){
-	father->son = son;
+void tree_AddSon(comp_tree* father, int count, ...){
+	va_list ap;
+	int j;
+	if(count>0){
+		va_start(ap, count);
+		for(j=0; j<count; j++)
+		   father->sonList = nodeListAdd(father->sonList, va_arg(ap, comp_tree*));
+		va_end(ap);
+	}
 }
 
 /**
@@ -38,15 +45,9 @@ void tree_AddSon(comp_tree* father, comp_tree* son){
 	Adiciona uma lista de irmaos a um no
 */
 
-void tree_AddBro(comp_tree* brother, int count, ...){
-	va_list ap;
-	int j;
-	if(count>0){
-		va_start(ap, count);
-		for(j=0; j<count; j++)
-		   brother->list = nodeListAdd(brother->list, va_arg(ap, comp_tree*));
-		va_end(ap);
-	}
+void tree_AddBro(comp_tree* brother, comp_tree* node){
+	if(brother != NULL)
+		brother->broList = node;
 }
 
 /**

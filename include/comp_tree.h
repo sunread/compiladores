@@ -18,14 +18,15 @@ typedef struct nodeList_t{
 
 typedef struct comp_tree_t {
 	int type;
-	struct comp_tree_t* firstSon;
 	comp_dict_item_t* symbol;
-	struct nodeList_t* list;
+	struct comp_tree_t* broList;
+	struct nodeList_t* sonList;
 }comp_tree;
 
 comp_tree* ast;
+comp_tree* parent;
 comp_tree* tree_CreateNode(int type, comp_dict_item_t* symbol);
-void tree_AddSon(comp_tree* father, comp_tree* son);
-void tree_AddBro(comp_tree* brother, int count, ...);
+void tree_AddSon(comp_tree* father, int count, ...);
+void tree_AddBro(comp_tree* brother, comp_tree* node);
 nodeList* nodeListAdd(nodeList* list, comp_tree* node);
 #endif
