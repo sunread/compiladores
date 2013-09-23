@@ -111,7 +111,7 @@ comp_dict_item_t_p dict_insert(comp_dict_t_p dict, char *text, int type, int lin
 
 comp_dict_t* dict_new(void)
 {
-    comp_dict_t proto = {0, 10, (comp_dict_item_t*) malloc(10 * sizeof(comp_dict_item_t))};
+    comp_dict_t proto = {0, 50, (comp_dict_item_t*) malloc(50 * sizeof(comp_dict_item_t))};
     comp_dict_t_p dict = (comp_dict_t*) malloc(sizeof(comp_dict_t));
     *dict = proto;
     return dict;
