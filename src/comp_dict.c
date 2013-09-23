@@ -53,11 +53,6 @@ int dict_find(comp_dict_t_p dict, char *text)
 
 comp_dict_item_t_p dict_insert(comp_dict_t_p dict, char *text, int type, int lineNumber)
 {
-       if (dict->length == dict->capacity) // Se o tamanho está igual a capacidade
-       {
-          dict->capacity *= 2; // Dobra a capacidade
-          dict->item = (comp_dict_item_t*) realloc(dict->item, dict->capacity * sizeof(comp_dict_item_t));
-       }
 
        if(type == IKS_SIMBOLO_LITERAL_INT) // Se é do tipo inteiro
        {
