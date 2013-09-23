@@ -1,9 +1,9 @@
 /**
- * @file comp_tree.h
- * @author Fernando Soller Mecking; Mateus Cardoso da Silva
- * @date 16 Sep 2013
- * @brief Estruturas de dados e definições da arvore
- */
+* @file comp_tree.h
+* @author Fernando Soller Mecking; Mateus Cardoso da Silva
+* @date 16 Sep 2013
+* @brief Estruturas de dados e definições da arvore
+*/
 
 
 #include "comp_dict.h"
@@ -17,6 +17,7 @@ typedef struct nodeList_t{
 }nodeList;
 
 typedef struct comp_tree_t {
+
 	int type;
 	comp_dict_item_t* symbol;
 	struct comp_tree_t* broList;

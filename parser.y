@@ -115,6 +115,7 @@
 			| output 		{$$ = $1;}
 			| return 		{$$ = $1;};
 
+
  atribuicao : TK_IDENTIFICADOR '=' expressao {$$ = tree_CreateNode(IKS_AST_ATRIBUICAO, NULL); tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3);}
 			| vet_index '=' expressao {$$ = tree_CreateNode(IKS_AST_ATRIBUICAO, NULL); tree_AddSon($$, 2, $1, $3);};
 

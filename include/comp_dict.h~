@@ -1,10 +1,10 @@
-/* Projeto de Compiladores 2013-2 - Etapa 0
-Fernando Soller Mecking
-Mateus Cardoso da Silva
+/**
+ * @file comp_dict.h
+ * @author Fernando Soller Mecking; Mateus Cardoso da Silva
+ * @date 16 Sep 2013
+ * @brief Estruturas de dados e definições do dicionário
+ */
 
-comp_dict.h
-Estruturas de dados e definições do dicionário
-*/
 #ifndef COMP_DICT_H
 #define COMP_DICT_H
 
