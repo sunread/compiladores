@@ -86,20 +86,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Busca');
 <a name="l00012"></a>00012 <span class="preprocessor"></span><span class="preprocessor">#define COMP_TREE_H</span>
 <a name="l00013"></a>00013 <span class="preprocessor"></span>
 <a name="l00014"></a><a class="code" href="structnodeList__t.html">00014</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structnodeList__t.html">nodeList_t</a>{
-<a name="l00015"></a>00015 <span class="keyword">struct </span><a class="code" href="structcomp__tree__t.html">comp_tree_t</a>* node;
-<a name="l00016"></a>00016 <span class="keyword">struct </span><a class="code" href="structnodeList__t.html">nodeList_t</a>* next;
+<a name="l00015"></a>00015     <span class="keyword">struct </span><a class="code" href="structcomp__tree__t.html">comp_tree_t</a>* node;
+<a name="l00016"></a>00016     <span class="keyword">struct </span><a class="code" href="structnodeList__t.html">nodeList_t</a>* next;
 <a name="l00017"></a>00017 }<a class="code" href="structnodeList__t.html">nodeList</a>;
 <a name="l00018"></a>00018 
 <a name="l00019"></a><a class="code" href="structcomp__tree__t.html">00019</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structcomp__tree__t.html">comp_tree_t</a> {
-<a name="l00020"></a>00020 <span class="keywordtype">int</span> type;
-<a name="l00021"></a>00021 <a class="code" href="structcomp__dict__item__t.html">comp_dict_item_t</a>* symbol;
-<a name="l00022"></a>00022 <span class="keyword">struct </span><a class="code" href="structnodeList__t.html">nodeList_t</a>* list;
-<a name="l00023"></a>00023 }<a class="code" href="structcomp__tree__t.html">comp_tree</a>;
-<a name="l00024"></a>00024 
-<a name="l00025"></a>00025 <a class="code" href="structcomp__tree__t.html">comp_tree</a>* ast;
-<a name="l00026"></a>00026 <a class="code" href="structcomp__tree__t.html">comp_tree</a>* <a class="code" href="comp__tree_8h.html#a631d1e603445d4105b020d8f94d7a0c7">tree_Add</a>(<span class="keywordtype">int</span> type, <a class="code" href="structcomp__dict__item__t.html">comp_dict_item_t</a>* symbol, <span class="keywordtype">int</span> count, ...);
-<a name="l00027"></a>00027 <a class="code" href="structnodeList__t.html">nodeList</a>* <a class="code" href="comp__tree_8h.html#a836a3cecb496c93e7093226d529263e1">nodeListAdd</a>(<a class="code" href="structnodeList__t.html">nodeList</a>* list, <a class="code" href="structcomp__tree__t.html">comp_tree</a>* node);
-<a name="l00028"></a>00028 <span class="preprocessor">#endif</span>
+<a name="l00020"></a>00020 
+<a name="l00021"></a>00021     <span class="keywordtype">int</span> type;
+<a name="l00022"></a>00022     <a class="code" href="structcomp__dict__item__t.html">comp_dict_item_t</a>* symbol;
+<a name="l00023"></a>00023     <span class="keyword">struct </span><a class="code" href="structcomp__tree__t.html">comp_tree_t</a>* broList;
+<a name="l00024"></a>00024     <span class="keyword">struct </span><a class="code" href="structnodeList__t.html">nodeList_t</a>* sonList;
+<a name="l00025"></a>00025 }<a class="code" href="structcomp__tree__t.html">comp_tree</a>;
+<a name="l00026"></a>00026 
+<a name="l00027"></a>00027 <a class="code" href="structcomp__tree__t.html">comp_tree</a>* ast;
+<a name="l00028"></a>00028 <a class="code" href="structcomp__tree__t.html">comp_tree</a>* parent;
+<a name="l00029"></a>00029 <a class="code" href="structcomp__tree__t.html">comp_tree</a>* <a class="code" href="comp__tree_8h.html#a690b0c808f87027300582811a1ac0b2d">tree_CreateNode</a>(<span class="keywordtype">int</span> type, <a class="code" href="structcomp__dict__item__t.html">comp_dict_item_t</a>* symbol);
+<a name="l00030"></a>00030 <span class="keywordtype">void</span> <a class="code" href="comp__tree_8h.html#a3f081ae70bde3cf8f7939768fa750bc3">tree_AddSon</a>(<a class="code" href="structcomp__tree__t.html">comp_tree</a>* father, <span class="keywordtype">int</span> count, ...);
+<a name="l00031"></a>00031 <span class="keywordtype">void</span> <a class="code" href="comp__tree_8h.html#aaf74ecb80d5afe8f09771c64a589397a">tree_AddBro</a>(<a class="code" href="structcomp__tree__t.html">comp_tree</a>* brother, <a class="code" href="structcomp__tree__t.html">comp_tree</a>* node);
+<a name="l00032"></a>00032 <a class="code" href="structnodeList__t.html">nodeList</a>* <a class="code" href="comp__tree_8h.html#a836a3cecb496c93e7093226d529263e1">nodeListAdd</a>(<a class="code" href="structnodeList__t.html">nodeList</a>* list, <a class="code" href="structcomp__tree__t.html">comp_tree</a>* node);
+<a name="l00033"></a>00033 <span class="preprocessor">#endif</span>
 </pre></div></div><!-- contents -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
@@ -118,7 +123,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Busca');
 
 
 <hr class="footer"/><address class="footer"><small>
-Gerado em Domingo, 22 de Setembro de 2013 20:58:33 para Compilador IKS - Compiladores UFRGS 2013/2 por &#160;<a href="http://www.doxygen.org/index.html">
+Gerado em Segunda, 23 de Setembro de 2013 03:10:18 para Compilador IKS - Compiladores UFRGS 2013/2 por &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
