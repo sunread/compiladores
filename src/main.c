@@ -28,7 +28,7 @@ int main (int argc, char **argv)
   int resultado = yyparse();
 
   //if(resultado == 0){
-	  gv_init("arvore.dot");
+	  gv_init("saida.dot");
 
 	  makeTree(ast);
 
@@ -44,22 +44,21 @@ void makeTree(comp_tree *ast){
 	if(ast==NULL)
 		return;
 	comp_tree* aux = ast;
-	nodeList* auxList = aux->sonList;
+	nodeList* auxList;
 	while(aux != NULL){
+		auxList = aux->sonList;
 		if(aux->type == IKS_AST_FUNCAO || aux->type == IKS_AST_IDENTIFICADOR || aux->type == IKS_AST_LITERAL)
 			gv_declare(aux->type, aux, aux->symbol->text);
 		else
 			gv_declare(aux->type, aux, NULL);
-		
-		if(aux->broList!=NULL)
-			gv_connect(aux, aux->broList);
 		while(auxList!=NULL){
 			if(auxList->node!=NULL)
 				gv_connect(aux, auxList->node);
 			makeTree(auxList->node);
 			auxList = auxList->next;
 		}
-		
+		if(aux->broList!=NULL)
+				gv_connect(aux, aux->broList);
 		aux = aux->broList;
 	}
 }

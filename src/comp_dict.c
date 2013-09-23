@@ -53,10 +53,6 @@ int dict_find(comp_dict_t_p dict, char *text)
 
 comp_dict_item_t_p dict_insert(comp_dict_t_p dict, char *text, int type, int lineNumber)
 {
-   int index = dict_find_index(dict, text); // Procura o item
-
-   if (index == -1)
-   {
        if (dict->length == dict->capacity) // Se o tamanho está igual a capacidade
        {
           dict->capacity *= 2; // Dobra a capacidade
@@ -73,7 +69,9 @@ comp_dict_item_t_p dict_insert(comp_dict_t_p dict, char *text, int type, int lin
        }
        else if(type == IKS_SIMBOLO_LITERAL_CHAR) // Se é do tipo char
        {
-           dict->item[dict->length].value.c = text[0]; // Converte a string para char e copia o valor
+           text[strlen(text)-1] = '\0';
+		   memmove(text, &text[1], strlen(text));
+           dict->item[dict->length].value.c = *text; // Converte a string para char e copia o valor
        }
        else if(type == IKS_SIMBOLO_LITERAL_BOOL) // Se é do tipo boolean
        {
@@ -86,8 +84,14 @@ comp_dict_item_t_p dict_insert(comp_dict_t_p dict, char *text, int type, int lin
                dict->item[dict->length].value.b = 0;
            }
        }
-       else if(type == IKS_SIMBOLO_LITERAL_STRING ||  type == IKS_SIMBOLO_IDENTIFICADOR) // Se é do tipo string ou identificador
+       else if(type == IKS_SIMBOLO_IDENTIFICADOR) // Se é do tipo identificador
        {
+           dict->item[dict->length].value.str = strdup(text); // Copia a string
+       }
+       else if(type == IKS_SIMBOLO_LITERAL_STRING) // Se é do tipo string
+       {
+		   text[strlen(text)-1] = '\0';
+		   memmove(text, &text[1], strlen(text));
            dict->item[dict->length].value.str = strdup(text); // Copia a string
        }
 
@@ -98,7 +102,6 @@ comp_dict_item_t_p dict_insert(comp_dict_t_p dict, char *text, int type, int lin
        dict->length++;
 
        return &dict->item[dict->length-1];
-   }
 }
 
 /**

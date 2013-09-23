@@ -51,10 +51,10 @@
 %type<ast> p
 %type<ast> programa
 %type<ast> dec_funcao
+%type<ast> corpo
 %type<ast> bloco_comando
 %type<ast> lista_comando
 %type<ast> comando
-%type<ast> comando_final
 %type<ast> atribuicao
 %type<ast> input
 %type<ast> output
@@ -64,6 +64,7 @@
 %type<ast> expressao
 %type<ast> lista_expressoes
 %type<ast> vet_index
+%type<ast> chamada
 
 
 %type<symbol> cabecalho
@@ -71,10 +72,10 @@
 %left TK_OC_OR TK_OC_AND
 %left '<' '>' TK_OC_LE TK_OC_GE TK_OC_EQ TK_OC_NE
 %left '+' '-'
-%left '*' '/'
+%left '*' '/' ';'
 %right '!'
 
-%nonassoc TK_PR_THEN ';'
+%nonassoc TK_PR_THEN
 %nonassoc TK_PR_ELSE
 
 %%
@@ -90,20 +91,21 @@
  dec_vetor : tipo_variavel ':' TK_IDENTIFICADOR '[' TK_LIT_INT ']' ;
  tipo_variavel : TK_PR_INT | TK_PR_FLOAT | TK_PR_BOOL| TK_PR_CHAR | TK_PR_STRING ;
 
- dec_funcao : cabecalho dec_local bloco_comando {$$ = tree_CreateNode(IKS_AST_FUNCAO, $1); tree_AddSon($$, 1, $3);};
+ dec_funcao : cabecalho dec_local corpo {$$ = tree_CreateNode(IKS_AST_FUNCAO, $1); tree_AddSon($$, 1, $3);};
 
  cabecalho : tipo_variavel ':' TK_IDENTIFICADOR '(' lista_param ')'	{$$ = $3;};
  lista_param : lista_param_nao_vazia | ;
  lista_param_nao_vazia : parametro ',' lista_param_nao_vazia | parametro ;
  parametro : tipo_variavel ':' TK_IDENTIFICADOR ;
  dec_local : dec_variavel ';' dec_local	| ;
- bloco_comando: '{' lista_comando '}'{$$ = tree_CreateNode(IKS_AST_BLOCO, NULL); tree_AddSon($$, 1, $2);};
+ 
+ corpo: '{' lista_comando '}' {$$ = $2;};
+ 
+ bloco_comando: '{' lista_comando '}'{$$ = tree_CreateNode(IKS_AST_BLOCO, NULL); tree_AddSon($$, 1, $2);}
 
- lista_comando : comando_final {$$ = $1;}
+ lista_comando : comando {$$ = $1;}
 				| comando ';' lista_comando {$$ = $1; tree_AddBro($$, $3);}
-				| ';' lista_comando {$$ = $2;};
-
- comando_final : comando {$$ = $1;}
+				| ';' lista_comando {$$ = $2;}
 				| {$$ = NULL;};
 
  comando: 	bloco_comando {$$ = $1;}
@@ -113,7 +115,8 @@
 			| atribuicao 	{$$ = $1;}
 			| input 		{$$ = $1;}
 			| output 		{$$ = $1;}
-			| return 		{$$ = $1;};
+			| return 		{$$ = $1;}
+			| chamada 		{$$ = $1;};
 
 
  atribuicao : TK_IDENTIFICADOR '=' expressao {$$ = tree_CreateNode(IKS_AST_ATRIBUICAO, NULL); tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3);}
@@ -165,8 +168,10 @@
 | expressao TK_OC_NE expressao {$$ = tree_CreateNode(IKS_AST_LOGICO_COMP_DIF, NULL); tree_AddSon($$, 2, $1, $3);}
 | expressao TK_OC_AND expressao {$$ = tree_CreateNode(IKS_AST_LOGICO_E, NULL); tree_AddSon($$, 2, $1, $3);}
 | expressao TK_OC_OR expressao {$$ = tree_CreateNode(IKS_AST_LOGICO_OU, NULL); tree_AddSon($$, 2, $1, $3);}
-| TK_IDENTIFICADOR '(' lista_expressoes ')' {$$ = tree_CreateNode(IKS_AST_CHAMADA_DE_FUNCAO, NULL); tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3);}
+| chamada {$$ = $1;}
 ;
+
+chamada: TK_IDENTIFICADOR '(' lista_expressoes ')' {$$ = tree_CreateNode(IKS_AST_CHAMADA_DE_FUNCAO, NULL); tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3);};
 
  lista_expressoes : lista_expressoes_nao_vazia {$$ = $1;}| {$$ = NULL;};
 
