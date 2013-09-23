@@ -27,13 +27,12 @@ int main (int argc, char **argv)
 
   int resultado = yyparse();
 
-  //if(resultado == 0){
-	  gv_init("saida.dot");
+  gv_init(NULL);
 
-	  makeTree(ast);
+  makeTree(ast);
 
-	  gv_close();
-  //}
+  gv_close();
+  
 
   dict_print(dictionary);
 
