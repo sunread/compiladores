@@ -17,15 +17,17 @@
 
 int dict_find_index(comp_dict_t_p dict, char *text)
 {
-    int i;
-
-    for (i = 0; i < dict->length; i++)
-    {
-        if (strcmp(dict->item[i].text, text) == 0)
+	int i = 0;
+	while(dict != NULL){
+		if (strcmp(dict->item->text, text) == 0)
         {
             return i;
         }
-    }
+		else{
+			dict = dict->next;
+			i++;
+		}
+	}
     return -1;
 }
 
@@ -36,14 +38,28 @@ int dict_find_index(comp_dict_t_p dict, char *text)
 */
 int dict_find(comp_dict_t_p dict, char *text)
 {
-    int index = dict_find_index(dict, text);
+	while(dict != NULL){
+		if (strcmp(dict->item->text, text) == 0)
+        {
+            return dict->item->type;
+        }
+		else{
+			dict = dict->next;
+		}
+	}
+}
 
-    if(index != -1)
-    {
-        return dict->item[index].type;
-    }
 
-    return -1;
+comp_dict_t_p dict_insertEnd(comp_dict_t_p dict, comp_dict_t_p new){
+	comp_dict_t_p aux = dict;
+	new->next = NULL;
+	if(aux!=NULL){
+		while(aux->next!=NULL)
+			aux = aux->next;
+		aux->next = new;
+		return dict;
+	}
+	return new;
 }
 
 /**
@@ -51,52 +67,54 @@ int dict_find(comp_dict_t_p dict, char *text)
     Insere um item no dicionário
 */
 
-comp_dict_item_t_p dict_insert(comp_dict_t_p dict, char *text, int type, int lineNumber)
+comp_dict_item_t_p dict_insert(comp_dict_t_p *dict, char *text, int type, int lineNumber)
 {
+	comp_dict_item_t_p newItem = (comp_dict_item_t_p)malloc(sizeof(comp_dict_item_t));
+	comp_dict_t_p newReg = (comp_dict_t_p)malloc(sizeof(comp_dict_t));
+	newReg->item = newItem;
+	// Preenche a estrutura de um item do dicionário
+	newReg->item->text = strdup(text);
+	newReg->item->type = type;
+	newReg->item->lineNumber = lineNumber;
+	*dict = dict_insertEnd(*dict, newReg);
 
-       if(type == IKS_SIMBOLO_LITERAL_INT) // Se é do tipo inteiro
-       {
-           dict->item[dict->length].value.i = atoi(text); // Converte a string para inteiro e copia o valor
-       }
-       else if(type == IKS_SIMBOLO_LITERAL_FLOAT) // Se é do tipo float
-       {
-           dict->item[dict->length].value.f = atof(text); // Converte a string para float e copia o valor
-       }
-       else if(type == IKS_SIMBOLO_LITERAL_CHAR) // Se é do tipo char
-       {
-           text[strlen(text)-1] = '\0';
-		   memmove(text, &text[1], strlen(text));
-           dict->item[dict->length].value.c = *text; // Converte a string para char e copia o valor
-       }
-       else if(type == IKS_SIMBOLO_LITERAL_BOOL) // Se é do tipo boolean
-       {
-           if(strcmp(text, "true") == 0)
-           {
-               dict->item[dict->length].value.b = 1;
-           }
-           else
-           {
-               dict->item[dict->length].value.b = 0;
-           }
-       }
-       else if(type == IKS_SIMBOLO_IDENTIFICADOR) // Se é do tipo identificador
-       {
-           dict->item[dict->length].value.str = strdup(text); // Copia a string
-       }
-       else if(type == IKS_SIMBOLO_LITERAL_STRING) // Se é do tipo string
-       {
-		   text[strlen(text)-1] = '\0';
-		   memmove(text, &text[1], strlen(text));
-           dict->item[dict->length].value.str = strdup(text); // Copia a string
-       }
+	if(type == IKS_SIMBOLO_LITERAL_INT) // Se é do tipo inteiro
+	{
+	   newReg->item->value.i = atoi(text); // Converte a string para inteiro e copia o valor
+	}
+	else if(type == IKS_SIMBOLO_LITERAL_FLOAT) // Se é do tipo float
+	{
+	   newReg->item->value.f = atof(text); // Converte a string para float e copia o valor
+	}
+	else if(type == IKS_SIMBOLO_LITERAL_CHAR) // Se é do tipo char
+	{
+	   text[strlen(text)-1] = '\0';
+	   memmove(text, &text[1], strlen(text));
+	   newReg->item->value.c = *text; // Converte a string para char e copia o valor
+	}
+	else if(type == IKS_SIMBOLO_LITERAL_BOOL) // Se é do tipo boolean
+	{
+	   if(strcmp(text, "true") == 0)
+	   {
+		   newReg->item->value.b = 1;
+	   }
+	   else
+	   {
+		   newReg->item->value.b = 0;
+	   }
+	}
+	else if(type == IKS_SIMBOLO_IDENTIFICADOR) // Se é do tipo identificador
+	{
+	   newReg->item->value.str = strdup(text); // Copia a string
+	}
+	else if(type == IKS_SIMBOLO_LITERAL_STRING) // Se é do tipo string
+	{
+	   text[strlen(text)-1] = '\0';
+	   memmove(text, &text[1], strlen(text));
+	   newReg->item->value.str = strdup(text); // Copia a string
+	}
 
-       // Preenche a estrutura de um item do dicionário
-       dict->item[dict->length].text = strdup(text);
-       dict->item[dict->length].type = type;
-       dict->item[dict->length].lineNumber = lineNumber;
-       dict->length++;
-
-       return &dict->item[dict->length-1];
+	return newItem;
 }
 
 /**
@@ -106,10 +124,7 @@ comp_dict_item_t_p dict_insert(comp_dict_t_p dict, char *text, int type, int lin
 
 comp_dict_t* dict_new(void)
 {
-    comp_dict_t proto = {0, 50, (comp_dict_item_t*) malloc(50 * sizeof(comp_dict_item_t))};
-    comp_dict_t_p dict = (comp_dict_t*) malloc(sizeof(comp_dict_t));
-    *dict = proto;
-    return dict;
+    return NULL;
 }
 
 /**
@@ -118,13 +133,16 @@ comp_dict_t* dict_new(void)
 */
 void dict_free(comp_dict_t_p dict)
 {
-    int i;
-    for (i = 0; i < dict->length; i++)
-    {
-        free(dict->item[i].text);
-    }
-    free(dict->item);
-    free(dict);
+	comp_dict_t_p aux = dict;
+	if(dict!=NULL){
+		while(dict->next != NULL){
+			aux = dict->next;
+			free(dict->item->text);
+			free(dict->item);
+			free(dict);
+			dict = aux;
+		}
+	}
 }
 
 /**
@@ -134,12 +152,13 @@ void dict_free(comp_dict_t_p dict)
 
 void dict_print(comp_dict_t* dict)
 {
-    printf("\nTabela de Símbolos\n");
-    printf("\nLinha | Tipo | Texto \n");
+	printf("\nTabela de Símbolos\n");
+	printf("\nLinha | Tipo | Texto \n");
 
-    int i;
-    for (i = 0; i < dict->length; i++)
-    {
-        printf("%4.d %7.d \t%s\n", dict->item[i].lineNumber, dict->item[i].type, dict->item[i].text);
-    }
+	if(dict != NULL){
+		while(dict->next != NULL){
+			printf("%4.d %7.d \t%s\n", dict->item->lineNumber, dict->item->type, dict->item->text);
+			dict = dict->next;
+		}
+	}
 }
