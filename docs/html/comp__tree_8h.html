@@ -104,12 +104,16 @@ typedef struct <a class="el" href="structnodeList__t.html">nodeList_t</a>&#160;<
 typedef struct <a class="el" href="structcomp__tree__t.html">comp_tree_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>comp_tree</b></td></tr>
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Funções</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcomp__tree__t.html">comp_tree</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__tree_8h.html#a631d1e603445d4105b020d8f94d7a0c7">tree_Add</a> (int type, <a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t</a> *symbol, int count,...)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcomp__tree__t.html">comp_tree</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__tree_8h.html#a690b0c808f87027300582811a1ac0b2d">tree_CreateNode</a> (int type, <a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t</a> *symbol)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__tree_8h.html#a3f081ae70bde3cf8f7939768fa750bc3">tree_AddSon</a> (<a class="el" href="structcomp__tree__t.html">comp_tree</a> *father, int count,...)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__tree_8h.html#aaf74ecb80d5afe8f09771c64a589397a">tree_AddBro</a> (<a class="el" href="structcomp__tree__t.html">comp_tree</a> *brother, <a class="el" href="structcomp__tree__t.html">comp_tree</a> *node)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structnodeList__t.html">nodeList</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__tree_8h.html#a836a3cecb496c93e7093226d529263e1">nodeListAdd</a> (<a class="el" href="structnodeList__t.html">nodeList</a> *list, <a class="el" href="structcomp__tree__t.html">comp_tree</a> *node)</td></tr>
 <tr><td colspan="2"><h2><a name="var-members"></a>
 Variáveis</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afcc4740f80fa4ebfaec5b26eabe3e9d8"></a><!-- doxytag: member="comp_tree.h::ast" ref="afcc4740f80fa4ebfaec5b26eabe3e9d8" args="" -->
 <a class="el" href="structcomp__tree__t.html">comp_tree</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>ast</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a72873479bacad79f6e5dcfe6f00085dd"></a><!-- doxytag: member="comp_tree.h::parent" ref="a72873479bacad79f6e5dcfe6f00085dd" args="" -->
+<a class="el" href="structcomp__tree__t.html">comp_tree</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>parent</b></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Descrição Detalhada</h2>
 <div class="textblock"><p>Estruturas de dados e definições da arvore. </p>
@@ -140,25 +144,47 @@ Variáveis</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>nodeListAdd Adiciona um novo item ao final de uma lista encadeada,que representa os filhos de um no </p>
+<p>nodeListAdd Adiciona um novo item ao final de uma lista encadeada </p>
 
 </div>
 </div>
-<a class="anchor" id="a631d1e603445d4105b020d8f94d7a0c7"></a><!-- doxytag: member="comp_tree.h::tree_Add" ref="a631d1e603445d4105b020d8f94d7a0c7" args="(int type, comp_dict_item_t *symbol, int count,...)" -->
+<a class="anchor" id="aaf74ecb80d5afe8f09771c64a589397a"></a><!-- doxytag: member="comp_tree.h::tree_AddBro" ref="aaf74ecb80d5afe8f09771c64a589397a" args="(comp_tree *brother, comp_tree *node)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structcomp__tree__t.html">comp_tree</a>* <a class="el" href="comp__tree_8c.html#a631d1e603445d4105b020d8f94d7a0c7">tree_Add</a> </td>
+          <td class="memname">void <a class="el" href="comp__tree_8c.html#aaf74ecb80d5afe8f09771c64a589397a">tree_AddBro</a> </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>type</em>, </td>
+          <td class="paramtype"><a class="el" href="structcomp__tree__t.html">comp_tree</a> *&#160;</td>
+          <td class="paramname"><em>brother</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t</a> *&#160;</td>
-          <td class="paramname"><em>symbol</em>, </td>
+          <td class="paramtype"><a class="el" href="structcomp__tree__t.html">comp_tree</a> *&#160;</td>
+          <td class="paramname"><em>node</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>tree_AddBro Adiciona uma lista de irmaos a um no </p>
+
+</div>
+</div>
+<a class="anchor" id="a3f081ae70bde3cf8f7939768fa750bc3"></a><!-- doxytag: member="comp_tree.h::tree_AddSon" ref="a3f081ae70bde3cf8f7939768fa750bc3" args="(comp_tree *father, int count,...)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="comp__tree_8c.html#a3f081ae70bde3cf8f7939768fa750bc3">tree_AddSon</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcomp__tree__t.html">comp_tree</a> *&#160;</td>
+          <td class="paramname"><em>father</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -171,6 +197,34 @@ Variáveis</h2></td></tr>
           <td></td>
           <td class="paramtype">&#160;</td>
           <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>tree_AddSon Adiciona uma lista de nos como filhos </p>
+
+</div>
+</div>
+<a class="anchor" id="a690b0c808f87027300582811a1ac0b2d"></a><!-- doxytag: member="comp_tree.h::tree_CreateNode" ref="a690b0c808f87027300582811a1ac0b2d" args="(int type, comp_dict_item_t *symbol)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcomp__tree__t.html">comp_tree</a>* <a class="el" href="comp__tree_8c.html#a690b0c808f87027300582811a1ac0b2d">tree_CreateNode</a> </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t</a> *&#160;</td>
+          <td class="paramname"><em>symbol</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -202,7 +256,7 @@ Variáveis</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Gerado em Domingo, 22 de Setembro de 2013 20:58:33 para Compilador IKS - Compiladores UFRGS 2013/2 por &#160;<a href="http://www.doxygen.org/index.html">
+Gerado em Segunda, 23 de Setembro de 2013 03:10:18 para Compilador IKS - Compiladores UFRGS 2013/2 por &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

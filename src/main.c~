@@ -1,11 +1,15 @@
-/* Projeto de Compiladores 2013-2 - Etapa 1
-   Fernando Soller Mecking
-   Mateus Cardoso da Silva
-*/
+/**
+ * @file main.c
+ * @author Fernando Soller Mecking; Mateus Cardoso da Silva
+ * @date 16 Sep 2013
+ * @brief Arquivo contendo a classe Main
+ */
+
 
 #include <stdio.h>
 #include "main.h"
 
+void makeTree(comp_tree *ast);
 
 int main (int argc, char **argv)
 {
@@ -21,13 +25,40 @@ int main (int argc, char **argv)
 
   dictionary = dict_new();
 
-  gv_init("arvore.dot");
-
   int resultado = yyparse();
 
-  gv_close();
+  //if(resultado == 0){
+	  gv_init(NULL);
+
+	  makeTree(ast);
+
+	  gv_close();
+  //}
 
   dict_print(dictionary);
 
   return resultado;
+}
+
+void makeTree(comp_tree *ast){
+	if(ast==NULL)
+		return;
+	comp_tree* aux = ast;
+	nodeList* auxList;
+	while(aux != NULL){
+		auxList = aux->sonList;
+		if(aux->type == IKS_AST_FUNCAO || aux->type == IKS_AST_IDENTIFICADOR || aux->type == IKS_AST_LITERAL)
+			gv_declare(aux->type, aux, aux->symbol->text);
+		else
+			gv_declare(aux->type, aux, NULL);
+		while(auxList!=NULL){
+			if(auxList->node!=NULL)
+				gv_connect(aux, auxList->node);
+			makeTree(auxList->node);
+			auxList = auxList->next;
+		}
+		if(aux->broList!=NULL)
+				gv_connect(aux, aux->broList);
+		aux = aux->broList;
+	}
 }
