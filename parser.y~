@@ -15,9 +15,8 @@
 %}
 
 %union {
-    comp_dict_item_t_p symbol;    
+    comp_dict_item_t_p symbol;
     comp_tree* ast;
-    int type;
 }
 
 /* Declaração dos tokens da gramática da Linguagem K */
