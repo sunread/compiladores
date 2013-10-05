@@ -7,6 +7,7 @@
 
 
 #include "comp_dict.h"
+#include "semantics.h"
 /**
     dict_find_index
     Procura no dicionário uma entrada de texto e retorna o índice caso encontre, se não retorna -1
@@ -79,16 +80,19 @@ comp_dict_item_t_p dict_insert(comp_dict_t_p *dict, char *text, int type, int li
 	if(type == IKS_SIMBOLO_LITERAL_INT) // Se é do tipo inteiro
 	{
 	   newReg->item->value.i = atoi(text); // Converte a string para inteiro e copia o valor
+	   newReg->item->size = IKS_INT_SIZE;
 	}
 	else if(type == IKS_SIMBOLO_LITERAL_FLOAT) // Se é do tipo float
 	{
 	   newReg->item->value.f = atof(text); // Converte a string para float e copia o valor
+	   newReg->item->size = IKS_FLOAT_SIZE;
 	}
 	else if(type == IKS_SIMBOLO_LITERAL_CHAR) // Se é do tipo char
 	{
 	   text[strlen(text)-1] = '\0';
 	   memmove(text, &text[1], strlen(text));
 	   newReg->item->value.c = *text; // Converte a string para char e copia o valor
+	   newReg->item->size = IKS_CHAR_SIZE;
 	}
 	else if(type == IKS_SIMBOLO_LITERAL_BOOL) // Se é do tipo boolean
 	{
@@ -100,6 +104,7 @@ comp_dict_item_t_p dict_insert(comp_dict_t_p *dict, char *text, int type, int li
 	   {
 		   newReg->item->value.b = 0;
 	   }
+	   newReg->item->size = IKS_FLOAT_SIZE;
 	}
 	else if(type == IKS_SIMBOLO_IDENTIFICADOR) // Se é do tipo identificador
 	{
@@ -110,6 +115,7 @@ comp_dict_item_t_p dict_insert(comp_dict_t_p *dict, char *text, int type, int li
 	   text[strlen(text)-1] = '\0';
 	   memmove(text, &text[1], strlen(text));
 	   newReg->item->value.str = strdup(text); // Copia a string
+	   newReg->item->size = IKS_CHAR_SIZE * strlen(newReg->item->value.str);
 	}
 
 	return newItem;
@@ -151,11 +157,11 @@ void dict_free(comp_dict_t_p dict)
 void dict_print(comp_dict_t* dict)
 {
 	printf("\nTabela de Símbolos\n");
-	printf("\nLinha | Tipo | Texto \n");
+	printf("\nLinha | Tipo | Tamanho | Texto \n");
 
 	if(dict != NULL){
 		while(dict != NULL){
-			printf("%4.d %7.d \t%s\n", dict->item->lineNumber, dict->item->type, dict->item->text);
+			printf("%4.d %7.d %9.d \t%s\n", dict->item->lineNumber, dict->item->type, dict->item->size, dict->item->text);
 			dict = dict->next;
 		}
 	}
