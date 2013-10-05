@@ -1,1 +1,0 @@
-/usr/bin/gcc      CMakeFiles/main.dir/lexer.c.o CMakeFiles/main.dir/parser.c.o CMakeFiles/main.dir/src/main.c.o CMakeFiles/main.dir/src/gv.c.o CMakeFiles/main.dir/src/comp_dict.c.o CMakeFiles/main.dir/src/comp_list.c.o CMakeFiles/main.dir/src/comp_tree.c.o CMakeFiles/main.dir/src/comp_graph.c.o CMakeFiles/main.dir/src/semantics.c.o  -o main -rdynamic -lfl 
