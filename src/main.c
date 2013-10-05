@@ -27,13 +27,15 @@ int main (int argc, char **argv)
 
   int resultado = yyparse();
 
-  gv_init(NULL);
+  printf("avaliacao: %d ", semanticEvaluation(ast));
+  
+
+  gv_init("saida.dot");
 
   makeTree(ast);
 
   gv_close();
   
-
   dict_print(dictionary);
 
   return resultado;

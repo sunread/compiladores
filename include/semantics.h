@@ -4,14 +4,19 @@
  * @date 03 Oct 2013
  * @brief Constantes utilizadas na análise semântica.
  */
+#ifndef SEMANTICS_H
+#define SEMANTICS_H
 
+#include "comp_dict.h"
+#include "comp_tree.h"
+#include "iks_ast.h"
 
 /** Tipos */
 #define IKS_INT 1
 #define IKS_FLOAT 2
 #define IKS_CHAR 3
 #define IKS_STRING 4
-#define IKS_STRING 5
+#define IKS_BOOL 5
 
 
 /** Resultados */
@@ -36,3 +41,7 @@
 #define IKS_ERROR_WRONG_PAR_OUTPUT 13 //parâmetro não é literal string ou expressão
 #define IKS_ERROR_WRONG_PAR_RETURN 14 //parâmetro não é expressão compatível com tipo do retorno
 
+int semanticEvaluation(comp_tree*);
+int verifyIdentifier(comp_tree*);
+
+#endif

@@ -8,12 +8,21 @@
 #ifndef COMP_DICT_H
 #define COMP_DICT_H
 
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
 #define IKS_SIMBOLO_LITERAL_INT 1
 #define IKS_SIMBOLO_LITERAL_FLOAT 2
 #define IKS_SIMBOLO_LITERAL_CHAR 3
 #define IKS_SIMBOLO_LITERAL_STRING 4
 #define IKS_SIMBOLO_LITERAL_BOOL 5
 #define IKS_SIMBOLO_IDENTIFICADOR 6
+
+#define ID_NAO_DECLARADO 0
+#define ID_VARIAVEL 1
+#define ID_VETOR 2
+#define ID_FUNCAO 3
 
 union dataValue
 {
@@ -27,6 +36,7 @@ union dataValue
 typedef struct comp_dict_item_t
 {
     int type;
+    int usage;
     char *text;
     union dataValue value;
     int lineNumber;

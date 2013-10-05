@@ -6,9 +6,6 @@
  */
 
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include "comp_dict.h"
 /**
     dict_find_index
@@ -75,6 +72,7 @@ comp_dict_item_t_p dict_insert(comp_dict_t_p *dict, char *text, int type, int li
 	// Preenche a estrutura de um item do dicionário
 	newReg->item->text = strdup(text);
 	newReg->item->type = type;
+	newReg->item->usage = ID_NAO_DECLARADO;
 	newReg->item->lineNumber = lineNumber;
 	*dict = dict_insertEnd(*dict, newReg);
 
@@ -156,7 +154,7 @@ void dict_print(comp_dict_t* dict)
 	printf("\nLinha | Tipo | Texto \n");
 
 	if(dict != NULL){
-		while(dict->next != NULL){
+		while(dict != NULL){
 			printf("%4.d %7.d \t%s\n", dict->item->lineNumber, dict->item->type, dict->item->text);
 			dict = dict->next;
 		}

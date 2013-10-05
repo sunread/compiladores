@@ -20,6 +20,7 @@ typedef struct comp_tree_t {
 
 	int type;
 	comp_dict_item_t* symbol;
+	struct comp_tree_t* father;
 	struct comp_tree_t* broList;
 	struct nodeList_t* sonList;
 }comp_tree;

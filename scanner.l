@@ -51,8 +51,8 @@ WHITESPACE  [ \t\v\f]*
 "input"         { return TK_PR_INPUT; }
 "output"        { return TK_PR_OUTPUT; }
 "return"        { return TK_PR_RETURN; }
-"false"         { yylval.symbol = dict_insert(dictionary, yytext, IKS_SIMBOLO_LITERAL_BOOL, yylineno); return TK_LIT_FALSE; }
-"true"          { yylval.symbol = dict_insert(dictionary, yytext, IKS_SIMBOLO_LITERAL_BOOL, yylineno); return TK_LIT_TRUE; }
+"false"         { yylval.symbol = dict_insert(&dictionary, yytext, IKS_SIMBOLO_LITERAL_BOOL, yylineno); return TK_LIT_FALSE; }
+"true"          { yylval.symbol = dict_insert(&dictionary, yytext, IKS_SIMBOLO_LITERAL_BOOL, yylineno); return TK_LIT_TRUE; }
 ","|";"|":"     { return yytext[0]; }
 "("|")"	        { return yytext[0]; }
 "["|"]"         { return yytext[0]; }
@@ -68,11 +68,11 @@ WHITESPACE  [ \t\v\f]*
 "!="		    { return TK_OC_NE; }
 "&&"		    { return TK_OC_AND; }
 "||"		    { return TK_OC_OR; }
-{ID}            { yylval.symbol = dict_insert(dictionary, yytext, IKS_SIMBOLO_IDENTIFICADOR, yylineno); return TK_IDENTIFICADOR; }
-{INT}           { yylval.symbol = dict_insert(dictionary, yytext, IKS_SIMBOLO_LITERAL_INT, yylineno); return TK_LIT_INT; }
-{FLOAT}         { yylval.symbol = dict_insert(dictionary, yytext, IKS_SIMBOLO_LITERAL_FLOAT, yylineno); return TK_LIT_FLOAT; }
-{CHAR}          { yylval.symbol = dict_insert(dictionary, yytext, IKS_SIMBOLO_LITERAL_CHAR, yylineno); return TK_LIT_CHAR; }
-{STRING}        { yylval.symbol = dict_insert(dictionary, yytext, IKS_SIMBOLO_LITERAL_STRING, yylineno); return TK_LIT_STRING; }
+{ID}            { yylval.symbol = dict_insert(&dictionary, yytext, IKS_SIMBOLO_IDENTIFICADOR, yylineno); return TK_IDENTIFICADOR; }
+{INT}           { yylval.symbol = dict_insert(&dictionary, yytext, IKS_SIMBOLO_LITERAL_INT, yylineno); return TK_LIT_INT; }
+{FLOAT}         { yylval.symbol = dict_insert(&dictionary, yytext, IKS_SIMBOLO_LITERAL_FLOAT, yylineno); return TK_LIT_FLOAT; }
+{CHAR}          { yylval.symbol = dict_insert(&dictionary, yytext, IKS_SIMBOLO_LITERAL_CHAR, yylineno); return TK_LIT_CHAR; }
+{STRING}        { yylval.symbol = dict_insert(&dictionary, yytext, IKS_SIMBOLO_LITERAL_STRING, yylineno); return TK_LIT_STRING; }
 "/*"	        { BEGIN( MLCOMMENT ); }
 "//"[^\r\n]*    { }
 <MLCOMMENT>"*/" { BEGIN( INITIAL ); }
