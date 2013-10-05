@@ -36,5 +36,4 @@
 #define IKS_AST_VETOR_INDEXADO      26 // para var[exp] quando o índice exp é acessado no vetor var
 #define IKS_AST_CHAMADA_DE_FUNCAO   27
 
-
 #endif

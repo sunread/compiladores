@@ -99,7 +99,7 @@
  cabecalho : tipo_variavel ':' TK_IDENTIFICADOR '(' lista_param ')'	{$3->usage = ID_FUNCAO; $$ = $3;};
  lista_param : lista_param_nao_vazia | ;
  lista_param_nao_vazia : parametro ',' lista_param_nao_vazia | parametro ;
- parametro : tipo_variavel ':' TK_IDENTIFICADOR ;
+ parametro : tipo_variavel ':' TK_IDENTIFICADOR {$3->usage = ID_VARIAVEL;};
  dec_local : dec_variavel ';' dec_local	| ;
  
  corpo: '{' lista_comando '}' {$$ = $2;};
@@ -112,8 +112,6 @@
 				| {$$ = NULL;};
 
  comando: 	bloco_comando {$$ = $1;}
-			| dec_variavel  {$$ = NULL;}
-			| dec_vetor 	{$$ = NULL;}
 			| controle_fluxo {$$ = $1;}
 			| atribuicao 	{$$ = $1;}
 			| input 		{$$ = $1;}

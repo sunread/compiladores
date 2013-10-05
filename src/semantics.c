@@ -10,9 +10,15 @@
 
 int semanticEvaluation(comp_tree* ast){
 	int result = IKS_SUCCESS;
-	result = verifyIdentifier(ast);
+	//inserir verificacao das declaracoes
+	result = verifyIdentifier(ast); //uso correto de identificadores
+	//inserir tipos e tamanho de dados
+	//inserir coercao de tipos
+	//inserir argumentos e parametros
+	//inserir verificacao de tipos em comandos
 	return result;
 }
+
 
 
 /**
@@ -30,11 +36,11 @@ int verifyIdentifier(comp_tree* ast){
 		auxList = aux->sonList;
 		//processing current node
 		if(aux->type == IKS_AST_VETOR_INDEXADO){
-			if(aux->sonList->node->symbol->usage != ID_VETOR)
+			if(auxList->node->symbol->usage != ID_VETOR)
 				return IKS_ERROR_VECTOR;
 		}
 		else if(aux->type == IKS_AST_CHAMADA_DE_FUNCAO){
-			if(aux->sonList->node->symbol->usage != ID_FUNCAO)
+			if(auxList->node->symbol->usage != ID_FUNCAO)
 				return IKS_ERROR_FUNCTION;
 		}
 		else if(aux->father != NULL 
@@ -57,6 +63,5 @@ int verifyIdentifier(comp_tree* ast){
 		//go to next brother
 		aux = aux->broList;
 	}
-	return result;
-
+	return IKS_SUCCESS;
 }
