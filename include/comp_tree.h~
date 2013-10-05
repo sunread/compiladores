@@ -1,10 +1,10 @@
-/* Projeto de Compiladores 2013-2 - Etapa 0
-   Fernando Soller Mecking
-   Mateus Cardoso da Silva
-
-   comp_tree.h
-   Estruturas de dados e definições da arvore
+/**
+* @file comp_tree.h
+* @author Fernando Soller Mecking; Mateus Cardoso da Silva
+* @date 16 Sep 2013
+* @brief Estruturas de dados e definições da arvore
 */
+
 
 #include "comp_dict.h"
 
@@ -17,12 +17,17 @@ typedef struct nodeList_t{
 }nodeList;
 
 typedef struct comp_tree_t {
+
 	int type;
 	comp_dict_item_t* symbol;
-	struct nodeList_t* list;
+	struct comp_tree_t* broList;
+	struct nodeList_t* sonList;
 }comp_tree;
 
 comp_tree* ast;
-comp_tree* tree_Add(int type, comp_dict_item_t* symbol, int count, ...);
+comp_tree* parent;
+comp_tree* tree_CreateNode(int type, comp_dict_item_t* symbol);
+void tree_AddSon(comp_tree* father, int count, ...);
+void tree_AddBro(comp_tree* brother, comp_tree* node);
 nodeList* nodeListAdd(nodeList* list, comp_tree* node);
 #endif

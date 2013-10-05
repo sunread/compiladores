@@ -17,7 +17,6 @@ typedef struct nodeList_t{
 }nodeList;
 
 typedef struct comp_tree_t {
-
 	int type;
 	comp_dict_item_t* symbol;
 	struct comp_tree_t* father;

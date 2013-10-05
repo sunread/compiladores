@@ -17,10 +17,11 @@
 
 union dataValue
 {
-    int i;
-    float f;
-    char c;
-    char *str;
+    int i; // Integer Value
+    float f; // Float Value
+    int b; // Boolean Value
+    char c; // Char value
+    char *str; // String Value
 }dataValue;
 
 typedef struct comp_dict_item_t
@@ -33,15 +34,15 @@ typedef struct comp_dict_item_t
 
 typedef struct comp_dict_t
 {
-    int length;
-    int capacity;
     comp_dict_item_t *item;
+    struct comp_dict_t* next;
 } comp_dict_t, *comp_dict_t_p;
 
 comp_dict_t* dictionary;
 int dict_find_index();
 int dict_find();
 comp_dict_item_t_p dict_insert();
+comp_dict_t_p dict_insertEnd();
 comp_dict_t* dict_new();
 void dict_free();
 void dict_print();

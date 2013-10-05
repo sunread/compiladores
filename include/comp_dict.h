@@ -40,6 +40,7 @@ typedef struct comp_dict_item_t
     char *text;
     union dataValue value;
     int lineNumber;
+    int size;
 } comp_dict_item_t,*comp_dict_item_t_p;
 
 typedef struct comp_dict_t
