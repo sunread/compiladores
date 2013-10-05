@@ -5,7 +5,7 @@ int: main()
   int: c;
   int: d;
   int: t;
-  c = 1;
+  c[3] = 1;
 
   while (c <= n) do
   {
