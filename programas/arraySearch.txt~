@@ -1,8 +1,7 @@
-int: array[1000];
-
 int: main()
 int: ret;
 int: number;
+int: array[1000];
 {
    ret = arraySearch(array, number);
 

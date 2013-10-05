@@ -16,7 +16,7 @@
 %}
 
 %union {
-    comp_dict_item_t_p symbol;    
+    comp_dict_item_t_p symbol;
     comp_tree* ast;
     int type;
 }
@@ -70,6 +70,7 @@
 
 
 %type<symbol> cabecalho
+%type<type> tipo_variavel
 
 %left TK_OC_OR
 %left TK_OC_AND
@@ -89,10 +90,25 @@
 			| dec_funcao programa {$$ = $1; tree_AddBro($$, $2);}
 			| {$$ = NULL;};
 
+ tipo_variavel : TK_PR_INT {$$=IKS_INT;} | TK_PR_FLOAT {$$=IKS_FLOAT;} | TK_PR_BOOL {$$=IKS_BOOL;} | TK_PR_CHAR {$$=IKS_CHAR;} | TK_PR_STRING {$$=IKS_STRING;};
  dec_global : dec_variavel ';' | dec_vetor ';' ;
- dec_variavel : tipo_variavel ':' TK_IDENTIFICADOR {$3->usage = ID_VARIAVEL;} ;
- dec_vetor : tipo_variavel ':' TK_IDENTIFICADOR '[' TK_LIT_INT ']' {$3->usage = ID_VETOR;};
- tipo_variavel : TK_PR_INT | TK_PR_FLOAT | TK_PR_BOOL| TK_PR_CHAR | TK_PR_STRING ;
+ dec_variavel : tipo_variavel ':' TK_IDENTIFICADOR {$3->usage = ID_VARIAVEL;
+                                                     switch($1){
+                                                        case IKS_INT : $3->type = IKS_INT; $3->size =IKS_INT_SIZE; break;
+                                                        case IKS_FLOAT: $3->type = IKS_FLOAT; $3->size = IKS_FLOAT_SIZE; break;
+                                                        case IKS_BOOL: $3->type = IKS_BOOL; $3->size = IKS_BOOL_SIZE; break;
+                                                        case IKS_CHAR: $3->type = IKS_CHAR; $3->size = IKS_CHAR_SIZE; break;
+                                                        case IKS_STRING: $3->type = IKS_STRING; $3->size = IKS_CHAR_SIZE; break; }
+                                                    } ;
+
+ dec_vetor : tipo_variavel ':' TK_IDENTIFICADOR '[' TK_LIT_INT ']' {$3->usage = ID_VETOR;
+                                                                     switch($1){
+                                                                        case IKS_INT : $3->type = IKS_INT; $3->size =IKS_INT_SIZE*$5->value.i; break;
+                                                                        case IKS_FLOAT: $3->type = IKS_FLOAT; $3->size = IKS_FLOAT_SIZE*$5->value.i; break;
+                                                                        case IKS_BOOL: $3->type = IKS_BOOL; $3->size = IKS_BOOL_SIZE*$5->value.i; break;
+                                                                        case IKS_CHAR: $3->type = IKS_CHAR; $3->size = IKS_CHAR_SIZE*$5->value.i; break;
+                                                                        case IKS_STRING: $3->type = IKS_STRING; $3->size = IKS_CHAR_SIZE*$5->value.i; break; }
+                                                                    };
 
  dec_funcao : cabecalho dec_local corpo {$$ = tree_CreateNode(IKS_AST_FUNCAO, $1); tree_AddSon($$, 1, $3);};
 
@@ -101,9 +117,9 @@
  lista_param_nao_vazia : parametro ',' lista_param_nao_vazia | parametro ;
  parametro : tipo_variavel ':' TK_IDENTIFICADOR {$3->usage = ID_VARIAVEL;};
  dec_local : dec_variavel ';' dec_local	| ;
- 
+
  corpo: '{' lista_comando '}' {$$ = $2;};
- 
+
  bloco_comando: '{' lista_comando '}'{$$ = tree_CreateNode(IKS_AST_BLOCO, NULL); tree_AddSon($$, 1, $2);}
 
  lista_comando : comando {$$ = $1;}

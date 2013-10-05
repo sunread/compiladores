@@ -1,7 +1,6 @@
-int: array[1000];
-
 int: main()
 int: n;
+int: array[1000];
 int: c;
 int: d;
 int: t;

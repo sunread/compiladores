@@ -4,6 +4,7 @@
  * @date 03 Oct 2013
  * @brief Constantes utilizadas na análise semântica.
  */
+
 #ifndef SEMANTICS_H
 #define SEMANTICS_H
 
@@ -18,6 +19,11 @@
 #define IKS_STRING 4
 #define IKS_BOOL 5
 
+/** Tamanhos **/
+#define IKS_INT_SIZE 4
+#define IKS_FLOAT_SIZE 8
+#define IKS_CHAR_SIZE 1
+#define IKS_BOOL_SIZE 1
 
 /** Resultados */
 #define IKS_SUCCESS 0 //caso não houver nenhum tipo de erro
