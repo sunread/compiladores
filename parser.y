@@ -110,12 +110,26 @@
                                                                         case IKS_STRING: $3->type = IKS_STRING; $3->size = IKS_CHAR_SIZE*$5->value.i; break; }
                                                                     };
 
- dec_funcao : cabecalho dec_local corpo {$$ = tree_CreateNode(IKS_AST_FUNCAO, $1); tree_AddSon($$, 1, $3);};
+ dec_funcao : cabecalho dec_local corpo {$$ = tree_CreateNode(IKS_AST_FUNCAO, $1); $$->type = $3->type; tree_AddSon($$, 1, $3);};
 
- cabecalho : tipo_variavel ':' TK_IDENTIFICADOR '(' lista_param ')'	{$3->usage = ID_FUNCAO; $$ = $3;};
+ cabecalho : tipo_variavel ':' TK_IDENTIFICADOR '(' lista_param ')'	{$3->usage = ID_FUNCAO;
+                                                                        switch($1){
+                                                                            case IKS_INT : $3->type = IKS_INT; $3->size =IKS_INT_SIZE; break;
+                                                                            case IKS_FLOAT: $3->type = IKS_FLOAT; $3->size = IKS_FLOAT_SIZE; break;
+                                                                            case IKS_BOOL: $3->type = IKS_BOOL; $3->size = IKS_BOOL_SIZE; break;
+                                                                            case IKS_CHAR: $3->type = IKS_CHAR; $3->size = IKS_CHAR_SIZE; break;
+                                                                            case IKS_STRING: $3->type = IKS_STRING; $3->size = IKS_CHAR_SIZE; break; }
+                                                                      $$ = $3;};
  lista_param : lista_param_nao_vazia | ;
  lista_param_nao_vazia : parametro ',' lista_param_nao_vazia | parametro ;
- parametro : tipo_variavel ':' TK_IDENTIFICADOR {$3->usage = ID_VARIAVEL;};
+ parametro : tipo_variavel ':' TK_IDENTIFICADOR {$3->usage = ID_VARIAVEL;
+                                                   switch($1){
+                                                       case IKS_INT : $3->type = IKS_INT; $3->size =IKS_INT_SIZE; break;
+                                                       case IKS_FLOAT: $3->type = IKS_FLOAT; $3->size = IKS_FLOAT_SIZE; break;
+                                                       case IKS_BOOL: $3->type = IKS_BOOL; $3->size = IKS_BOOL_SIZE; break;
+                                                       case IKS_CHAR: $3->type = IKS_CHAR; $3->size = IKS_CHAR_SIZE; break;
+                                                       case IKS_STRING: $3->type = IKS_STRING; $3->size = IKS_CHAR_SIZE; break; }
+                                                };
  dec_local : dec_variavel ';' dec_local	| ;
 
  corpo: '{' lista_comando '}' {$$ = $2;};
