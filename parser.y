@@ -17,6 +17,7 @@
 
 %union {
     comp_dict_item_t_p symbol;
+    comp_dict_t_p dict;
     comp_tree* ast;
     int type;
 }
@@ -70,6 +71,12 @@
 
 
 %type<symbol> cabecalho
+
+%type<dict> lista_param
+%type<dict> lista_param_nao_vazia
+%type<dict> parametro
+
+
 %type<type> tipo_variavel
 
 %left TK_OC_OR
@@ -110,7 +117,7 @@
                                                                         case IKS_STRING: $3->type = IKS_STRING; $3->size = IKS_CHAR_SIZE*$5->value.i; break; }
                                                                     };
 
- dec_funcao : cabecalho dec_local corpo {$$ = tree_CreateNode(IKS_AST_FUNCAO, $1); $$->type = $3->type; tree_AddSon($$, 1, $3);};
+ dec_funcao : cabecalho dec_local corpo {$$ = tree_CreateNode(IKS_AST_FUNCAO, $1); tree_AddSon($$, 1, $3); parent = (comp_tree*)$$};
 
  cabecalho : tipo_variavel ':' TK_IDENTIFICADOR '(' lista_param ')'	{$3->usage = ID_FUNCAO;
                                                                         switch($1){
@@ -119,16 +126,19 @@
                                                                             case IKS_BOOL: $3->type = IKS_BOOL; $3->size = IKS_BOOL_SIZE; break;
                                                                             case IKS_CHAR: $3->type = IKS_CHAR; $3->size = IKS_CHAR_SIZE; break;
                                                                             case IKS_STRING: $3->type = IKS_STRING; $3->size = IKS_CHAR_SIZE; break; }
-                                                                      $$ = $3;};
- lista_param : lista_param_nao_vazia | ;
- lista_param_nao_vazia : parametro ',' lista_param_nao_vazia | parametro ;
+																		$$ = $3;
+																		parent->args = $5;
+																		};
+ lista_param : lista_param_nao_vazia {$$ = $1;} | {$$ = NULL;};
+ lista_param_nao_vazia : parametro ',' lista_param_nao_vazia {$$ = dict_insertEnd($1, $3);}  | parametro {$$ = $1;};
  parametro : tipo_variavel ':' TK_IDENTIFICADOR {$3->usage = ID_VARIAVEL;
                                                    switch($1){
                                                        case IKS_INT : $3->type = IKS_INT; $3->size =IKS_INT_SIZE; break;
                                                        case IKS_FLOAT: $3->type = IKS_FLOAT; $3->size = IKS_FLOAT_SIZE; break;
                                                        case IKS_BOOL: $3->type = IKS_BOOL; $3->size = IKS_BOOL_SIZE; break;
                                                        case IKS_CHAR: $3->type = IKS_CHAR; $3->size = IKS_CHAR_SIZE; break;
-                                                       case IKS_STRING: $3->type = IKS_STRING; $3->size = IKS_CHAR_SIZE; break; }
+                                                       case IKS_STRING: $3->type = IKS_STRING; $3->size = IKS_CHAR_SIZE; break; };
+												$$ = dict_argInsert($3);
                                                 };
  dec_local : dec_variavel ';' dec_local	| ;
 

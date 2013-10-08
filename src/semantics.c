@@ -65,3 +65,38 @@ int verifyIdentifier(comp_tree* ast){
 	}
 	return IKS_SUCCESS;
 }
+
+/**
+ * Funcao de verificacao do uso correto dos parametros nas chamadas de funcao
+ */
+int verifyArguments(comp_tree*){
+	if(ast==NULL)
+		return IKS_SUCCESS;
+	comp_tree* aux = ast;
+	nodeList* auxList;
+	int result = IKS_SUCCESS;
+	while(aux != NULL){
+		auxList = aux->sonList;
+		//processing current node
+		if(aux->type == IKS_AST_FUNCAO)
+			currentFunction = aux;
+		if(aux->type == IKS_AST_CHAMADA_DE_FUNCAO){
+			
+		
+		}
+		
+		//processing all sons
+		while(auxList!=NULL){
+			if(auxList->node!=NULL){
+				result = verifyArguments(auxList->node);
+				if(result != IKS_SUCCESS)
+					return result;
+			}
+			auxList = auxList->next;
+		}
+		
+		//go to next brother
+		aux = aux->broList;
+	}
+	return IKS_SUCCESS;	
+}

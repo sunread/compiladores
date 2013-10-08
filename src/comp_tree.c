@@ -20,6 +20,7 @@ comp_tree* tree_CreateNode(int type, comp_dict_item_t* symbol){
 	comp_tree* new = (comp_tree*)malloc(sizeof(comp_tree));
 	new->type = type;
 	new->father = NULL;
+	new->args = NULL;
 	new->symbol = symbol;
 	new->broList = NULL;
 	new->sonList = NULL;

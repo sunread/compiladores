@@ -47,7 +47,8 @@
 #define IKS_ERROR_WRONG_PAR_OUTPUT 13 //parâmetro não é literal string ou expressão
 #define IKS_ERROR_WRONG_PAR_RETURN 14 //parâmetro não é expressão compatível com tipo do retorno
 
+comp_tree* currentFunction;
 int semanticEvaluation(comp_tree* ast);
 int verifyIdentifier(comp_tree*);
-
+int verifyArguments(comp_tree*);
 #endif

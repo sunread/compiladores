@@ -53,6 +53,7 @@ comp_dict_t* dictionary;
 int dict_find_index();
 comp_dict_item_t_p dict_find();
 comp_dict_item_t_p dict_insert();
+comp_dict_t_p dict_argInsert(comp_dict_item_t_p);
 comp_dict_t_p dict_insertEnd();
 comp_dict_t* dict_new();
 void dict_free();

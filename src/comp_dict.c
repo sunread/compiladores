@@ -62,6 +62,17 @@ comp_dict_t_p dict_insertEnd(comp_dict_t_p dict, comp_dict_t_p new){
 }
 
 /**
+    dict_argInsert
+    Insere um item do dicionario principal em um outro dicionario, como argumnetos de funcao
+*/
+comp_dict_t_p dict_argInsert(comp_dict_item_t_p arg){
+	comp_dict_t_p newReg = (comp_dict_t_p)malloc(sizeof(comp_dict_t));
+	newReg->item = arg;
+	newReg->next = NULL;
+	return newReg;
+}
+
+/**
     dict_insert
     Insere um item no dicionário
 */
