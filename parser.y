@@ -84,7 +84,7 @@
 
 %%
  /* Regras (e ações) da gramática da Linguagem IKS */
- p: programa {$$ = tree_CreateNode(IKS_AST_PROGRAMA, NULL); ast = $$; tree_AddSon($$, 1, $1);};
+ p: programa {$$ = tree_CreateNode(IKS_AST_PROGRAMA, NULL); ast = $$; tree_AddSon($$, 1, $1); semanticEvaluation(ast);};
 
  programa : dec_global programa {$$ = $2;}
 			| dec_funcao programa {$$ = $1; tree_AddBro($$, $2);}
@@ -110,7 +110,7 @@
                                                                         case IKS_STRING: $3->type = IKS_STRING; $3->size = IKS_CHAR_SIZE*$5->value.i; break; }
                                                                     };
 
- dec_funcao : cabecalho dec_local corpo {$$ = tree_CreateNode(IKS_AST_FUNCAO, $1); $$->type = $3->type; tree_AddSon($$, 1, $3);};
+ dec_funcao : cabecalho dec_local corpo {$$ = tree_CreateNode(IKS_AST_FUNCAO, $1); $$->dataType = $1->type; tree_AddSon($$, 1, $3);};
 
  cabecalho : tipo_variavel ':' TK_IDENTIFICADOR '(' lista_param ')'	{$3->usage = ID_FUNCAO;
                                                                         switch($1){
