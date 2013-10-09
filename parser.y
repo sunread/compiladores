@@ -70,7 +70,7 @@
 %type<ast> chamada
 
 
-%type<symbol> cabecalho
+%type<ast> cabecalho
 
 %type<dict> lista_param
 %type<dict> lista_param_nao_vazia
@@ -118,16 +118,17 @@
                                                                     };
 
 
- dec_funcao : cabecalho dec_local corpo {$$ = tree_CreateNode(IKS_AST_FUNCAO, $1); $$->dataType = $1->type; tree_AddSon($$, 1, $3);parent = (comp_tree*)$$;};
+ dec_funcao :cabecalho dec_local corpo {$$ = $1; tree_AddSon($$, 1, $3);};
 
- cabecalho : tipo_variavel ':' TK_IDENTIFICADOR '(' lista_param ')'	{$3->usage = ID_FUNCAO;
+ cabecalho : tipo_variavel ':' TK_IDENTIFICADOR '(' lista_param ')'	{$$ = tree_CreateNode(IKS_AST_FUNCAO, $3);parent = $$;
+																		$3->usage = ID_FUNCAO;
                                                                         switch($1){
                                                                             case IKS_INT : $3->type = IKS_INT; $3->size =IKS_INT_SIZE; break;
                                                                             case IKS_FLOAT: $3->type = IKS_FLOAT; $3->size = IKS_FLOAT_SIZE; break;
                                                                             case IKS_BOOL: $3->type = IKS_BOOL; $3->size = IKS_BOOL_SIZE; break;
                                                                             case IKS_CHAR: $3->type = IKS_CHAR; $3->size = IKS_CHAR_SIZE; break;
                                                                             case IKS_STRING: $3->type = IKS_STRING; $3->size = IKS_CHAR_SIZE; break; }
-																		$$ = $3;
+																		$$->dataType = $3->type;
 																		parent->args = $5;
 																		};
  lista_param : lista_param_nao_vazia {$$ = $1;} | {$$ = NULL;};

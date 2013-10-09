@@ -83,7 +83,7 @@ comp_dict_item_t_p dict_insert(comp_dict_t_p *dict, char *text, int type, int li
 	if(aux != NULL)
 		return aux;
 	else{
-		
+
 		comp_dict_item_t_p newItem = (comp_dict_item_t_p)malloc(sizeof(comp_dict_item_t));
 		comp_dict_t_p newReg = (comp_dict_t_p)malloc(sizeof(comp_dict_t));
 		newReg->item = newItem;

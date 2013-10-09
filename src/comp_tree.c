@@ -27,6 +27,33 @@ comp_tree* tree_CreateNode(int type, comp_dict_item_t* symbol){
 	return new;
 }
 
+comp_tree* tree_SearchNode(comp_tree* ast, comp_dict_item_t* symbol, int type){
+	if(ast==NULL)
+		return NULL;
+	comp_tree* aux = ast;
+	comp_tree* node = NULL;
+	nodeList* auxList;
+	while(aux != NULL){
+		auxList = aux->sonList;
+		//processing current node
+		if(aux->type == type && aux->symbol == symbol)
+			return aux;
+		//processing all sons
+		while(auxList!=NULL){
+			if(auxList->node!=NULL){
+				node = tree_SearchNode(auxList->node, symbol, type);
+				if(node != NULL)
+					return node;
+			}
+			auxList = auxList->next;
+		}
+
+		//go to next brother
+		aux = aux->broList;	
+	}
+	return NULL;
+}
+
 /**
 	tree_AddSon
 	Adiciona uma lista de nos como filhos

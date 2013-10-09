@@ -29,6 +29,7 @@ typedef struct comp_tree_t {
 comp_tree* ast;
 comp_tree* parent;
 comp_tree* tree_CreateNode(int type, comp_dict_item_t* symbol);
+comp_tree* tree_SearchNode(comp_tree* ast, comp_dict_item_t* symbol, int type);
 void tree_AddSon(comp_tree* father, int count, ...);
 void tree_AddBro(comp_tree* brother, comp_tree* node);
 nodeList* nodeListAdd(nodeList* list, comp_tree* node);

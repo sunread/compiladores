@@ -50,5 +50,6 @@
 comp_tree* currentFunction;
 int semanticEvaluation(comp_tree* ast);
 int verifyIdentifier(comp_tree*);
-int verifyArguments(comp_tree*);
+int verifyArguments(comp_tree*, comp_tree*);
+int verifyGivenParameters(comp_tree*, comp_tree*);
 #endif
