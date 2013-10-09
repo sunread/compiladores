@@ -13,7 +13,7 @@ int semanticEvaluation(comp_tree* ast){
 	//inserir verificacao das declaracoes
 	result = verifyIdentifier(ast); //uso correto de identificadores
 	result = astTypeInference(ast); //inserir tipos e tamanho de dados
-	//inserir coercao de tipos
+	result = astTypeCoercion(ast);//inserir coercao de tipos
 	result = verifyArguments(ast, ast);
 	//inserir verificacao de tipos em comandos
 	return result;
@@ -230,6 +230,100 @@ int astTypeInference(comp_tree* ast){
 	}
 	return IKS_SUCCESS;
 }
+
+int astTypeCoercion(comp_tree* ast){
+    if(ast==NULL)
+		return IKS_SUCCESS;
+	comp_tree* aux = ast;
+	nodeList* auxList;
+	int result = IKS_SUCCESS;
+	while(aux != NULL){
+		auxList = aux->sonList;
+		//processing current node
+        
+		if(aux->type == IKS_AST_ARIM_SOMA)
+		{
+            aux->dataType = typeInference(aux->sonList->node->symbol->type, aux->sonList->next->node->symbol->type);
+            if (aux->dataType == IKS_INT) {
+                if (aux->sonList->node->symbol->type == IKS_BOOL || aux->sonList->node->symbol->type == IKS_SIMBOLO_LITERAL_BOOL ){
+                    aux->sonList->node->coercion = COERCION_TO_INT;
+                }
+            }
+            if (aux->dataType == IKS_FLOAT) {
+                if (aux->sonList->node->symbol->type == IKS_INT || aux->sonList->node->symbol->type == IKS_SIMBOLO_LITERAL_INT ){
+                    aux->sonList->node->coercion = COERCION_TO_INT;
+                }
+                if (aux->sonList->node->symbol->type == IKS_BOOL || aux->sonList->node->symbol->type == IKS_SIMBOLO_LITERAL_BOOL ){
+                    aux->sonList->node->coercion = COERCION_TO_INT;
+                }
+            }
+		}
+		else if(aux->type == IKS_AST_ARIM_SUBTRACAO)
+		{
+		    aux->dataType = typeInference(aux->sonList->node->symbol->type, aux->sonList->next->node->symbol->type);
+		}
+		else if(aux->type == IKS_AST_ARIM_MULTIPLICACAO)
+		{
+		    aux->dataType = typeInference(aux->sonList->node->symbol->type, aux->sonList->next->node->symbol->type);
+		}
+		else if(aux->type == IKS_AST_ARIM_INVERSAO)
+		{
+		    aux->dataType = aux->sonList->node->symbol->type;
+		}
+		else if(aux->type == IKS_AST_LOGICO_E)
+		{
+		    aux->dataType = IKS_BOOL;
+		}
+		else if(aux->type == IKS_AST_LOGICO_OU)
+		{
+		    aux->dataType = IKS_BOOL;
+		}
+        else if(aux->type == IKS_AST_LOGICO_COMP_DIF)
+		{
+		    aux->dataType = IKS_BOOL;
+		}
+		else if(aux->type == IKS_AST_LOGICO_COMP_IGUAL)
+		{
+		    aux->dataType = IKS_BOOL;
+		}
+		else if(aux->type == IKS_AST_LOGICO_COMP_LE)
+		{
+		    aux->dataType = IKS_BOOL;
+		}
+		else if(aux->type == IKS_AST_LOGICO_COMP_GE)
+		{
+		    aux->dataType = IKS_BOOL;
+		}
+		else if(aux->type == IKS_AST_LOGICO_COMP_L)
+		{
+		    aux->dataType = IKS_BOOL;
+		}
+		else if(aux->type == IKS_AST_LOGICO_COMP_G)
+		{
+		    aux->dataType = IKS_BOOL;
+		}
+		else if(aux->type == IKS_AST_LOGICO_COMP_NEGACAO)
+		{
+		    aux->dataType = IKS_BOOL;
+		}
+        
+		//processing all sons
+		while(auxList!=NULL){
+			if(auxList->node!=NULL){
+				result = astTypeInference(auxList->node);
+				if(result != IKS_SUCCESS)
+					return result;
+			}
+			auxList = auxList->next;
+		}
+        
+		//go to next brother
+		aux = aux->broList;
+	}
+	return IKS_SUCCESS;
+    
+}
+
 
 int isAritmeticExpression(int type)
 {
