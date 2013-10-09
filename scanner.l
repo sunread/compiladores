@@ -13,6 +13,7 @@
 #include "comp_dict.h"
 #include "comp_tree.h"
 #include "parser.h"
+#include "semantics.h"
 
 #define IKS_SIMBOLO_INDEFINIDO 0
 #define IKS_SIMBOLO_LITERAL_INT 1
@@ -69,10 +70,10 @@ WHITESPACE  [ \t\v\f]*
 "&&"		    { return TK_OC_AND; }
 "||"		    { return TK_OC_OR; }
 {ID}            { yylval.symbol = dict_insert(&dictionary, yytext, IKS_SIMBOLO_IDENTIFICADOR, yylineno); return TK_IDENTIFICADOR; }
-{INT}           { yylval.symbol = dict_insert(&dictionary, yytext, IKS_SIMBOLO_LITERAL_INT, yylineno); return TK_LIT_INT; }
-{FLOAT}         { yylval.symbol = dict_insert(&dictionary, yytext, IKS_SIMBOLO_LITERAL_FLOAT, yylineno); return TK_LIT_FLOAT; }
-{CHAR}          { yylval.symbol = dict_insert(&dictionary, yytext, IKS_SIMBOLO_LITERAL_CHAR, yylineno); return TK_LIT_CHAR; }
-{STRING}        { yylval.symbol = dict_insert(&dictionary, yytext, IKS_SIMBOLO_LITERAL_STRING, yylineno); return TK_LIT_STRING; }
+{INT}           { yylval.symbol = dict_insert(&dictionary, yytext, IKS_INT, yylineno); return TK_LIT_INT; }
+{FLOAT}         { yylval.symbol = dict_insert(&dictionary, yytext, IKS_FLOAT, yylineno); return TK_LIT_FLOAT; }
+{CHAR}          { yylval.symbol = dict_insert(&dictionary, yytext, IKS_CHAR, yylineno); return TK_LIT_CHAR; }
+{STRING}        { yylval.symbol = dict_insert(&dictionary, yytext, IKS_STRING, yylineno); return TK_LIT_STRING; }
 "/*"	        { BEGIN( MLCOMMENT ); }
 "//"[^\r\n]*    { }
 <MLCOMMENT>"*/" { BEGIN( INITIAL ); }

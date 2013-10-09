@@ -20,7 +20,6 @@ int semanticEvaluation(comp_tree* ast){
 }
 
 
-
 /**
  * Funcao de verificacao do uso correto dos identificadores,
  * eh necessario que ja tenha ocorrida a verificacao de suas declaracoes
@@ -66,12 +65,40 @@ int verifyIdentifier(comp_tree* ast){
 	return IKS_SUCCESS;
 }
 
+/**
+ * Funcao de verificacao do uso correto dos parametros nas chamadas de funcao
+ */
+int verifyArguments(comp_tree* ast){
+	if(ast==NULL)
+		return IKS_SUCCESS;
+	comp_tree* aux = ast;
+	nodeList* auxList;
+	int result = IKS_SUCCESS;
+	while(aux != NULL){
+		auxList = aux->sonList;
+		//processing current node
+		if(aux->type == IKS_AST_FUNCAO)
+			currentFunction = aux;
+		if(aux->type == IKS_AST_CHAMADA_DE_FUNCAO){
 
-//#define IKS_INT 1
-//#define IKS_FLOAT 2
-//#define IKS_CHAR 3
-//#define IKS_STRING 4
-//#define IKS_BOOL 5
+
+		}
+
+		//processing all sons
+		while(auxList!=NULL){
+			if(auxList->node!=NULL){
+				result = verifyArguments(auxList->node);
+				if(result != IKS_SUCCESS)
+					return result;
+			}
+			auxList = auxList->next;
+		}
+
+		//go to next brother
+		aux = aux->broList;
+	}
+	return IKS_SUCCESS;
+}
 
 int typeInference(int firstType, int secondType)
 {
@@ -101,6 +128,49 @@ int typeInference(int firstType, int secondType)
     }
 }
 
+const char* printType(int type)
+{
+    if(type == IKS_INT)
+    {
+        return "INT";
+    }
+    else if(type == IKS_FLOAT)
+    {
+        return "FLOAT";
+    }
+    else if(type == IKS_CHAR)
+    {
+        return "CHAR";
+    }
+    else if(type == IKS_STRING)
+    {
+        return "STRING";
+    }
+    else if(type == IKS_BOOL)
+    {
+        return "BOOL";
+    }
+}
+
+int aritmeticInference(comp_tree* aux)
+{
+     if(aux->sonList->node->type == IKS_AST_CHAMADA_DE_FUNCAO)
+     {
+         aux->dataType = aux->sonList->node->sonList->node->symbol->type;
+     }
+     else if(aux->sonList->next->node->type == IKS_AST_CHAMADA_DE_FUNCAO)
+     {
+         aux->dataType = aux->sonList->next->node->sonList->node->symbol->type;
+     }
+     else if(aux->sonList->node->type == IKS_AST_ARIM_INVERSAO || aux->sonList->next->node->type == IKS_AST_ARIM_INVERSAO)
+     {
+         aux->dataType == aux->sonList->node->type;
+     }
+     else
+     {
+         aux->dataType = typeInference(aux->sonList->node->symbol->type, aux->sonList->next->node->symbol->type);
+     }
+}
 
 int astTypeInference(comp_tree* ast){
 	if(ast==NULL)
@@ -114,17 +184,29 @@ int astTypeInference(comp_tree* ast){
 		auxList = aux->sonList;
 		//processing current node
 
-		if(aux->type == IKS_AST_ARIM_SOMA)
+        if(aux->type == IKS_AST_LITERAL)
 		{
-            aux->dataType = typeInference(aux->sonList->node->symbol->type, aux->sonList->next->node->symbol->type);
+		    aux->dataType = aux->symbol->type;
+		}
+		else if(aux->type == IKS_AST_IDENTIFICADOR)
+		{
+		    aux->dataType = aux->symbol->type;
+		}
+		else if(aux->type == IKS_AST_CHAMADA_DE_FUNCAO)
+		{
+            aux->dataType == aux->sonList->node->symbol->type;
+		}
+		else if(aux->type == IKS_AST_ARIM_SOMA)
+		{
+            aritmeticInference(aux);
 		}
 		else if(aux->type == IKS_AST_ARIM_SUBTRACAO)
 		{
-		    aux->dataType = typeInference(aux->sonList->node->symbol->type, aux->sonList->next->node->symbol->type);
+		    aritmeticInference(aux);
 		}
 		else if(aux->type == IKS_AST_ARIM_MULTIPLICACAO)
 		{
-		    aux->dataType = typeInference(aux->sonList->node->symbol->type, aux->sonList->next->node->symbol->type);
+		    aritmeticInference(aux);
 		}
 		else if(aux->type == IKS_AST_ARIM_INVERSAO)
 		{
@@ -167,6 +249,7 @@ int astTypeInference(comp_tree* ast){
 		    aux->dataType = IKS_BOOL;
 		}
 
+
 		//processing all sons
 		while(auxList!=NULL){
 			if(auxList->node!=NULL){
@@ -183,37 +266,110 @@ int astTypeInference(comp_tree* ast){
 	return IKS_SUCCESS;
 }
 
-/**
- * Funcao de verificacao do uso correto dos parametros nas chamadas de funcao
- */
-int verifyArguments(comp_tree* ast){
+int isAritmeticExpression(int type)
+{
+    if(type == IKS_AST_ARIM_SOMA)
+    {
+        return 1;
+    }
+    else if(type == IKS_AST_ARIM_SUBTRACAO)
+    {
+        return 1;
+    }
+    else if(type == IKS_AST_ARIM_MULTIPLICACAO)
+    {
+        return 1;
+    }
+    else if(type == IKS_AST_ARIM_DIVISAO)
+    {
+        return 1;
+    }
+    else if(type == IKS_AST_ARIM_INVERSAO)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+int functionType;
+int verifySimpleCommand(comp_tree* ast){
 	if(ast==NULL)
 		return IKS_SUCCESS;
 	comp_tree* aux = ast;
 	nodeList* auxList;
+	comp_tree* auxBrother;
 	int result = IKS_SUCCESS;
+
 	while(aux != NULL){
 		auxList = aux->sonList;
 		//processing current node
+
 		if(aux->type == IKS_AST_FUNCAO)
-			currentFunction = aux;
-		if(aux->type == IKS_AST_CHAMADA_DE_FUNCAO){
-			
-		
+		{
+			functionType = aux->dataType;
 		}
-		
+		else if(aux->type == IKS_AST_RETURN)
+		{
+		    if(aux->sonList->node->dataType != functionType)
+		    {
+		        printf("O tipo do retorno(%s) é diferente do tipo da função (%s)\n", printType(aux->sonList->node->dataType), printType(functionType));
+		        return IKS_ERROR_WRONG_PAR_RETURN;
+		    }
+		}
+		else if(aux->type == IKS_AST_INPUT)
+		{
+            if(aux->sonList->node->type != IKS_AST_IDENTIFICADOR)
+		    {
+		        printf("O parametro do INPUT não é um IDENTIFICADOR\n");
+		        return IKS_ERROR_WRONG_PAR_INPUT;
+		    }
+		}
+		else if(aux->type == IKS_AST_OUTPUT)
+		{
+            if((aux->sonList->node->dataType == IKS_STRING) || isAritmeticExpression(aux->sonList->node->type))
+            {
+                if(aux->sonList->node->broList != NULL)
+                {
+                    auxBrother = aux->sonList->node->broList;
+
+                    while(auxBrother != NULL)
+                    {
+                        if((auxBrother->dataType == IKS_STRING) || isAritmeticExpression(auxBrother->type))
+                        {
+                            auxBrother = auxBrother->broList;
+                        }
+                        else
+                        {
+                            printf("O parametro do OUTPUT não é uma STRING ou EXPRESSÃO ARITMÉTICA\n");
+                            return IKS_ERROR_WRONG_PAR_OUTPUT;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                printf("O parametro do OUTPUT não é uma STRING ou EXPRESSÃO ARITMÉTICA\n");
+                return IKS_ERROR_WRONG_PAR_OUTPUT;
+            }
+		}
+
+
 		//processing all sons
 		while(auxList!=NULL){
 			if(auxList->node!=NULL){
-				result = verifyArguments(auxList->node);
+				result = verifySimpleCommand(auxList->node);
 				if(result != IKS_SUCCESS)
 					return result;
 			}
 			auxList = auxList->next;
 		}
-		
+
 		//go to next brother
 		aux = aux->broList;
 	}
-	return IKS_SUCCESS;	
+	return IKS_SUCCESS;
 }
+
