@@ -12,6 +12,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+
 #define IKS_SIMBOLO_LITERAL_INT 1
 #define IKS_SIMBOLO_LITERAL_FLOAT 2
 #define IKS_SIMBOLO_LITERAL_CHAR 3
@@ -41,6 +42,7 @@ typedef struct comp_dict_item_t
     union dataValue value;
     int lineNumber;
     int size;
+    void* ast_node;
 } comp_dict_item_t,*comp_dict_item_t_p;
 
 typedef struct comp_dict_t

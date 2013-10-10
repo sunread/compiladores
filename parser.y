@@ -91,7 +91,7 @@
 
 %%
  /* Regras (e ações) da gramática da Linguagem IKS */
- p: programa {$$ = tree_CreateNode(IKS_AST_PROGRAMA, NULL); ast = $$; tree_AddSon($$, 1, $1); semanticEvaluation(ast);};
+ p: programa {$$ = tree_CreateNode(IKS_AST_PROGRAMA, NULL); ast = $$; tree_AddSon($$, 1, $1);};
 
  programa : dec_global programa {$$ = $2;}
 			| dec_funcao programa {$$ = $1; tree_AddBro($$, $2);}
@@ -118,10 +118,11 @@
                                                                     };
 
 
- dec_funcao :cabecalho dec_local corpo {$$ = $1; tree_AddSon($$, 1, $3);};
+ dec_funcao :cabecalho dec_local corpo {$$ = $1; currentFunction = $$; tree_AddSon($$, 1, $3);};
 
  cabecalho : tipo_variavel ':' TK_IDENTIFICADOR '(' lista_param ')'	{$$ = tree_CreateNode(IKS_AST_FUNCAO, $3);parent = $$;
 																		$3->usage = ID_FUNCAO;
+																		$3->ast_node = $$;
                                                                         switch($1){
                                                                             case IKS_INT : $3->type = IKS_INT; $3->size =IKS_INT_SIZE; break;
                                                                             case IKS_FLOAT: $3->type = IKS_FLOAT; $3->size = IKS_FLOAT_SIZE; break;
@@ -214,7 +215,13 @@
 | chamada {$$ = $1;}
 ;
 
-chamada: TK_IDENTIFICADOR '(' lista_expressoes ')' {$$ = tree_CreateNode(IKS_AST_CHAMADA_DE_FUNCAO, NULL); tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3);};
+chamada: TK_IDENTIFICADOR '(' lista_expressoes ')' {$$ = tree_CreateNode(IKS_AST_CHAMADA_DE_FUNCAO, NULL); tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3);
+													errorCode = verifyGivenParameters($1->ast_node, $$);
+													switch(errorCode){
+														case IKS_ERROR_MISSING_ARGS: printf("Erro semantico: faltam argumentos\n");break;
+														case IKS_ERROR_EXCESS_ARGS: printf("Erro semantico: sobram argumentos\n");break;
+														case IKS_ERROR_WRONG_TYPE_ARGS:printf("Erro semantico: argumentos incompatíveis\n");break;
+													}};
 
  lista_expressoes : lista_expressoes_nao_vazia {$$ = $1;}| {$$ = NULL;};
 

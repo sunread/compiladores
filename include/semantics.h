@@ -53,6 +53,7 @@
 #define IKS_ERROR_WRONG_PAR_RETURN 14 //parâmetro não é expressão compatível com tipo do retorno
 
 comp_tree* currentFunction;
+int errorCode;
 int semanticEvaluation(comp_tree* ast);
 int verifyIdentifier(comp_tree*);
 int verifyArguments(comp_tree*, comp_tree*);

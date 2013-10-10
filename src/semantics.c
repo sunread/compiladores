@@ -429,30 +429,32 @@ int verifySimpleCommand(comp_tree* ast){
 }
 
 int verifyGivenParameters(comp_tree* func, comp_tree* call){
-    nodeList* firstSon = call->sonList->next;
-    comp_dict_t_p declaredArguments = func->args;
-	if(declaredArguments != NULL && firstSon != NULL){
-		if(declaredArguments->item->type != firstSon->node->dataType)
-			return IKS_ERROR_WRONG_TYPE_ARGS;
-		declaredArguments = declaredArguments->next;
-		comp_tree* brothers = firstSon->node->broList;    
-		while(brothers!=NULL){
-			if(declaredArguments != NULL){
-				if(declaredArguments->item->type != brothers->dataType)
-					return IKS_ERROR_WRONG_TYPE_ARGS;
-				declaredArguments = declaredArguments->next;
-				brothers = brothers->broList;
+    if(func != NULL){
+		nodeList* firstSon = call->sonList->next;
+		comp_dict_t_p declaredArguments = func->args;
+		if(declaredArguments != NULL && firstSon != NULL){
+			if(declaredArguments->item->type != firstSon->node->dataType)
+				return IKS_ERROR_WRONG_TYPE_ARGS;
+			declaredArguments = declaredArguments->next;
+			comp_tree* brothers = firstSon->node->broList;    
+			while(brothers!=NULL){
+				if(declaredArguments != NULL){
+					if(declaredArguments->item->type != brothers->dataType)
+						return IKS_ERROR_WRONG_TYPE_ARGS;
+					declaredArguments = declaredArguments->next;
+					brothers = brothers->broList;
+				}
+				else return IKS_ERROR_EXCESS_ARGS;
 			}
-			else return IKS_ERROR_EXCESS_ARGS;
+			if(declaredArguments!= NULL)
+				return IKS_ERROR_MISSING_ARGS;
+			else return IKS_SUCCESS;
 		}
-		if(declaredArguments!= NULL)
+		else if(firstSon != NULL && declaredArguments == NULL)
+			return IKS_ERROR_EXCESS_ARGS;
+		else if(firstSon == NULL && declaredArguments != NULL)
 			return IKS_ERROR_MISSING_ARGS;
-		else return IKS_SUCCESS;
 	}
-	else if(firstSon != NULL && declaredArguments == NULL)
-		return IKS_ERROR_EXCESS_ARGS;
-	else if(firstSon == NULL && declaredArguments != NULL)
-		return IKS_ERROR_MISSING_ARGS;
 }
 /**
  * Funcao de verificacao do uso correto dos parametros nas chamadas de funcao

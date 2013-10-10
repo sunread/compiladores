@@ -6,10 +6,11 @@
 */
 
 
-#include "comp_dict.h"
+
 
 #ifndef COMP_TREE_H
 #define COMP_TREE_H
+#include "comp_dict.h"
 
 typedef struct nodeList_t{
 	struct comp_tree_t* node;
