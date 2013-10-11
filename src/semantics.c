@@ -11,58 +11,59 @@
 int semanticEvaluation(comp_tree* ast){
 	int result = IKS_SUCCESS;
 	//inserir verificacao das declaracoes
-	result = verifyIdentifier(ast); //uso correto de identificadores
+	//uso correto de identificadores
 	result = astTypeInference(ast); //inserir tipos e tamanho de dados
 	result = astTypeCoercion(ast);//inserir coercao de tipos
-	result = verifyArguments(ast, ast);
 	//inserir verificacao de tipos em comandos
 	return result;
 }
 
+void printError(int errorCode, int line){
+	switch(errorCode){
+		case IKS_ERROR_DECLARED: printf("Erro semantico: identificador já declarado na linha %d\n", line);break;
+		case IKS_ERROR_UNDECLARED: printf("Erro semantico: identificador nao declarado neste escopo\n");break;
+		case IKS_ERROR_VARIABLE: printf("Erro semantico: mal uso da variavel declarada na linha %d\n", line);break;
+		case IKS_ERROR_VECTOR: printf("Erro semantico: mal uso do vetor declarado na linha %d\n", line);break;
+		case IKS_ERROR_FUNCTION: printf("Erro semantico:  mal uso da funcao declarada na linha %d\n", line);break;
+		case IKS_ERROR_MISSING_ARGS: printf("Erro semantico: faltam argumentos para funcao declarada na linha %d\n", line);break;
+		case IKS_ERROR_EXCESS_ARGS: printf("Erro semantico: sobram argumentos para funcao declarada na linha %d\n", line);break;
+		case IKS_ERROR_WRONG_TYPE_ARGS:printf("Erro semantico: argumentos incompatíveis para funcao declarada na linha %d\n", line);break;
+	}
+	if(errorCode != IKS_SUCCESS)
+		;//exit(errorCode);
+}
+
+int verifyDeclaration(comp_dict_item_t* decl){
+	if(localScope == NULL && decl->scope != NULL) //acessando declaracao local no escopo global
+		return IKS_ERROR_UNDECLARED;
+	if(decl->scope != localScope) //acessando variavel local de outra funcao
+		return IKS_ERROR_UNDECLARED;
+	if(decl->scope == localScope && decl->usage != ID_NAO_DECLARADO){
+		if(localScope != NULL){
+			if(dict_find(localScope->ast_node->args, decl->text) != NULL)
+				return IKS_ERROR_DECLARED;
+		}
+		else if(dict_find(dictionary, decl->text) != NULL)
+				return IKS_ERROR_DECLARED;
+	}
+	return IKS_SUCCESS;
+}
 
 /**
  * Funcao de verificacao do uso correto dos identificadores,
  * eh necessario que ja tenha ocorrida a verificacao de suas declaracoes
  * e de escopo
  */
-int verifyIdentifier(comp_tree* ast){
-	if(ast==NULL)
-		return IKS_SUCCESS;
-	comp_tree* aux = ast;
-	nodeList* auxList;
-	int result = IKS_SUCCESS;
-	while(aux != NULL){
-		auxList = aux->sonList;
-		//processing current node
-		if(aux->type == IKS_AST_VETOR_INDEXADO){
-			if(auxList->node->symbol->usage != ID_VETOR)
-				return IKS_ERROR_VECTOR;
-		}
-		else if(aux->type == IKS_AST_CHAMADA_DE_FUNCAO){
-			if(auxList->node->symbol->usage != ID_FUNCAO)
-				return IKS_ERROR_FUNCTION;
-		}
-		else if(aux->father != NULL
-							&& aux->type == IKS_AST_IDENTIFICADOR
-							&& aux->father->type != IKS_AST_VETOR_INDEXADO
-							&& aux->father->type != IKS_AST_CHAMADA_DE_FUNCAO){
-			if(aux->symbol->usage != ID_VARIAVEL)
-				return IKS_ERROR_VARIABLE;
-		}
-		//processing all sons
-		while(auxList!=NULL){
-			if(auxList->node!=NULL){
-				result = verifyIdentifier(auxList->node);
-				if(result != IKS_SUCCESS)
-					return result;
-			}
-			auxList = auxList->next;
-		}
-
-		//go to next brother
-		aux = aux->broList;
+int verifyIdentifier(comp_dict_item_t* id, int usingAs){
+	if(id->usage != usingAs){
+		if(id->usage == ID_VARIAVEL)
+			return IKS_ERROR_VARIABLE;
+		else if(id->usage == ID_VETOR)
+			return IKS_ERROR_VECTOR;
+		else if(id->usage == ID_FUNCAO)
+			return IKS_ERROR_FUNCTION;
 	}
-	return IKS_SUCCESS;
+	else return IKS_SUCCESS;
 }
 
 /**
@@ -442,6 +443,9 @@ int verifySimpleCommand(comp_tree* ast){
 	}
 }
 
+/**
+ * Funcao de verificacao do uso correto dos parametros nas chamadas de funcao
+ */
 int verifyGivenParameters(comp_tree* func, comp_tree* call){
     if(func != NULL){
 		nodeList* firstSon = call->sonList->next;
@@ -469,40 +473,4 @@ int verifyGivenParameters(comp_tree* func, comp_tree* call){
 		else if(firstSon == NULL && declaredArguments != NULL)
 			return IKS_ERROR_MISSING_ARGS;
 	}
-}
-/**
- * Funcao de verificacao do uso correto dos parametros nas chamadas de funcao
- */
-int verifyArguments(comp_tree* ast, comp_tree* fullTree){
-	if(ast==NULL)
-		return IKS_SUCCESS;
-	comp_tree* aux = ast;
-	nodeList* auxList;
-	comp_tree* auxBrother;
-	int result = IKS_SUCCESS;
-
-	while(aux != NULL){
-		auxList = aux->sonList;
-		//processing current node
-		if(aux->type == IKS_AST_CHAMADA_DE_FUNCAO){
-			currentFunction = tree_SearchNode(fullTree, aux->sonList->node->symbol, IKS_AST_FUNCAO);
-			if(currentFunction != NULL)
-				result = verifyGivenParameters(currentFunction, aux);
-			if(result != IKS_SUCCESS)
-					return result;
-		}
-		//processing all sons
-		while(auxList!=NULL){
-			if(auxList->node!=NULL){
-				result = verifyArguments(auxList->node, fullTree);
-				if(result != IKS_SUCCESS)
-					return result;
-			}
-			auxList = auxList->next;
-		}
-
-		//go to next brother
-		aux = aux->broList;
-	}
-	return IKS_SUCCESS;
 }
