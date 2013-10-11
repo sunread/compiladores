@@ -182,7 +182,7 @@ void dict_print(comp_dict_t* dict)
 		while(dict != NULL){
 			if(dict->item->scope!=NULL)
 				printf("%4.d %7.d %9.d %4.d \t%s \t%s\n", dict->item->lineNumber, dict->item->type, dict->item->size, dict->item->usage, dict->item->scope->text, dict->item->text);
-			else printf("%4.d %7.d %9.d %4.d \t%s \t%s\n", dict->item->lineNumber, dict->item->type, dict->item->size, dict->item->usage, dict->item->scope, dict->item->text);
+			else printf("%4.d %7.d %9.d %4.d \tGLOBAL \t%s\n", dict->item->lineNumber, dict->item->type, dict->item->size, dict->item->usage, dict->item->text);
 			dict = dict->next;
 		}
 	}
