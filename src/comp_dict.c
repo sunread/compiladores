@@ -133,6 +133,7 @@ comp_dict_item_t_p dict_insert(comp_dict_t_p *dict, char *text, int type, int li
 		newReg->item->type = type;
 		newReg->item->usage = ID_NAO_DECLARADO;
 		newReg->item->lineNumber = lineNumber;
+		newReg->item->scope = NULL;
 		*dict = dict_insertEnd(*dict, newReg);
 
 		return newItem;

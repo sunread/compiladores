@@ -91,15 +91,19 @@
 
 %%
  /* Regras (e ações) da gramática da Linguagem IKS */
- p: programa {$$ = tree_CreateNode(IKS_AST_PROGRAMA, NULL); ast = $$; tree_AddSon($$, 1, $1);};
+ p: programa {$$ = tree_CreateNode(IKS_AST_PROGRAMA, NULL); ast = $$; localScope = NULL; tree_AddSon($$, 1, $1);};
 
- programa : dec_global programa {$$ = $2;}
-			| dec_funcao programa {$$ = $1; tree_AddBro($$, $2);}
+ programa : dec_global {localScope = NULL;} programa {$$ = $3;}
+			| dec_funcao {localScope = NULL;} programa {$$ = $1; tree_AddBro($$, $3);}
 			| {$$ = NULL;};
 
  tipo_variavel : TK_PR_INT {$$=IKS_INT;} | TK_PR_FLOAT {$$=IKS_FLOAT;} | TK_PR_BOOL {$$=IKS_BOOL;} | TK_PR_CHAR {$$=IKS_CHAR;} | TK_PR_STRING {$$=IKS_STRING;};
  dec_global : dec_variavel ';' | dec_vetor ';' ;
- dec_variavel : tipo_variavel ':' TK_IDENTIFICADOR {$3->usage = ID_VARIAVEL;
+ dec_variavel : tipo_variavel ':' TK_IDENTIFICADOR {$3->scope = localScope;
+													printError(verifyDeclaration($3), $3->lineNumber);
+													$3->usage = ID_VARIAVEL;
+													if(localScope!=NULL)
+														localScope->ast_node->args = dict_insertEnd(localScope->ast_node->args,dict_argInsert($3));
                                                      switch($1){
                                                         case IKS_INT : $3->type = IKS_INT; $3->size =IKS_INT_SIZE; break;
                                                         case IKS_FLOAT: $3->type = IKS_FLOAT; $3->size = IKS_FLOAT_SIZE; break;
@@ -108,7 +112,11 @@
                                                         case IKS_STRING: $3->type = IKS_STRING; $3->size = IKS_CHAR_SIZE; break; }
                                                     } ;
 
- dec_vetor : tipo_variavel ':' TK_IDENTIFICADOR '[' TK_LIT_INT ']' {$3->usage = ID_VETOR;
+ dec_vetor : tipo_variavel ':' TK_IDENTIFICADOR '[' TK_LIT_INT ']' {$3->scope = localScope;
+																	printError(verifyDeclaration($3), $3->lineNumber);
+																	$3->usage = ID_VETOR;
+																	if(localScope!=NULL)
+																		localScope->ast_node->args = dict_insertEnd(localScope->ast_node->args,dict_argInsert($3));
                                                                      switch($1){
                                                                         case IKS_INT : $3->type = IKS_INT; $3->size =IKS_INT_SIZE*$5->value.i; break;
                                                                         case IKS_FLOAT: $3->type = IKS_FLOAT; $3->size = IKS_FLOAT_SIZE*$5->value.i; break;
@@ -118,11 +126,14 @@
                                                                     };
 
 
- dec_funcao :cabecalho dec_local corpo {$$ = $1; currentFunction = $$; tree_AddSon($$, 1, $3);};
+ dec_funcao :cabecalho dec_local corpo {$$ = $1; tree_AddSon($$, 1, $3);};
 
  cabecalho : tipo_variavel ':' TK_IDENTIFICADOR '(' lista_param ')'	{$$ = tree_CreateNode(IKS_AST_FUNCAO, $3);parent = $$;
+																		$3->scope = localScope;
+																		printError(verifyDeclaration($3), $3->lineNumber);
 																		$3->usage = ID_FUNCAO;
 																		$3->ast_node = $$;
+																		localScope = $3;
                                                                         switch($1){
                                                                             case IKS_INT : $3->type = IKS_INT; $3->size =IKS_INT_SIZE; break;
                                                                             case IKS_FLOAT: $3->type = IKS_FLOAT; $3->size = IKS_FLOAT_SIZE; break;
@@ -163,12 +174,18 @@
 			| chamada 		{$$ = $1;};
 
 
- atribuicao : TK_IDENTIFICADOR '=' expressao {$$ = tree_CreateNode(IKS_AST_ATRIBUICAO, NULL); tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3);}
+ atribuicao : TK_IDENTIFICADOR '=' expressao {$$ = tree_CreateNode(IKS_AST_ATRIBUICAO, NULL); 
+												tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3);
+												}
 			| vet_index '=' expressao {$$ = tree_CreateNode(IKS_AST_ATRIBUICAO, NULL); tree_AddSon($$, 2, $1, $3);};
 
- vet_index: TK_IDENTIFICADOR '[' expressao ']' {$$ = tree_CreateNode(IKS_AST_VETOR_INDEXADO, NULL); tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3);};
+ vet_index: TK_IDENTIFICADOR '[' expressao ']' {$$ = tree_CreateNode(IKS_AST_VETOR_INDEXADO, NULL); 
+												tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3);
+												};
 
- input : TK_PR_INPUT TK_IDENTIFICADOR {$$ = tree_CreateNode(IKS_AST_INPUT, NULL); tree_AddSon($$, 1, tree_CreateNode(IKS_AST_IDENTIFICADOR, $2));};
+ input : TK_PR_INPUT TK_IDENTIFICADOR {$$ = tree_CreateNode(IKS_AST_INPUT, NULL);
+										tree_AddSon($$, 1, tree_CreateNode(IKS_AST_IDENTIFICADOR, $2));
+										};
 
  output : TK_PR_OUTPUT lista_expressoes_nao_vazia {$$ = tree_CreateNode(IKS_AST_OUTPUT, NULL); tree_AddSon($$, 1, $2);};
 
@@ -189,8 +206,8 @@
                   TK_PR_DO bloco_comando TK_PR_WHILE '(' expressao ')' {$$ = tree_CreateNode(IKS_AST_DO_WHILE, NULL); tree_AddSon($$, 2, $2, $5);}|
                   TK_PR_DO ';' TK_PR_WHILE '(' expressao ')' {$$ = tree_CreateNode(IKS_AST_DO_WHILE, NULL); tree_AddSon($$, 1, $5);};
 
- expressao : TK_IDENTIFICADOR {$$  = tree_CreateNode(IKS_AST_IDENTIFICADOR, $1);}
-| TK_IDENTIFICADOR '[' expressao ']' {$$  = tree_CreateNode(IKS_AST_VETOR_INDEXADO, $1); tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3);}
+ expressao : TK_IDENTIFICADOR {$$  = tree_CreateNode(IKS_AST_IDENTIFICADOR, $1);printError(verifyIdentifier($1, ID_VARIAVEL), $1->lineNumber);}
+| TK_IDENTIFICADOR '[' expressao ']' {$$  = tree_CreateNode(IKS_AST_VETOR_INDEXADO, $1); tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3);printError(verifyIdentifier($1, ID_VETOR), $1->lineNumber);}
 | TK_LIT_INT {$$  = tree_CreateNode(IKS_AST_LITERAL, $1);}
 | TK_LIT_FLOAT {$$  = tree_CreateNode(IKS_AST_LITERAL, $1);}
 | TK_LIT_FALSE {$$  = tree_CreateNode(IKS_AST_LITERAL, $1);}
@@ -216,12 +233,9 @@
 ;
 
 chamada: TK_IDENTIFICADOR '(' lista_expressoes ')' {$$ = tree_CreateNode(IKS_AST_CHAMADA_DE_FUNCAO, NULL); tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3);
-													errorCode = verifyGivenParameters($1->ast_node, $$);
-													switch(errorCode){
-														case IKS_ERROR_MISSING_ARGS: printf("Erro semantico: faltam argumentos\n");break;
-														case IKS_ERROR_EXCESS_ARGS: printf("Erro semantico: sobram argumentos\n");break;
-														case IKS_ERROR_WRONG_TYPE_ARGS:printf("Erro semantico: argumentos incompatíveis\n");break;
-													}};
+													printError(verifyIdentifier($1, ID_FUNCAO), $1->lineNumber);
+													printError(verifyGivenParameters($1->ast_node, $$), $1->lineNumber);
+													};
 
  lista_expressoes : lista_expressoes_nao_vazia {$$ = $1;}| {$$ = NULL;};
 

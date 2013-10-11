@@ -52,10 +52,10 @@
 #define IKS_ERROR_WRONG_PAR_OUTPUT 13 //parâmetro não é literal string ou expressão
 #define IKS_ERROR_WRONG_PAR_RETURN 14 //parâmetro não é expressão compatível com tipo do retorno
 
-comp_tree* currentFunction;
-int errorCode;
+comp_dict_item_t* localScope; //so pode receber ponteiros para a entrada de simbolos de funcoes
+void printError(int, int);
 int semanticEvaluation(comp_tree* ast);
-int verifyIdentifier(comp_tree*);
+int verifyIdentifier(comp_dict_item_t*, int);
 int verifyArguments(comp_tree*, comp_tree*);
 int verifyGivenParameters(comp_tree*, comp_tree*);
 #endif
