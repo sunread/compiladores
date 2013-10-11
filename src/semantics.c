@@ -65,6 +65,10 @@ int verifyIdentifier(comp_tree* ast){
 	return IKS_SUCCESS;
 }
 
+/**
+    typeInference
+    Infere um tipo baseado em outros dois passados
+*/
 int typeInference(int firstType, int secondType)
 {
     if(firstType == IKS_INT && secondType == IKS_INT)
@@ -93,6 +97,10 @@ int typeInference(int firstType, int secondType)
     }
 }
 
+/**
+    printType
+    Imprime o nome do tipo de acordo com o parâmetro passado
+*/
 const char* printType(int type)
 {
     if(type == IKS_INT)
@@ -117,37 +125,48 @@ const char* printType(int type)
     }
 }
 
+/**
+    aritmeticInference
+    Infere o tipo das expressões aritméticas
+*/
 int aritmeticInference(comp_tree* aux)
 {
+
      if(aux->sonList->node->type == IKS_AST_CHAMADA_DE_FUNCAO)
      {
-         aux->dataType = aux->sonList->node->sonList->node->symbol->type;
+         aux->dataType = aux->sonList->node->sonList->node->dataType;
      }
      else if(aux->sonList->next->node->type == IKS_AST_CHAMADA_DE_FUNCAO)
      {
-         aux->dataType = aux->sonList->next->node->sonList->node->symbol->type;
+         aux->dataType = aux->sonList->next->node->sonList->node->dataType;
      }
      else if(aux->sonList->node->type == IKS_AST_ARIM_INVERSAO || aux->sonList->next->node->type == IKS_AST_ARIM_INVERSAO)
      {
-         aux->dataType == aux->sonList->node->type;
+         aux->dataType = aux->sonList->node->dataType;
      }
      else
      {
-         aux->dataType = typeInference(aux->sonList->node->symbol->type, aux->sonList->next->node->symbol->type);
+         aux->dataType = typeInference(aux->sonList->node->dataType, aux->sonList->next->node->dataType);
      }
 }
 
+/**
+    astTypeInference
+    Infere dos nós da árvore
+*/
 int astTypeInference(comp_tree* ast){
+
 	if(ast==NULL)
-		return IKS_SUCCESS;
-	comp_tree* aux = ast;
-	nodeList* auxList;
-	int result = IKS_SUCCESS;
-	int firstType;
-	int secondType;
-	while(aux != NULL){
-		auxList = aux->sonList;
-		//processing current node
+	{
+	    return IKS_SUCCESS;
+	}
+    else
+    {
+        comp_tree* aux = ast;
+        int firstType;
+        int secondType;
+
+        // Processing current node
 
         if(aux->type == IKS_AST_LITERAL)
 		{
@@ -159,7 +178,15 @@ int astTypeInference(comp_tree* ast){
 		}
 		else if(aux->type == IKS_AST_CHAMADA_DE_FUNCAO)
 		{
-            aux->dataType == aux->sonList->node->symbol->type;
+            aux->dataType = aux->sonList->node->dataType;
+		}
+		else if(aux->type == IKS_AST_ATRIBUICAO)
+		{
+            aux->dataType = aux->sonList->node->dataType;
+		}
+		else if(aux->type == IKS_AST_VETOR_INDEXADO)
+		{
+            aux->dataType = aux->sonList->node->dataType;
 		}
 		else if(aux->type == IKS_AST_ARIM_SOMA)
 		{
@@ -175,7 +202,7 @@ int astTypeInference(comp_tree* ast){
 		}
 		else if(aux->type == IKS_AST_ARIM_INVERSAO)
 		{
-		    aux->dataType = aux->sonList->node->symbol->type;
+		    aux->dataType = aux->sonList->node->dataType;
 		}
 		else if(aux->type == IKS_AST_LOGICO_E)
 		{
@@ -214,21 +241,8 @@ int astTypeInference(comp_tree* ast){
 		    aux->dataType = IKS_BOOL;
 		}
 
-
-		//processing all sons
-		while(auxList!=NULL){
-			if(auxList->node!=NULL){
-				result = astTypeInference(auxList->node);
-				if(result != IKS_SUCCESS)
-					return result;
-			}
-			auxList = auxList->next;
-		}
-
-		//go to next brother
-		aux = aux->broList;
-	}
-	return IKS_SUCCESS;
+		return IKS_SUCCESS;
+    }
 }
 
 int astTypeCoercion(comp_tree* ast){
@@ -240,7 +254,7 @@ int astTypeCoercion(comp_tree* ast){
 	while(aux != NULL){
 		auxList = aux->sonList;
 		//processing current node
-        
+
 		if(aux->type == IKS_AST_ARIM_SOMA)
 		{
             aux->dataType = typeInference(aux->sonList->node->symbol->type, aux->sonList->next->node->symbol->type);
@@ -306,7 +320,7 @@ int astTypeCoercion(comp_tree* ast){
 		{
 		    aux->dataType = IKS_BOOL;
 		}
-        
+
 		//processing all sons
 		while(auxList!=NULL){
 			if(auxList->node!=NULL){
@@ -316,12 +330,12 @@ int astTypeCoercion(comp_tree* ast){
 			}
 			auxList = auxList->next;
 		}
-        
+
 		//go to next brother
 		aux = aux->broList;
 	}
 	return IKS_SUCCESS;
-    
+
 }
 
 
@@ -436,7 +450,7 @@ int verifyGivenParameters(comp_tree* func, comp_tree* call){
 			if(declaredArguments->item->type != firstSon->node->dataType)
 				return IKS_ERROR_WRONG_TYPE_ARGS;
 			declaredArguments = declaredArguments->next;
-			comp_tree* brothers = firstSon->node->broList;    
+			comp_tree* brothers = firstSon->node->broList;
 			while(brothers!=NULL){
 				if(declaredArguments != NULL){
 					if(declaredArguments->item->type != brothers->dataType)

@@ -163,10 +163,10 @@
 			| chamada 		{$$ = $1;};
 
 
- atribuicao : TK_IDENTIFICADOR '=' expressao {$$ = tree_CreateNode(IKS_AST_ATRIBUICAO, NULL); tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3);}
-			| vet_index '=' expressao {$$ = tree_CreateNode(IKS_AST_ATRIBUICAO, NULL); tree_AddSon($$, 2, $1, $3);};
+ atribuicao : TK_IDENTIFICADOR '=' expressao {$$ = tree_CreateNode(IKS_AST_ATRIBUICAO, NULL); tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3); astTypeInference($$);}
+			| vet_index '=' expressao {$$ = tree_CreateNode(IKS_AST_ATRIBUICAO, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$);};
 
- vet_index: TK_IDENTIFICADOR '[' expressao ']' {$$ = tree_CreateNode(IKS_AST_VETOR_INDEXADO, NULL); tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3);};
+ vet_index: TK_IDENTIFICADOR '[' expressao ']' {$$ = tree_CreateNode(IKS_AST_VETOR_INDEXADO, NULL); tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3); astTypeInference($$);};
 
  input : TK_PR_INPUT TK_IDENTIFICADOR {$$ = tree_CreateNode(IKS_AST_INPUT, NULL); tree_AddSon($$, 1, tree_CreateNode(IKS_AST_IDENTIFICADOR, $2));};
 
@@ -189,33 +189,34 @@
                   TK_PR_DO bloco_comando TK_PR_WHILE '(' expressao ')' {$$ = tree_CreateNode(IKS_AST_DO_WHILE, NULL); tree_AddSon($$, 2, $2, $5);}|
                   TK_PR_DO ';' TK_PR_WHILE '(' expressao ')' {$$ = tree_CreateNode(IKS_AST_DO_WHILE, NULL); tree_AddSon($$, 1, $5);};
 
- expressao : TK_IDENTIFICADOR {$$  = tree_CreateNode(IKS_AST_IDENTIFICADOR, $1);}
-| TK_IDENTIFICADOR '[' expressao ']' {$$  = tree_CreateNode(IKS_AST_VETOR_INDEXADO, $1); tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3);}
-| TK_LIT_INT {$$  = tree_CreateNode(IKS_AST_LITERAL, $1);}
-| TK_LIT_FLOAT {$$  = tree_CreateNode(IKS_AST_LITERAL, $1);}
-| TK_LIT_FALSE {$$  = tree_CreateNode(IKS_AST_LITERAL, $1);}
-| TK_LIT_TRUE {$$  = tree_CreateNode(IKS_AST_LITERAL, $1);}
-| TK_LIT_CHAR {$$  = tree_CreateNode(IKS_AST_LITERAL, $1);}
-| TK_LIT_STRING {$$  = tree_CreateNode(IKS_AST_LITERAL, $1);}
-| expressao '+' expressao {$$ = tree_CreateNode(IKS_AST_ARIM_SOMA, NULL); tree_AddSon($$, 2, $1, $3);}
-| expressao '-' expressao {$$ = tree_CreateNode(IKS_AST_ARIM_SUBTRACAO, NULL); tree_AddSon($$, 2, $1, $3);}
-| '-' expressao {$$ = tree_CreateNode(IKS_AST_ARIM_INVERSAO, NULL); tree_AddSon($$, 1, $2);}
-| '!' expressao {$$ = tree_CreateNode(IKS_AST_LOGICO_COMP_NEGACAO, NULL); tree_AddSon($$, 1, $2);}
-| expressao '*' expressao {$$ = tree_CreateNode(IKS_AST_ARIM_MULTIPLICACAO, NULL); tree_AddSon($$, 2, $1, $3);}
-| expressao '/' expressao {$$ = tree_CreateNode(IKS_AST_ARIM_DIVISAO, NULL); tree_AddSon($$, 2, $1, $3);}
-| expressao '<' expressao {$$ = tree_CreateNode(IKS_AST_LOGICO_COMP_L, NULL); tree_AddSon($$, 2, $1, $3);}
-| expressao '>' expressao {$$ = tree_CreateNode(IKS_AST_LOGICO_COMP_G, NULL); tree_AddSon($$, 2, $1, $3);}
+ expressao : TK_IDENTIFICADOR {$$  = tree_CreateNode(IKS_AST_IDENTIFICADOR, $1); astTypeInference($$);}
+| TK_IDENTIFICADOR '[' expressao ']' {$$  = tree_CreateNode(IKS_AST_VETOR_INDEXADO, $1); tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3); astTypeInference($$);}
+| TK_LIT_INT {$$  = tree_CreateNode(IKS_AST_LITERAL, $1); astTypeInference($$);}
+| TK_LIT_FLOAT {$$  = tree_CreateNode(IKS_AST_LITERAL, $1); astTypeInference($$);}
+| TK_LIT_FALSE {$$  = tree_CreateNode(IKS_AST_LITERAL, $1); astTypeInference($$);}
+| TK_LIT_TRUE {$$  = tree_CreateNode(IKS_AST_LITERAL, $1); astTypeInference($$);}
+| TK_LIT_CHAR {$$  = tree_CreateNode(IKS_AST_LITERAL, $1); astTypeInference($$);}
+| TK_LIT_STRING {$$  = tree_CreateNode(IKS_AST_LITERAL, $1); astTypeInference($$);}
+| expressao '+' expressao {$$ = tree_CreateNode(IKS_AST_ARIM_SOMA, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$);}
+| expressao '-' expressao {$$ = tree_CreateNode(IKS_AST_ARIM_SUBTRACAO, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$);}
+| '-' expressao {$$ = tree_CreateNode(IKS_AST_ARIM_INVERSAO, NULL); tree_AddSon($$, 1, $2); astTypeInference($$);}
+| '!' expressao {$$ = tree_CreateNode(IKS_AST_LOGICO_COMP_NEGACAO, NULL); tree_AddSon($$, 1, $2); astTypeInference($$);}
+| expressao '*' expressao {$$ = tree_CreateNode(IKS_AST_ARIM_MULTIPLICACAO, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$);}
+| expressao '/' expressao {$$ = tree_CreateNode(IKS_AST_ARIM_DIVISAO, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$);}
+| expressao '<' expressao {$$ = tree_CreateNode(IKS_AST_LOGICO_COMP_L, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$);}
+| expressao '>' expressao {$$ = tree_CreateNode(IKS_AST_LOGICO_COMP_G, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$);}
 | '(' expressao ')' {$$ = $2;}
-| expressao TK_OC_LE expressao {$$ = tree_CreateNode(IKS_AST_LOGICO_COMP_LE, NULL); tree_AddSon($$, 2, $1, $3);}
-| expressao TK_OC_GE expressao {$$ = tree_CreateNode(IKS_AST_LOGICO_COMP_GE, NULL); tree_AddSon($$, 2, $1, $3);}
-| expressao TK_OC_EQ expressao {$$ = tree_CreateNode(IKS_AST_LOGICO_COMP_IGUAL, NULL); tree_AddSon($$, 2, $1, $3);}
-| expressao TK_OC_NE expressao {$$ = tree_CreateNode(IKS_AST_LOGICO_COMP_DIF, NULL); tree_AddSon($$, 2, $1, $3);}
-| expressao TK_OC_AND expressao {$$ = tree_CreateNode(IKS_AST_LOGICO_E, NULL); tree_AddSon($$, 2, $1, $3);}
-| expressao TK_OC_OR expressao {$$ = tree_CreateNode(IKS_AST_LOGICO_OU, NULL); tree_AddSon($$, 2, $1, $3);}
+| expressao TK_OC_LE expressao {$$ = tree_CreateNode(IKS_AST_LOGICO_COMP_LE, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$);}
+| expressao TK_OC_GE expressao {$$ = tree_CreateNode(IKS_AST_LOGICO_COMP_GE, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$);}
+| expressao TK_OC_EQ expressao {$$ = tree_CreateNode(IKS_AST_LOGICO_COMP_IGUAL, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$);}
+| expressao TK_OC_NE expressao {$$ = tree_CreateNode(IKS_AST_LOGICO_COMP_DIF, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$);}
+| expressao TK_OC_AND expressao {$$ = tree_CreateNode(IKS_AST_LOGICO_E, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$);}
+| expressao TK_OC_OR expressao {$$ = tree_CreateNode(IKS_AST_LOGICO_OU, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$);}
 | chamada {$$ = $1;}
 ;
 
 chamada: TK_IDENTIFICADOR '(' lista_expressoes ')' {$$ = tree_CreateNode(IKS_AST_CHAMADA_DE_FUNCAO, NULL); tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3);
+                                                    astTypeInference($$);
 													errorCode = verifyGivenParameters($1->ast_node, $$);
 													switch(errorCode){
 														case IKS_ERROR_MISSING_ARGS: printf("Erro semantico: faltam argumentos\n");break;
