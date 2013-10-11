@@ -27,20 +27,22 @@ int semanticEvaluation(comp_tree* ast){
 */
 void printError(int errorCode, int line){
 	switch(errorCode){
-		case IKS_ERROR_DECLARED: printf("Erro semantico na linha %d: identificador já declarado na linha %d\n", getLineNumber(),line);break;
-		case IKS_ERROR_UNDECLARED: printf("Erro semantico na linha %d: identificador nao declarado neste escopo\n", getLineNumber());break;
-		case IKS_ERROR_VARIABLE: printf("Erro semantico na linha %d: mal uso da variavel declarada na linha %d\n", getLineNumber(), line);break;
-		case IKS_ERROR_VECTOR: printf("Erro semantico na linha %d: mal uso do vetor declarado na linha %d\n", getLineNumber(), line);break;
-		case IKS_ERROR_FUNCTION: printf("Erro semantico na linha %d:  mal uso da funcao declarada na linha %d\n", getLineNumber(), line);break;
-		case IKS_ERROR_MISSING_ARGS: printf("Erro semantico na linha %d: faltam argumentos para funcao declarada na linha %d\n", getLineNumber(), line);break;
-		case IKS_ERROR_EXCESS_ARGS: printf("Erro semantico na linha %d: sobram argumentos para funcao declarada na linha %d\n", getLineNumber(), line);break;
-		case IKS_ERROR_WRONG_TYPE_ARGS:printf("Erro semantico na linha %d: argumentos incompatíveis para funcao declarada na linha %d\n", getLineNumber(), line);break;
-		case IKS_ERROR_WRONG_PAR_RETURN: printf("Erro semantico na linha %d: O tipo de retorno é diferente do tipo da função.\n", getLineNumber()); break;
-		case IKS_ERROR_WRONG_PAR_INPUT: printf("Erro semantico na linha %d: O parâmetro do INPUT não é um IDENTIFICADOR.\n", getLineNumber()); break;
-        case IKS_ERROR_WRONG_PAR_OUTPUT: printf("Erro semantico na linha %d: O parâmetro do OUTPUT não é uma STRING ou EXPRESSÃO ARITMÉTICA.\n", getLineNumber()); break;
+		case IKS_ERROR_DECLARED: printf("Erro semântico na linha %d: Identificador já declarado na linha %d\n", getLineNumber(),line);break;
+		case IKS_ERROR_UNDECLARED: printf("Erro semântico na linha %d: Identificador não declarado neste escopo\n", getLineNumber());break;
+		case IKS_ERROR_VARIABLE: printf("Erro semântico na linha %d: Mal uso da variável declarada na linha %d\n", getLineNumber(), line);break;
+		case IKS_ERROR_VECTOR: printf("Erro semântico na linha %d: Mal uso do vetor declarado na linha %d\n", getLineNumber(), line);break;
+		case IKS_ERROR_FUNCTION: printf("Erro semântico na linha %d: Mal uso da função declarada na linha %d\n", getLineNumber(), line);break;
+		case IKS_ERROR_MISSING_ARGS: printf("EErro semântico na linha %d: Faltam argumentos para função declarada na linha %d\n", getLineNumber(), line);break;
+		case IKS_ERROR_EXCESS_ARGS: printf("Erro semântico na linha %d: Sobram argumentos para função declarada na linha %d\n", getLineNumber(), line);break;
+		case IKS_ERROR_WRONG_TYPE_ARGS:printf("Erro semântico na linha %d: Argumentos incompatíveis para função declarada na linha %d\n", getLineNumber(), line);break;
+		case IKS_ERROR_WRONG_PAR_RETURN: printf("Erro semântico na linha %d: O tipo de retorno é diferente do tipo da função.\n", getLineNumber()); break;
+		case IKS_ERROR_WRONG_PAR_INPUT: printf("Erro semântico na linha %d: O parâmetro do INPUT não é um IDENTIFICADOR.\n", getLineNumber()); break;
+        case IKS_ERROR_WRONG_PAR_OUTPUT: printf("Erro semântico na linha %d: O parâmetro do OUTPUT não é uma STRING ou EXPRESSÃO ARITMÉTICA.\n", getLineNumber()); break;
 	}
 	if(errorCode != IKS_SUCCESS)
-		exit(errorCode);
+	{
+	    exit(errorCode);
+	}
 }
 
 /**
