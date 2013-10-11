@@ -20,17 +20,17 @@ int semanticEvaluation(comp_tree* ast){
 
 void printError(int errorCode, int line){
 	switch(errorCode){
-		case IKS_ERROR_DECLARED: printf("Erro semantico: identificador já declarado na linha %d\n", line);break;
-		case IKS_ERROR_UNDECLARED: printf("Erro semantico: identificador nao declarado neste escopo\n");break;
-		case IKS_ERROR_VARIABLE: printf("Erro semantico: mal uso da variavel declarada na linha %d\n", line);break;
-		case IKS_ERROR_VECTOR: printf("Erro semantico: mal uso do vetor declarado na linha %d\n", line);break;
-		case IKS_ERROR_FUNCTION: printf("Erro semantico:  mal uso da funcao declarada na linha %d\n", line);break;
-		case IKS_ERROR_MISSING_ARGS: printf("Erro semantico: faltam argumentos para funcao declarada na linha %d\n", line);break;
-		case IKS_ERROR_EXCESS_ARGS: printf("Erro semantico: sobram argumentos para funcao declarada na linha %d\n", line);break;
-		case IKS_ERROR_WRONG_TYPE_ARGS:printf("Erro semantico: argumentos incompatíveis para funcao declarada na linha %d\n", line);break;
+		case IKS_ERROR_DECLARED: printf("Erro semantico na linha %d: identificador já declarado na linha %d\n", getLineNumber(),line);break;
+		case IKS_ERROR_UNDECLARED: printf("Erro semantico na linha %d: identificador nao declarado neste escopo\n", getLineNumber());break;
+		case IKS_ERROR_VARIABLE: printf("Erro semantico na linha %d: mal uso da variavel declarada na linha %d\n", getLineNumber(), line);break;
+		case IKS_ERROR_VECTOR: printf("Erro semantico na linha %d: mal uso do vetor declarado na linha %d\n", getLineNumber(), line);break;
+		case IKS_ERROR_FUNCTION: printf("Erro semantico na linha %d:  mal uso da funcao declarada na linha %d\n", getLineNumber(), line);break;
+		case IKS_ERROR_MISSING_ARGS: printf("Erro semantico na linha %d: faltam argumentos para funcao declarada na linha %d\n", getLineNumber(), line);break;
+		case IKS_ERROR_EXCESS_ARGS: printf("Erro semantico na linha %d: sobram argumentos para funcao declarada na linha %d\n", getLineNumber(), line);break;
+		case IKS_ERROR_WRONG_TYPE_ARGS:printf("Erro semantico na linha %d: argumentos incompatíveis para funcao declarada na linha %d\n", getLineNumber(), line);break;
 	}
 	if(errorCode != IKS_SUCCESS)
-		;//exit(errorCode);
+		exit(errorCode);
 }
 
 int verifyDeclaration(comp_dict_item_t* decl){

@@ -141,10 +141,10 @@
                                                                             case IKS_CHAR: $3->type = IKS_CHAR; $3->size = IKS_CHAR_SIZE; break;
                                                                             case IKS_STRING: $3->type = IKS_STRING; $3->size = IKS_CHAR_SIZE; break; }
 																		$$->dataType = $3->type;
-																		parent->args = $5;
+																		$$->args = $5;
 																		};
  lista_param : lista_param_nao_vazia {$$ = $1;} | {$$ = NULL;};
- lista_param_nao_vazia : parametro ',' lista_param_nao_vazia {$$ = dict_insertEnd($1, $3);}  | parametro {$$ = $1;};
+ lista_param_nao_vazia : lista_param_nao_vazia ',' parametro {$$ = dict_insertEnd($1, $3);}  | parametro {$$ = $1;};
  parametro : tipo_variavel ':' TK_IDENTIFICADOR {$3->usage = ID_VARIAVEL;
                                                    switch($1){
                                                        case IKS_INT : $3->type = IKS_INT; $3->size =IKS_INT_SIZE; break;
@@ -187,8 +187,8 @@
 												};
 
 
- input : TK_PR_INPUT TK_IDENTIFICADOR {$$ = tree_CreateNode(IKS_AST_INPUT, NULL);
-										tree_AddSon($$, 1, tree_CreateNode(IKS_AST_IDENTIFICADOR, $2));
+ input : TK_PR_INPUT expressao {$$ = tree_CreateNode(IKS_AST_INPUT, NULL);
+										tree_AddSon($$, 1, $2);
 										};
 
  output : TK_PR_OUTPUT lista_expressoes_nao_vazia {$$ = tree_CreateNode(IKS_AST_OUTPUT, NULL); tree_AddSon($$, 1, $2);};
