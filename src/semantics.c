@@ -152,7 +152,7 @@ int aritmeticInference(comp_tree* aux)
 
      if(aux->sonList->node->type == IKS_AST_CHAMADA_DE_FUNCAO)
      {
-         aux->dataType = aux->sonList->node->sonList->node->dataType;
+         aux->dataType = aux->sonList->node->dataType;
      }
      else if(aux->sonList->next->node->type == IKS_AST_CHAMADA_DE_FUNCAO)
      {
@@ -162,10 +162,9 @@ int aritmeticInference(comp_tree* aux)
      {
          aux->dataType = aux->sonList->node->dataType;
      }
-     else
-     {
-         aux->dataType = typeInference(aux->sonList->node->dataType, aux->sonList->next->node->dataType);
-     }
+
+     aux->dataType = typeInference(aux->sonList->node->dataType, aux->sonList->next->node->dataType);
+
 }
 
 /**
