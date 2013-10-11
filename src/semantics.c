@@ -7,7 +7,10 @@
 
 #include "semantics.h"
 
-
+/**
+**  semanticEvaluation
+**  Chama as funções que realizam a verificação semântica
+*/
 int semanticEvaluation(comp_tree* ast){
 	int result = IKS_SUCCESS;
 	//inserir verificacao das declaracoes
@@ -19,8 +22,8 @@ int semanticEvaluation(comp_tree* ast){
 }
 
 /**
-    printError
-    Imprime o erro
+**  printError
+**  Imprime a mensagem de erro de acordo com o erro passado
 */
 void printError(int errorCode, int line){
 	switch(errorCode){
@@ -40,6 +43,10 @@ void printError(int errorCode, int line){
 		exit(errorCode);
 }
 
+/**
+**   verifyDeclaration
+**   Verificação das declarações
+*/
 int verifyDeclaration(comp_dict_item_t* decl){
 	if(localScope == NULL && decl->scope != NULL) //acessando declaracao local no escopo global
 		return IKS_ERROR_UNDECLARED;
@@ -56,11 +63,12 @@ int verifyDeclaration(comp_dict_item_t* decl){
 	return IKS_SUCCESS;
 }
 
+
 /**
- * Funcao de verificacao do uso correto dos identificadores,
- * eh necessario que ja tenha ocorrida a verificacao de suas declaracoes
- * e de escopo
- */
+**   verifyIdentifier
+**   Função de verificação do uso correto dos identificadores, é necessário que já tenha ocorrida
+**   a verificação de suas declarações e escopo.
+*/
 int verifyIdentifier(comp_dict_item_t* id, int usingAs){
 	if(id->usage != usingAs){
 		if(id->usage == ID_VARIAVEL)
@@ -74,8 +82,8 @@ int verifyIdentifier(comp_dict_item_t* id, int usingAs){
 }
 
 /**
-    typeInference
-    Infere um tipo baseado em outros dois passados
+**  typeInference
+**  Infere um tipo baseado em outros dois passados
 */
 int typeInference(int firstType, int secondType)
 {
@@ -106,8 +114,8 @@ int typeInference(int firstType, int secondType)
 }
 
 /**
-    printType
-    Imprime o nome do tipo de acordo com o parâmetro passado
+**  printType
+**  Imprime o nome do tipo de acordo com o parâmetro passado
 */
 const char* printType(int type)
 {
@@ -134,8 +142,8 @@ const char* printType(int type)
 }
 
 /**
-    aritmeticInference
-    Infere o tipo das expressões aritméticas
+**  aritmeticInference
+**  Infere o tipo das expressões aritméticas
 */
 int aritmeticInference(comp_tree* aux)
 {
@@ -159,8 +167,8 @@ int aritmeticInference(comp_tree* aux)
 }
 
 /**
-    astTypeInference
-    Infere dos nós da árvore
+**  astTypeInference
+**  Infere dos nós da árvore
 */
 int astTypeInference(comp_tree* ast){
 
@@ -256,6 +264,10 @@ int astTypeInference(comp_tree* ast){
     }
 }
 
+/**
+**  astTypeCoercion
+**  Realiza a coerção dos tipos
+*/
 int astTypeCoercion(comp_tree* ast){
     if(ast==NULL)
 		return IKS_SUCCESS;
@@ -350,8 +362,8 @@ int astTypeCoercion(comp_tree* ast){
 }
 
 /**
-    isAritmeticExpression
-    Retorna 1 se o tipo é expressão aritmética e 0 caso contrário
+**  isAritmeticExpression
+**  Retorna 1 se o tipo é expressão aritmética e 0 caso contrário
 */
 int isAritmeticExpression(int type)
 {
@@ -382,8 +394,8 @@ int isAritmeticExpression(int type)
 }
 
 /**
-    verifySimpleCommand
-    Verifica a semântica dos comandos simples da linguagem
+**  verifySimpleCommand
+**  Verifica a semântica dos comandos simples da linguagem
 */
 int verifySimpleCommand(comp_tree* ast, int functionType){
 
@@ -449,9 +461,11 @@ int verifySimpleCommand(comp_tree* ast, int functionType){
 	}
 }
 
+
 /**
- * Funcao de verificacao do uso correto dos parametros nas chamadas de funcao
- */
+**  verifyGivenParameters
+**  Verifica o uso correto dos parâmetros nas chamadas de função
+*/
 int verifyGivenParameters(comp_tree* func, comp_tree* call){
     if(func != NULL){
 		nodeList* firstSon = call->sonList->next;
