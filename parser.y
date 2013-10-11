@@ -104,12 +104,7 @@
 													$3->usage = ID_VARIAVEL;
 													if(localScope!=NULL)
 														localScope->ast_node->args = dict_insertEnd(localScope->ast_node->args,dict_argInsert($3));
-                                                     switch($1){
-                                                        case IKS_INT : $3->type = IKS_INT; $3->size =IKS_INT_SIZE; break;
-                                                        case IKS_FLOAT: $3->type = IKS_FLOAT; $3->size = IKS_FLOAT_SIZE; break;
-                                                        case IKS_BOOL: $3->type = IKS_BOOL; $3->size = IKS_BOOL_SIZE; break;
-                                                        case IKS_CHAR: $3->type = IKS_CHAR; $3->size = IKS_CHAR_SIZE; break;
-                                                        case IKS_STRING: $3->type = IKS_STRING; $3->size = IKS_CHAR_SIZE; break; }
+                                                     setType($1,$3);
                                                     } ;
 
  dec_vetor : tipo_variavel ':' TK_IDENTIFICADOR '[' TK_LIT_INT ']' {$3->scope = localScope;
@@ -117,12 +112,7 @@
 																	$3->usage = ID_VETOR;
 																	if(localScope!=NULL)
 																		localScope->ast_node->args = dict_insertEnd(localScope->ast_node->args,dict_argInsert($3));
-                                                                     switch($1){
-                                                                        case IKS_INT : $3->type = IKS_INT; $3->size =IKS_INT_SIZE*$5->value.i; break;
-                                                                        case IKS_FLOAT: $3->type = IKS_FLOAT; $3->size = IKS_FLOAT_SIZE*$5->value.i; break;
-                                                                        case IKS_BOOL: $3->type = IKS_BOOL; $3->size = IKS_BOOL_SIZE*$5->value.i; break;
-                                                                        case IKS_CHAR: $3->type = IKS_CHAR; $3->size = IKS_CHAR_SIZE*$5->value.i; break;
-                                                                        case IKS_STRING: $3->type = IKS_STRING; $3->size = IKS_CHAR_SIZE*$5->value.i; break; }
+                                                                     setType($1,$3);
                                                                     };
 
 
@@ -134,12 +124,7 @@
 																		$3->usage = ID_FUNCAO;
 																		$3->ast_node = $$;
 																		localScope = $3;
-                                                                        switch($1){
-                                                                            case IKS_INT : $3->type = IKS_INT; $3->size =IKS_INT_SIZE; break;
-                                                                            case IKS_FLOAT: $3->type = IKS_FLOAT; $3->size = IKS_FLOAT_SIZE; break;
-                                                                            case IKS_BOOL: $3->type = IKS_BOOL; $3->size = IKS_BOOL_SIZE; break;
-                                                                            case IKS_CHAR: $3->type = IKS_CHAR; $3->size = IKS_CHAR_SIZE; break;
-                                                                            case IKS_STRING: $3->type = IKS_STRING; $3->size = IKS_CHAR_SIZE; break; }
+                                                                        setType($1,$3);
 																		$$->dataType = $3->type;
 																		functionType = $3->type;
 																		$$->args = $5;
@@ -148,12 +133,7 @@
  lista_param : lista_param_nao_vazia {$$ = $1;} | {$$ = NULL;};
  lista_param_nao_vazia : lista_param_nao_vazia ',' parametro {$$ = dict_insertEnd($1, $3);}  | parametro {$$ = $1;};
  parametro : tipo_variavel ':' TK_IDENTIFICADOR {$3->usage = ID_VARIAVEL;
-                                                   switch($1){
-                                                       case IKS_INT : $3->type = IKS_INT; $3->size =IKS_INT_SIZE; break;
-                                                       case IKS_FLOAT: $3->type = IKS_FLOAT; $3->size = IKS_FLOAT_SIZE; break;
-                                                       case IKS_BOOL: $3->type = IKS_BOOL; $3->size = IKS_BOOL_SIZE; break;
-                                                       case IKS_CHAR: $3->type = IKS_CHAR; $3->size = IKS_CHAR_SIZE; break;
-                                                       case IKS_STRING: $3->type = IKS_STRING; $3->size = IKS_CHAR_SIZE; break; };
+                                                setType($1,$3);
 												$$ = dict_argInsert($3);
                                                 };
  dec_local : dec_variavel ';' dec_local	| ;
@@ -179,12 +159,14 @@
 
  atribuicao : TK_IDENTIFICADOR '=' expressao {$$ = tree_CreateNode(IKS_AST_ATRIBUICAO, NULL);
 												tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3);
+												printError(verifyIdentifier($1, ID_VARIAVEL), $1->lineNumber);
 												astTypeInference($$);
 												}
 			| vet_index '=' expressao {$$ = tree_CreateNode(IKS_AST_ATRIBUICAO, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$);};
 
  vet_index: TK_IDENTIFICADOR '[' expressao ']' {$$ = tree_CreateNode(IKS_AST_VETOR_INDEXADO, NULL);
 												tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3);
+												printError(verifyIdentifier($1, ID_VETOR), $1->lineNumber);
 												astTypeInference($$);
 												};
 
@@ -213,8 +195,8 @@
                   TK_PR_DO bloco_comando TK_PR_WHILE '(' expressao ')' {$$ = tree_CreateNode(IKS_AST_DO_WHILE, NULL); tree_AddSon($$, 2, $2, $5);}|
                   TK_PR_DO ';' TK_PR_WHILE '(' expressao ')' {$$ = tree_CreateNode(IKS_AST_DO_WHILE, NULL); tree_AddSon($$, 1, $5);};
 
- expressao : TK_IDENTIFICADOR {$$  = tree_CreateNode(IKS_AST_IDENTIFICADOR, $1); printError(verifyIdentifier($1, ID_VARIAVEL), $1->lineNumber); astTypeInference($$);}
-| TK_IDENTIFICADOR '[' expressao ']' {$$  = tree_CreateNode(IKS_AST_VETOR_INDEXADO, $1); tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3); printError(verifyIdentifier($1, ID_VETOR), $1->lineNumber); astTypeInference($$);}
+ expressao : TK_IDENTIFICADOR {$$  = tree_CreateNode(IKS_AST_IDENTIFICADOR, $1); printError(verifyDeclaration($1), $1->lineNumber);printError(verifyIdentifier($1, ID_VARIAVEL), $1->lineNumber); astTypeInference($$);}
+| TK_IDENTIFICADOR '[' expressao ']' {$$  = tree_CreateNode(IKS_AST_VETOR_INDEXADO, $1); tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3); printError(verifyDeclaration($1), $1->lineNumber);printError(verifyIdentifier($1, ID_VETOR), $1->lineNumber); astTypeInference($$);}
 | TK_LIT_INT {$$  = tree_CreateNode(IKS_AST_LITERAL, $1); astTypeInference($$);}
 | TK_LIT_FLOAT {$$  = tree_CreateNode(IKS_AST_LITERAL, $1); astTypeInference($$);}
 | TK_LIT_FALSE {$$  = tree_CreateNode(IKS_AST_LITERAL, $1); astTypeInference($$);}

@@ -41,6 +41,7 @@ void printError(int errorCode, int line){
 	}
 	if(errorCode != IKS_SUCCESS)
 	{
+		dict_print(dictionary);
 	    exit(errorCode);
 	}
 }
@@ -72,6 +73,8 @@ int verifyDeclaration(comp_dict_item_t* decl){
 **   a verificação de suas declarações e escopo.
 */
 int verifyIdentifier(comp_dict_item_t* id, int usingAs){
+	if(id->usage == ID_NAO_DECLARADO)
+		return IKS_ERROR_UNDECLARED;
 	if(id->usage != usingAs){
 		if(id->usage == ID_VARIAVEL)
 			return IKS_ERROR_VARIABLE;
@@ -473,7 +476,7 @@ int verifyGivenParameters(comp_tree* func, comp_tree* call){
 		comp_dict_t_p declaredArguments = func->args;
 		if(declaredArguments != NULL && firstSon != NULL){
 			if(declaredArguments->item->type != firstSon->node->dataType)
-				return IKS_ERROR_WRONG_TYPE_ARGS;
+				return IKS_ERROR_WRONG_TYPE_ARGS;			
 			declaredArguments = declaredArguments->next;
 			comp_tree* brothers = firstSon->node->broList;
 			while(brothers!=NULL){
@@ -493,5 +496,15 @@ int verifyGivenParameters(comp_tree* func, comp_tree* call){
 			return IKS_ERROR_EXCESS_ARGS;
 		else if(firstSon == NULL && declaredArguments != NULL)
 			return IKS_ERROR_MISSING_ARGS;
+	}
+}
+
+void setType(int type, comp_dict_item_t* symbol){
+	switch(type){
+	   case IKS_INT : symbol->type = IKS_INT; symbol->size =IKS_INT_SIZE; break;
+	   case IKS_FLOAT: symbol->type = IKS_FLOAT; symbol->size = IKS_FLOAT_SIZE; break;
+	   case IKS_BOOL: symbol->type = IKS_BOOL; symbol->size = IKS_BOOL_SIZE; break;
+	   case IKS_CHAR: symbol->type = IKS_CHAR; symbol->size = IKS_CHAR_SIZE; break;
+	   case IKS_STRING: symbol->type = IKS_STRING; symbol->size = IKS_CHAR_SIZE; break; 
 	}
 }

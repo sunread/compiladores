@@ -53,8 +53,10 @@
 #define IKS_ERROR_WRONG_PAR_RETURN 14 //parâmetro não é expressão compatível com tipo do retorno
 
 comp_dict_item_t* localScope; //so pode receber ponteiros para a entrada de simbolos de funcoes
+comp_dict_item_t* globalScope;
 int functionType;
 void printError(int, int);
+void setType(int, comp_dict_item_t*);
 int semanticEvaluation(comp_tree* ast);
 int verifyIdentifier(comp_dict_item_t*, int);
 int verifyArguments(comp_tree*, comp_tree*);
