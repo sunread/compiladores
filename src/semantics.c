@@ -18,16 +18,24 @@ int semanticEvaluation(comp_tree* ast){
 	return result;
 }
 
+/**
+    printError
+    Imprime o erro
+*/
 void printError(int errorCode, int line){
 	switch(errorCode){
-		case IKS_ERROR_DECLARED: printf("Erro semantico: identificador já declarado na linha %d\n", line);break;
-		case IKS_ERROR_UNDECLARED: printf("Erro semantico: identificador nao declarado neste escopo\n");break;
-		case IKS_ERROR_VARIABLE: printf("Erro semantico: mal uso da variavel declarada na linha %d\n", line);break;
-		case IKS_ERROR_VECTOR: printf("Erro semantico: mal uso do vetor declarado na linha %d\n", line);break;
-		case IKS_ERROR_FUNCTION: printf("Erro semantico:  mal uso da funcao declarada na linha %d\n", line);break;
-		case IKS_ERROR_MISSING_ARGS: printf("Erro semantico: faltam argumentos para funcao declarada na linha %d\n", line);break;
-		case IKS_ERROR_EXCESS_ARGS: printf("Erro semantico: sobram argumentos para funcao declarada na linha %d\n", line);break;
-		case IKS_ERROR_WRONG_TYPE_ARGS:printf("Erro semantico: argumentos incompatíveis para funcao declarada na linha %d\n", line);break;
+		case IKS_ERROR_DECLARED: printf("Erro semântico: Identificador já declarado. Linha %d\n", line); break;
+		case IKS_ERROR_UNDECLARED: printf("Erro semântico: Identificador não declarado neste escopo\n"); break;
+		case IKS_ERROR_VARIABLE: printf("Erro semântico: Mal uso da variável declarada. Linha %d\n", line); break;
+		case IKS_ERROR_VECTOR: printf("Erro semântico: Mal uso do vetor declarado. Linha %d\n", line); break;
+		case IKS_ERROR_FUNCTION: printf("Erro semântico:  Mal uso de função declarada. Linha %d\n", line); break;
+		case IKS_ERROR_MISSING_ARGS: printf("Erro semântico: Faltam argumentos para função declarada. Linha %d\n", line); break;
+		case IKS_ERROR_EXCESS_ARGS: printf("Erro semântico: Sobram argumentos para função declarada. Linha %d\n", line); break;
+		case IKS_ERROR_WRONG_TYPE_ARGS:printf("Erro semântico: Argumentos incompatíveis para função declarada. Linha %d\n", line); break;
+		case IKS_ERROR_WRONG_PAR_RETURN: printf("Erro semântico: O tipo de retorno é diferente do tipo da função.\n"); break;
+		case IKS_ERROR_WRONG_PAR_INPUT: printf("Erro semântico: O parâmetro do INPUT não é um IDENTIFICADOR.\n"); break;
+        case IKS_ERROR_WRONG_PAR_OUTPUT: printf("Erro semântico: O parâmetro do OUTPUT não é uma STRING ou EXPRESSÃO ARITMÉTICA.\n"); break;
+
 	}
 	if(errorCode != IKS_SUCCESS)
 		;//exit(errorCode);
@@ -179,14 +187,17 @@ int astTypeInference(comp_tree* ast){
 		}
 		else if(aux->type == IKS_AST_CHAMADA_DE_FUNCAO)
 		{
+            aux->sonList->node->dataType = aux->sonList->node->symbol->type;
             aux->dataType = aux->sonList->node->dataType;
 		}
 		else if(aux->type == IKS_AST_ATRIBUICAO)
 		{
+            aux->sonList->node->dataType = aux->sonList->node->symbol->type;
             aux->dataType = aux->sonList->node->dataType;
 		}
 		else if(aux->type == IKS_AST_VETOR_INDEXADO)
 		{
+            aux->sonList->node->dataType = aux->sonList->node->symbol->type;
             aux->dataType = aux->sonList->node->dataType;
 		}
 		else if(aux->type == IKS_AST_ARIM_SOMA)
@@ -203,7 +214,7 @@ int astTypeInference(comp_tree* ast){
 		}
 		else if(aux->type == IKS_AST_ARIM_INVERSAO)
 		{
-		    aux->dataType = aux->sonList->node->dataType;
+		    aux->dataType = aux->sonList->node->symbol->type;
 		}
 		else if(aux->type == IKS_AST_LOGICO_E)
 		{
@@ -339,7 +350,10 @@ int astTypeCoercion(comp_tree* ast){
 
 }
 
-
+/**
+    isAritmeticExpression
+    Retorna 1 se o tipo é expressão aritmética e 0 caso contrário
+*/
 int isAritmeticExpression(int type)
 {
     if(type == IKS_AST_ARIM_SOMA)
@@ -368,27 +382,32 @@ int isAritmeticExpression(int type)
     }
 }
 
-int functionType;
-int verifySimpleCommand(comp_tree* ast){
-	if(ast==NULL)
-		return IKS_SUCCESS;
-	comp_tree* aux = ast;
-	nodeList* auxList;
-	comp_tree* auxBrother;
-	int result = IKS_SUCCESS;
+/**
+    verifySimpleCommand
+    Verifica a semântica dos comandos simples da linguagem
+*/
+int verifySimpleCommand(comp_tree* ast, int functionType){
 
-	while(aux != NULL){
+	if(ast==NULL)
+	{
+	    return IKS_SUCCESS;
+	}
+	else
+	{
+        comp_tree* aux = ast;
+        comp_tree* auxBrother;
+        nodeList* auxList;
+        int result = IKS_SUCCESS;
+
 		auxList = aux->sonList;
-		//processing current node
-		if(aux->type == IKS_AST_FUNCAO)
-		{
-			functionType = aux->dataType;
-		}
-		else if(aux->type == IKS_AST_RETURN)
+
+		// Processing current node
+
+		if(aux->type == IKS_AST_RETURN)
 		{
 		    if(aux->sonList->node->dataType != functionType)
 		    {
-		        printf("O tipo do retorno(%s) é diferente do tipo da função (%s)\n", printType(aux->sonList->node->dataType), printType(functionType));
+		        printError(IKS_ERROR_WRONG_PAR_RETURN, 0);
 		        return IKS_ERROR_WRONG_PAR_RETURN;
 		    }
 		}
@@ -396,7 +415,7 @@ int verifySimpleCommand(comp_tree* ast){
 		{
             if(aux->sonList->node->type != IKS_AST_IDENTIFICADOR)
 		    {
-		        printf("O parametro do INPUT não é um IDENTIFICADOR\n");
+		        printError(IKS_ERROR_WRONG_PAR_INPUT, 0);
 		        return IKS_ERROR_WRONG_PAR_INPUT;
 		    }
 		}
@@ -416,7 +435,7 @@ int verifySimpleCommand(comp_tree* ast){
                         }
                         else
                         {
-                            printf("O parametro do OUTPUT não é uma STRING ou EXPRESSÃO ARITMÉTICA\n");
+                            printError(IKS_ERROR_WRONG_PAR_OUTPUT, 0);
                             return IKS_ERROR_WRONG_PAR_OUTPUT;
                         }
                     }
@@ -424,22 +443,10 @@ int verifySimpleCommand(comp_tree* ast){
             }
             else
             {
-                printf("O parametro do OUTPUT não é uma STRING ou EXPRESSÃO ARITMÉTICA\n");
+                printError(IKS_ERROR_WRONG_PAR_OUTPUT, 0);
                 return IKS_ERROR_WRONG_PAR_OUTPUT;
             }
 		}
-		//processing all sons
-		while(auxList!=NULL){
-			if(auxList->node!=NULL){
-				result = verifySimpleCommand(auxList->node);
-				if(result != IKS_SUCCESS)
-					return result;
-			}
-			auxList = auxList->next;
-		}
-
-		//go to next brother
-		aux = aux->broList;
 	}
 }
 
