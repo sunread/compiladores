@@ -91,7 +91,7 @@
 
 %%
  /* Regras (e ações) da gramática da Linguagem IKS */
- p: programa {$$ = tree_CreateNode(IKS_AST_PROGRAMA, NULL); ast = $$; localScope = NULL; tree_AddSon($$, 1, $1);};
+ p: programa {$$ = tree_CreateNode(IKS_AST_PROGRAMA, NULL); ast = $$; localScope = NULL; functionType = 0; tree_AddSon($$, 1, $1);};
 
  programa : dec_global {localScope = NULL;} programa {$$ = $3;}
 			| dec_funcao {localScope = NULL;} programa {$$ = $1; tree_AddBro($$, $3);}
@@ -128,7 +128,7 @@
 
  dec_funcao :cabecalho dec_local corpo {$$ = $1; tree_AddSon($$, 1, $3);};
 
- cabecalho : tipo_variavel ':' TK_IDENTIFICADOR '(' lista_param ')'	{$$ = tree_CreateNode(IKS_AST_FUNCAO, $3);parent = $$;
+ cabecalho : tipo_variavel ':' TK_IDENTIFICADOR '(' lista_param ')'	{$$ = tree_CreateNode(IKS_AST_FUNCAO, $3);
 																		$3->scope = localScope;
 																		printError(verifyDeclaration($3), $3->lineNumber);
 																		$3->usage = ID_FUNCAO;
@@ -141,8 +141,10 @@
                                                                             case IKS_CHAR: $3->type = IKS_CHAR; $3->size = IKS_CHAR_SIZE; break;
                                                                             case IKS_STRING: $3->type = IKS_STRING; $3->size = IKS_CHAR_SIZE; break; }
 																		$$->dataType = $3->type;
+																		functionType = $3->type;
 																		$$->args = $5;
 																		};
+
  lista_param : lista_param_nao_vazia {$$ = $1;} | {$$ = NULL;};
  lista_param_nao_vazia : lista_param_nao_vazia ',' parametro {$$ = dict_insertEnd($1, $3);}  | parametro {$$ = $1;};
  parametro : tipo_variavel ':' TK_IDENTIFICADOR {$3->usage = ID_VARIAVEL;
@@ -189,14 +191,15 @@
 
  input : TK_PR_INPUT expressao {$$ = tree_CreateNode(IKS_AST_INPUT, NULL);
 										tree_AddSon($$, 1, $2);
+										verifySimpleCommand($$, functionType);
 										};
 
- output : TK_PR_OUTPUT lista_expressoes_nao_vazia {$$ = tree_CreateNode(IKS_AST_OUTPUT, NULL); tree_AddSon($$, 1, $2);};
+ output : TK_PR_OUTPUT lista_expressoes_nao_vazia {$$ = tree_CreateNode(IKS_AST_OUTPUT, NULL); tree_AddSon($$, 1, $2); verifySimpleCommand($$, functionType);};
 
  lista_expressoes_nao_vazia: expressao ',' lista_expressoes_nao_vazia {$$ = $1; tree_AddBro($$, $3);}
 			| expressao {$$ = $1;};
 
- return : TK_PR_RETURN expressao {$$ = tree_CreateNode(IKS_AST_RETURN, NULL); tree_AddSon($$, 1, $2);} ;
+ return : TK_PR_RETURN expressao {$$ = tree_CreateNode(IKS_AST_RETURN, NULL); tree_AddSon($$, 1, $2); verifySimpleCommand($$, functionType);} ;
 
  controle_fluxo : TK_PR_IF '(' expressao ')' TK_PR_THEN comando {$$ = tree_CreateNode(IKS_AST_IF_ELSE, NULL); tree_AddSon($$, 2, $3, $6);}|
                   TK_PR_IF '(' expressao ')' TK_PR_THEN ';' {$$ = tree_CreateNode(IKS_AST_IF_ELSE, NULL); tree_AddSon($$, 1, $3);}|
@@ -242,8 +245,7 @@ chamada: TK_IDENTIFICADOR '(' lista_expressoes ')' {$$ = tree_CreateNode(IKS_AST
                                                     printError(verifyGivenParameters($1->ast_node, $$), $1->lineNumber);
                                                     };
 
-
- lista_expressoes : lista_expressoes_nao_vazia {$$ = $1;}| {$$ = NULL;};
+lista_expressoes : lista_expressoes_nao_vazia {$$ = $1;}| {$$ = NULL;};
 
 %%
 
