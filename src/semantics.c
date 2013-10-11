@@ -38,6 +38,9 @@ void printError(int errorCode, int line){
 		case IKS_ERROR_WRONG_PAR_RETURN: printf("Erro semântico na linha %d: O tipo de retorno é diferente do tipo da função.\n", getLineNumber()); break;
 		case IKS_ERROR_WRONG_PAR_INPUT: printf("Erro semântico na linha %d: O parâmetro do INPUT não é um IDENTIFICADOR.\n", getLineNumber()); break;
         case IKS_ERROR_WRONG_PAR_OUTPUT: printf("Erro semântico na linha %d: O parâmetro do OUTPUT não é uma STRING ou EXPRESSÃO ARITMÉTICA.\n", getLineNumber()); break;
+        case IKS_ERROR_CHAR_TO_X: printf("Erro semântico na linha %d: Não é possível converter CHAR para tipo numérico.\n", getLineNumber()); break;
+        case IKS_ERROR_STRING_TO_X: printf("Erro semântico na linha %d: Não é possível converter STRING para tipo numérico.\n", getLineNumber()); break;
+
 	}
 	if(errorCode != IKS_SUCCESS)
 	{
@@ -269,34 +272,74 @@ int astTypeInference(comp_tree* ast){
 }
 
 /**
+**  aritmeticCoercion
+**  Realiza a coerção dos tipos de expressões aritméticas
+*/
+void aritmeticCoercion(comp_tree* aux)
+{
+    if (aux->dataType == IKS_INT)
+    {
+        if (aux->sonList->node->dataType == IKS_BOOL)
+        {
+            aux->sonList->node->coercion = COERCION_TO_INT;
+        }
+        if (aux->sonList->next->node->dataType == IKS_BOOL)
+        {
+            aux->sonList->next->node->coercion = COERCION_TO_INT;
+        }
+    }
+
+    if (aux->dataType == IKS_FLOAT)
+    {
+        if (aux->sonList->node->symbol->type == IKS_INT)
+        {
+            aux->sonList->node->coercion = COERCION_TO_FLOAT;
+        }
+        if (aux->sonList->next->node->symbol->type == IKS_INT)
+        {
+            aux->sonList->next->node->coercion = COERCION_TO_FLOAT;
+        }
+        if (aux->sonList->node->symbol->type == IKS_BOOL)
+        {
+            aux->sonList->node->coercion = COERCION_TO_FLOAT;
+        }
+        if (aux->sonList->next->node->symbol->type == IKS_BOOL)
+        {
+            aux->sonList->next->node->coercion = COERCION_TO_FLOAT;
+        }
+    }
+}
+
+
+/**
 **  astTypeCoercion
 **  Realiza a coerção dos tipos
 */
 int astTypeCoercion(comp_tree* ast){
     if(ast==NULL)
-		return IKS_SUCCESS;
-	comp_tree* aux = ast;
-	nodeList* auxList;
-	int result = IKS_SUCCESS;
-	while(aux != NULL){
+    {
+        return IKS_SUCCESS;
+    }
+    else
+    {
+        comp_tree* aux = ast;
+        nodeList* auxList;
 		auxList = aux->sonList;
-		//processing current node
+		// Processing current node
 
 		if(aux->type == IKS_AST_ARIM_SOMA)
 		{
-            aux->dataType = typeInference(aux->sonList->node->symbol->type, aux->sonList->next->node->symbol->type);
-            if (aux->dataType == IKS_INT) {
-                if (aux->sonList->node->symbol->type == IKS_BOOL || aux->sonList->node->symbol->type == IKS_SIMBOLO_LITERAL_BOOL ){
-                    aux->sonList->node->coercion = COERCION_TO_INT;
-                }
+		    if (aux->sonList->node->symbol->type == IKS_CHAR || aux->sonList->next->node->symbol->type == IKS_CHAR)
+            {
+                printError( IKS_ERROR_CHAR_TO_X, 0);
             }
-            if (aux->dataType == IKS_FLOAT) {
-                if (aux->sonList->node->symbol->type == IKS_INT || aux->sonList->node->symbol->type == IKS_SIMBOLO_LITERAL_INT ){
-                    aux->sonList->node->coercion = COERCION_TO_INT;
-                }
-                if (aux->sonList->node->symbol->type == IKS_BOOL || aux->sonList->node->symbol->type == IKS_SIMBOLO_LITERAL_BOOL ){
-                    aux->sonList->node->coercion = COERCION_TO_INT;
-                }
+            else if (aux->sonList->node->symbol->type == IKS_STRING || aux->sonList->next->node->symbol->type == IKS_STRING)
+            {
+                printError( IKS_ERROR_STRING_TO_X, 0);
+            }
+            else
+            {
+                aritmeticCoercion(aux);
             }
 		}
 		else if(aux->type == IKS_AST_ARIM_SUBTRACAO)
@@ -348,20 +391,8 @@ int astTypeCoercion(comp_tree* ast){
 		    aux->dataType = IKS_BOOL;
 		}
 
-		//processing all sons
-		while(auxList!=NULL){
-			if(auxList->node!=NULL){
-				result = astTypeInference(auxList->node);
-				if(result != IKS_SUCCESS)
-					return result;
-			}
-			auxList = auxList->next;
-		}
-
-		//go to next brother
-		aux = aux->broList;
-	}
-	return IKS_SUCCESS;
+        return IKS_SUCCESS;
+    }
 
 }
 
@@ -476,7 +507,7 @@ int verifyGivenParameters(comp_tree* func, comp_tree* call){
 		comp_dict_t_p declaredArguments = func->args;
 		if(declaredArguments != NULL && firstSon != NULL){
 			if(declaredArguments->item->type != firstSon->node->dataType)
-				return IKS_ERROR_WRONG_TYPE_ARGS;			
+				return IKS_ERROR_WRONG_TYPE_ARGS;
 			declaredArguments = declaredArguments->next;
 			comp_tree* brothers = firstSon->node->broList;
 			while(brothers!=NULL){
@@ -505,6 +536,6 @@ void setType(int type, comp_dict_item_t* symbol){
 	   case IKS_FLOAT: symbol->type = IKS_FLOAT; symbol->size = IKS_FLOAT_SIZE; break;
 	   case IKS_BOOL: symbol->type = IKS_BOOL; symbol->size = IKS_BOOL_SIZE; break;
 	   case IKS_CHAR: symbol->type = IKS_CHAR; symbol->size = IKS_CHAR_SIZE; break;
-	   case IKS_STRING: symbol->type = IKS_STRING; symbol->size = IKS_CHAR_SIZE; break; 
+	   case IKS_STRING: symbol->type = IKS_STRING; symbol->size = IKS_CHAR_SIZE; break;
 	}
 }

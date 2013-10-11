@@ -25,7 +25,7 @@
 #define IKS_CHAR_SIZE 1
 #define IKS_BOOL_SIZE 1
 
-/**Coerção**/
+/** Coerção **/
 #define COERCION_TO_FLOAT 1
 #define COERCION_TO_BOOL 2
 #define COERCION_TO_INT 3
