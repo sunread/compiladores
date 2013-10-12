@@ -32,12 +32,15 @@ void printError(int errorCode, int line){
 		case IKS_ERROR_VARIABLE: printf("Erro semântico na linha %d: Mal uso da variável declarada na linha %d\n", getLineNumber(), line);break;
 		case IKS_ERROR_VECTOR: printf("Erro semântico na linha %d: Mal uso do vetor declarado na linha %d\n", getLineNumber(), line);break;
 		case IKS_ERROR_FUNCTION: printf("Erro semântico na linha %d: Mal uso da função declarada na linha %d\n", getLineNumber(), line);break;
-		case IKS_ERROR_MISSING_ARGS: printf("EErro semântico na linha %d: Faltam argumentos para função declarada na linha %d\n", getLineNumber(), line);break;
+		case IKS_ERROR_MISSING_ARGS: printf("Erro semântico na linha %d: Faltam argumentos para função declarada na linha %d\n", getLineNumber(), line);break;
 		case IKS_ERROR_EXCESS_ARGS: printf("Erro semântico na linha %d: Sobram argumentos para função declarada na linha %d\n", getLineNumber(), line);break;
 		case IKS_ERROR_WRONG_TYPE_ARGS:printf("Erro semântico na linha %d: Argumentos incompatíveis para função declarada na linha %d\n", getLineNumber(), line);break;
 		case IKS_ERROR_WRONG_PAR_RETURN: printf("Erro semântico na linha %d: O tipo de retorno é diferente do tipo da função.\n", getLineNumber()); break;
 		case IKS_ERROR_WRONG_PAR_INPUT: printf("Erro semântico na linha %d: O parâmetro do INPUT não é um IDENTIFICADOR.\n", getLineNumber()); break;
         case IKS_ERROR_WRONG_PAR_OUTPUT: printf("Erro semântico na linha %d: O parâmetro do OUTPUT não é uma STRING ou EXPRESSÃO ARITMÉTICA.\n", getLineNumber()); break;
+        case IKS_ERROR_CHAR_TO_X: printf("Erro semântico na linha %d: Não é possível converter CHAR.\n", getLineNumber()); break;
+        case IKS_ERROR_STRING_TO_X: printf("Erro semântico na linha %d: Não é possível converter STRING.\n", getLineNumber()); break;
+
 	}
 	if(errorCode != IKS_SUCCESS)
 	{
@@ -50,12 +53,12 @@ void printError(int errorCode, int line){
 **   verifyDeclaration
 **   Verificação das declarações
 */
-int verifyDeclaration(comp_dict_item_t* decl){
+int verifyDeclaration(comp_dict_item_t* decl, int uso){
 	if(localScope == NULL && decl->scope != NULL) //acessando declaracao local no escopo global
 		return IKS_ERROR_UNDECLARED;
-	if(decl->scope != localScope) //acessando variavel local de outra funcao
+	if(decl->scope != localScope  && decl->scope != NULL) //acessando variavel local de outra funcao
 		return IKS_ERROR_UNDECLARED;
-	if(decl->scope == localScope && decl->usage != ID_NAO_DECLARADO){
+	if(decl->scope == localScope && decl->usage != ID_NAO_DECLARADO && uso==0){
 		if(localScope != NULL){
 			if(dict_find(localScope->ast_node->args, decl->text) != NULL)
 				return IKS_ERROR_DECLARED;
@@ -75,7 +78,9 @@ int verifyDeclaration(comp_dict_item_t* decl){
 int verifyIdentifier(comp_dict_item_t* id, int usingAs){
 	if(id->usage == ID_NAO_DECLARADO)
 		return IKS_ERROR_UNDECLARED;
-	if(id->usage != usingAs){
+	else if(id->usage == ID_PARAMETRO && usingAs != ID_VARIAVEL)
+		return IKS_ERROR_VARIABLE;
+	else if(id->usage != usingAs && id->usage != ID_PARAMETRO){
 		if(id->usage == ID_VARIAVEL)
 			return IKS_ERROR_VARIABLE;
 		else if(id->usage == ID_VETOR)
@@ -203,8 +208,14 @@ int astTypeInference(comp_tree* ast){
 		}
 		else if(aux->type == IKS_AST_ATRIBUICAO)
 		{
-            aux->sonList->node->dataType = aux->sonList->node->symbol->type;
-            aux->dataType = aux->sonList->node->dataType;
+			if(aux->sonList->node->type != IKS_AST_VETOR_INDEXADO){
+				aux->sonList->node->dataType = aux->sonList->node->symbol->type;
+				aux->dataType = aux->sonList->node->dataType;
+			}
+			else{
+				aux->sonList->node->sonList->node->dataType = aux->sonList->node->sonList->node->symbol->type;
+				aux->dataType = aux->sonList->node->sonList->node->dataType;
+			}
 		}
 		else if(aux->type == IKS_AST_VETOR_INDEXADO)
 		{
@@ -223,6 +234,10 @@ int astTypeInference(comp_tree* ast){
 		{
 		    aritmeticInference(aux);
 		}
+		else if(aux->type == IKS_AST_ARIM_DIVISAO)
+		{
+		    aritmeticInference(aux);
+		}
 		else if(aux->type == IKS_AST_ARIM_INVERSAO)
 		{
 		    aux->dataType = aux->sonList->node->symbol->type;
@@ -269,99 +284,130 @@ int astTypeInference(comp_tree* ast){
 }
 
 /**
+**  aritmeticCoercion
+**  Realiza a coerção dos tipos de expressões aritméticas
+*/
+void aritmeticCoercion(comp_tree* aux)
+{
+    if (aux->dataType == IKS_INT)
+    {
+        if (aux->sonList->node->dataType == IKS_BOOL)
+        {
+            aux->sonList->node->coercion = COERCION_TO_INT;
+        }
+        if (aux->sonList->next->node->dataType == IKS_BOOL)
+        {
+            aux->sonList->next->node->coercion = COERCION_TO_INT;
+        }
+    }
+
+    if (aux->dataType == IKS_FLOAT)
+    {
+        if (aux->sonList->node->symbol->type == IKS_INT)
+        {
+            aux->sonList->node->coercion = COERCION_TO_FLOAT;
+        }
+        if (aux->sonList->next->node->symbol->type == IKS_INT)
+        {
+            aux->sonList->next->node->coercion = COERCION_TO_FLOAT;
+        }
+        if (aux->sonList->node->symbol->type == IKS_BOOL)
+        {
+            aux->sonList->node->coercion = COERCION_TO_FLOAT;
+        }
+        if (aux->sonList->next->node->symbol->type == IKS_BOOL)
+        {
+            aux->sonList->next->node->coercion = COERCION_TO_FLOAT;
+        }
+    }
+}
+
+
+/**
 **  astTypeCoercion
 **  Realiza a coerção dos tipos
 */
 int astTypeCoercion(comp_tree* ast){
     if(ast==NULL)
-		return IKS_SUCCESS;
-	comp_tree* aux = ast;
-	nodeList* auxList;
-	int result = IKS_SUCCESS;
-	while(aux != NULL){
+    {
+        return IKS_SUCCESS;
+    }
+    else
+    {
+        comp_tree* aux = ast;
+        nodeList* auxList;
 		auxList = aux->sonList;
-		//processing current node
-
-		if(aux->type == IKS_AST_ARIM_SOMA)
-		{
-            aux->dataType = typeInference(aux->sonList->node->symbol->type, aux->sonList->next->node->symbol->type);
-            if (aux->dataType == IKS_INT) {
-                if (aux->sonList->node->symbol->type == IKS_BOOL || aux->sonList->node->symbol->type == IKS_SIMBOLO_LITERAL_BOOL ){
-                    aux->sonList->node->coercion = COERCION_TO_INT;
-                }
-            }
-            if (aux->dataType == IKS_FLOAT) {
-                if (aux->sonList->node->symbol->type == IKS_INT || aux->sonList->node->symbol->type == IKS_SIMBOLO_LITERAL_INT ){
-                    aux->sonList->node->coercion = COERCION_TO_INT;
-                }
-                if (aux->sonList->node->symbol->type == IKS_BOOL || aux->sonList->node->symbol->type == IKS_SIMBOLO_LITERAL_BOOL ){
-                    aux->sonList->node->coercion = COERCION_TO_INT;
-                }
-            }
-		}
-		else if(aux->type == IKS_AST_ARIM_SUBTRACAO)
-		{
-		    aux->dataType = typeInference(aux->sonList->node->symbol->type, aux->sonList->next->node->symbol->type);
-		}
-		else if(aux->type == IKS_AST_ARIM_MULTIPLICACAO)
-		{
-		    aux->dataType = typeInference(aux->sonList->node->symbol->type, aux->sonList->next->node->symbol->type);
-		}
-		else if(aux->type == IKS_AST_ARIM_INVERSAO)
-		{
-		    aux->dataType = aux->sonList->node->symbol->type;
-		}
-		else if(aux->type == IKS_AST_LOGICO_E)
-		{
-		    aux->dataType = IKS_BOOL;
-		}
-		else if(aux->type == IKS_AST_LOGICO_OU)
-		{
-		    aux->dataType = IKS_BOOL;
-		}
-        else if(aux->type == IKS_AST_LOGICO_COMP_DIF)
-		{
-		    aux->dataType = IKS_BOOL;
-		}
-		else if(aux->type == IKS_AST_LOGICO_COMP_IGUAL)
-		{
-		    aux->dataType = IKS_BOOL;
-		}
-		else if(aux->type == IKS_AST_LOGICO_COMP_LE)
-		{
-		    aux->dataType = IKS_BOOL;
-		}
-		else if(aux->type == IKS_AST_LOGICO_COMP_GE)
-		{
-		    aux->dataType = IKS_BOOL;
-		}
-		else if(aux->type == IKS_AST_LOGICO_COMP_L)
-		{
-		    aux->dataType = IKS_BOOL;
-		}
-		else if(aux->type == IKS_AST_LOGICO_COMP_G)
-		{
-		    aux->dataType = IKS_BOOL;
-		}
-		else if(aux->type == IKS_AST_LOGICO_COMP_NEGACAO)
-		{
-		    aux->dataType = IKS_BOOL;
-		}
-
-		//processing all sons
-		while(auxList!=NULL){
-			if(auxList->node!=NULL){
-				result = astTypeInference(auxList->node);
-				if(result != IKS_SUCCESS)
-					return result;
+		// Processing current node
+		if(isExpression(aux->type))
+			if(aux->sonList->next !=NULL){
+				if (aux->sonList->node->symbol->type == IKS_CHAR || aux->sonList->next->node->symbol->type == IKS_CHAR)
+						printError( IKS_ERROR_CHAR_TO_X, 0);
+				if (aux->sonList->node->symbol->type == IKS_STRING || aux->sonList->next->node->symbol->type == IKS_STRING)
+						printError( IKS_ERROR_STRING_TO_X, 0);
 			}
-			auxList = auxList->next;
-		}
-
-		//go to next brother
-		aux = aux->broList;
-	}
-	return IKS_SUCCESS;
+			else{
+				if (aux->sonList->node->symbol->type == IKS_CHAR)
+						printError( IKS_ERROR_CHAR_TO_X, 0);
+				if (aux->sonList->node->symbol->type == IKS_STRING)
+						printError( IKS_ERROR_STRING_TO_X, 0);
+			}
+		else{
+				if(aux->sonList->next->node->type == IKS_AST_CHAMADA_DE_FUNCAO){
+					if ((aux->sonList->node->sonList->node->symbol->type == IKS_CHAR
+						&& aux->sonList->next->node->sonList->node->symbol->type != IKS_CHAR)
+						||(aux->sonList->node->sonList->node->symbol->type == IKS_STRING
+						&& aux->sonList->next->node->sonList->node->symbol->type != IKS_STRING))
+							printError( IKS_ERROR_WRONG_TYPE, 0);
+					if (aux->sonList->next->node->sonList->node->symbol->type == IKS_CHAR)
+							printError( IKS_ERROR_CHAR_TO_X, 0);
+					if (aux->sonList->next->node->sonList->node->symbol->type == IKS_STRING)
+							printError( IKS_ERROR_STRING_TO_X, 0);
+				}
+				else{
+					if ((aux->sonList->next->node->symbol->type == IKS_CHAR
+						&& aux->sonList->next->node->symbol->type != IKS_CHAR)
+						||(aux->sonList->next->node->symbol->type == IKS_STRING
+						&& aux->sonList->next->node->symbol->type != IKS_STRING))
+							printError( IKS_ERROR_WRONG_TYPE, 0);
+					if (aux->sonList->next->node->symbol->type == IKS_CHAR)
+							printError( IKS_ERROR_CHAR_TO_X, 0);
+					if (aux->sonList->next->node->symbol->type == IKS_STRING)
+							printError( IKS_ERROR_STRING_TO_X, 0);
+				}
+			}
+		
+		switch(aux->type){
+			case IKS_AST_ARIM_SOMA: aritmeticCoercion(aux);
+									break;
+			case IKS_AST_ARIM_SUBTRACAO: aritmeticCoercion(aux);
+									break;
+			case IKS_AST_ARIM_MULTIPLICACAO: aritmeticCoercion(aux);
+									break;
+			case IKS_AST_ARIM_DIVISAO: aritmeticCoercion(aux);
+									break;
+			case IKS_AST_ARIM_INVERSAO: aux->dataType = aux->sonList->node->symbol->type;
+									break;
+			case IKS_AST_LOGICO_E: aux->dataType = IKS_BOOL;
+									break;
+			case IKS_AST_LOGICO_OU: aux->dataType = IKS_BOOL;
+									break;
+			case IKS_AST_LOGICO_COMP_DIF: aux->dataType = IKS_BOOL;
+									break;
+			case IKS_AST_LOGICO_COMP_IGUAL: aux->dataType = IKS_BOOL;
+									break;
+			case IKS_AST_LOGICO_COMP_LE: aux->dataType = IKS_BOOL;
+									break;
+			case IKS_AST_LOGICO_COMP_GE: aux->dataType = IKS_BOOL;
+									break;
+			case IKS_AST_LOGICO_COMP_L: aux->dataType = IKS_BOOL;
+									break;
+			case IKS_AST_LOGICO_COMP_G: aux->dataType = IKS_BOOL;
+									break;
+			case IKS_AST_LOGICO_COMP_NEGACAO: aux->dataType = IKS_BOOL;
+									break;
+			}
+        return IKS_SUCCESS;
+    }
 
 }
 
@@ -371,30 +417,54 @@ int astTypeCoercion(comp_tree* ast){
 */
 int isAritmeticExpression(int type)
 {
-    if(type == IKS_AST_ARIM_SOMA)
-    {
-        return 1;
-    }
-    else if(type == IKS_AST_ARIM_SUBTRACAO)
-    {
-        return 1;
-    }
-    else if(type == IKS_AST_ARIM_MULTIPLICACAO)
-    {
-        return 1;
-    }
-    else if(type == IKS_AST_ARIM_DIVISAO)
-    {
-        return 1;
-    }
-    else if(type == IKS_AST_ARIM_INVERSAO)
-    {
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
+	switch(type){
+		case IKS_AST_ARIM_SOMA: return 1;
+								break;
+		case IKS_AST_ARIM_SUBTRACAO: return 1;
+								break;
+		case IKS_AST_ARIM_MULTIPLICACAO: return 1;
+								break;
+		case IKS_AST_ARIM_DIVISAO: return 1;
+								break;
+		case IKS_AST_ARIM_INVERSAO: return 1;
+								break;
+		default: 					return 0;
+	}
+}
+
+int isExpression(int type){
+		switch(type){
+		case IKS_AST_ARIM_SOMA: return 1;
+								break;
+		case IKS_AST_ARIM_SUBTRACAO: return 1;
+								break;
+		case IKS_AST_ARIM_MULTIPLICACAO: return 1;
+								break;
+		case IKS_AST_ARIM_DIVISAO: return 1;
+								break;
+		case IKS_AST_ARIM_INVERSAO: return 1;
+								break;
+		case IKS_AST_LOGICO_E: return 1;
+									break;
+		case IKS_AST_LOGICO_OU: return 1;
+								break;
+		case IKS_AST_LOGICO_COMP_DIF: return 1;
+								break;
+		case IKS_AST_LOGICO_COMP_IGUAL: return 1;
+								break;
+		case IKS_AST_LOGICO_COMP_LE: return 1;
+								break;
+		case IKS_AST_LOGICO_COMP_GE: return 1;
+								break;
+		case IKS_AST_LOGICO_COMP_L: return 1;
+								break;
+		case IKS_AST_LOGICO_COMP_G: return 1;
+								break;
+		case IKS_AST_LOGICO_COMP_NEGACAO: return 1;
+								break;
+		default: 					return 0;
+	}
+
 }
 
 /**
@@ -420,7 +490,7 @@ int verifySimpleCommand(comp_tree* ast, int functionType){
 
 		if(aux->type == IKS_AST_RETURN)
 		{
-		    if(aux->sonList->node->dataType != functionType)
+		    if(aux->sonList->node->dataType != functionType && aux->sonList->node->coercion != functionType)
 		    {
 		        printError(IKS_ERROR_WRONG_PAR_RETURN, 0);
 		        return IKS_ERROR_WRONG_PAR_RETURN;
@@ -474,25 +544,13 @@ int verifyGivenParameters(comp_tree* func, comp_tree* call){
     if(func != NULL){
 		nodeList* firstSon = call->sonList->next;
 		comp_dict_t_p declaredArguments = func->args;
-		if(declaredArguments != NULL && firstSon != NULL){
-			if(declaredArguments->item->type != firstSon->node->dataType){
-				switch(declaredArguments->item->type){
-					case IKS_INT:	if(firstSon->node->coercion != COERCION_TO_INT)
-										return IKS_ERROR_WRONG_TYPE_ARGS;
-										break;
-					case IKS_BOOL:	if(firstSon->node->coercion != COERCION_TO_BOOL)
-										return IKS_ERROR_WRONG_TYPE_ARGS;
-										break;
-					case IKS_FLOAT:	if(firstSon->node->coercion != COERCION_TO_FLOAT)
-										return IKS_ERROR_WRONG_TYPE_ARGS;
-										break;
-				}
-							
-			}
+		if(declaredArguments != NULL && firstSon != NULL && declaredArguments->item->usage == ID_PARAMETRO){
+			if(declaredArguments->item->type != firstSon->node->dataType)
+				return IKS_ERROR_WRONG_TYPE_ARGS;
 			declaredArguments = declaredArguments->next;
 			comp_tree* brothers = firstSon->node->broList;
 			while(brothers!=NULL){
-				if(declaredArguments != NULL){
+				if(declaredArguments != NULL && declaredArguments->item->usage == ID_PARAMETRO){
 					if(declaredArguments->item->type != brothers->dataType){
 						switch(declaredArguments->item->type){
 							case IKS_INT:	if(firstSon->node->coercion != COERCION_TO_INT)
@@ -512,13 +570,13 @@ int verifyGivenParameters(comp_tree* func, comp_tree* call){
 				}
 				else return IKS_ERROR_EXCESS_ARGS;
 			}
-			if(declaredArguments!= NULL)
+			if(declaredArguments!= NULL && declaredArguments->item->usage == ID_PARAMETRO)
 				return IKS_ERROR_MISSING_ARGS;
 			else return IKS_SUCCESS;
 		}
-		else if(firstSon != NULL && declaredArguments == NULL)
+		else if(firstSon != NULL && (declaredArguments == NULL || declaredArguments->item->usage != ID_PARAMETRO)) 
 			return IKS_ERROR_EXCESS_ARGS;
-		else if(firstSon == NULL && declaredArguments != NULL)
+		else if(firstSon == NULL && (declaredArguments != NULL && declaredArguments->item->usage == ID_PARAMETRO))
 			return IKS_ERROR_MISSING_ARGS;
 	}
 }
@@ -529,6 +587,6 @@ void setType(int type, comp_dict_item_t* symbol){
 	   case IKS_FLOAT: symbol->type = IKS_FLOAT; symbol->size = IKS_FLOAT_SIZE; break;
 	   case IKS_BOOL: symbol->type = IKS_BOOL; symbol->size = IKS_BOOL_SIZE; break;
 	   case IKS_CHAR: symbol->type = IKS_CHAR; symbol->size = IKS_CHAR_SIZE; break;
-	   case IKS_STRING: symbol->type = IKS_STRING; symbol->size = IKS_CHAR_SIZE; break; 
+	   case IKS_STRING: symbol->type = IKS_STRING; symbol->size = IKS_CHAR_SIZE; break;
 	}
 }

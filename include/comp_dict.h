@@ -24,6 +24,7 @@
 #define ID_VARIAVEL 1
 #define ID_VETOR 2
 #define ID_FUNCAO 3
+#define ID_PARAMETRO 4
 
 union dataValue
 {

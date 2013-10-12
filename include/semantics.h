@@ -25,10 +25,10 @@
 #define IKS_CHAR_SIZE 1
 #define IKS_BOOL_SIZE 1
 
-/**Coerção**/
-#define COERCION_TO_FLOAT 1
-#define COERCION_TO_BOOL 2
-#define COERCION_TO_INT 3
+/** Coerção **/
+#define COERCION_TO_FLOAT 2
+#define COERCION_TO_BOOL 5
+#define COERCION_TO_INT 1
 
 /** Resultados */
 #define IKS_SUCCESS 0 //caso não houver nenhum tipo de erro
