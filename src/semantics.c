@@ -226,6 +226,10 @@ int astTypeInference(comp_tree* ast){
 		{
 		    aritmeticInference(aux);
 		}
+        else if(aux->type == IKS_AST_ARIM_DIVISAO)
+        {
+            aritmeticInference(aux);
+        }
 		else if(aux->type == IKS_AST_ARIM_INVERSAO)
 		{
 		    aux->dataType = aux->sonList->node->symbol->type;
@@ -344,11 +348,48 @@ int astTypeCoercion(comp_tree* ast){
 		}
 		else if(aux->type == IKS_AST_ARIM_SUBTRACAO)
 		{
-		    aux->dataType = typeInference(aux->sonList->node->symbol->type, aux->sonList->next->node->symbol->type);
+		    if (aux->sonList->node->symbol->type == IKS_CHAR || aux->sonList->next->node->symbol->type == IKS_CHAR)
+            {
+                printError( IKS_ERROR_CHAR_TO_X, 0);
+            }
+            else if (aux->sonList->node->symbol->type == IKS_STRING || aux->sonList->next->node->symbol->type == IKS_STRING)
+            {
+                printError( IKS_ERROR_STRING_TO_X, 0);
+            }
+            else
+            {
+                aritmeticCoercion(aux);
+            }
 		}
 		else if(aux->type == IKS_AST_ARIM_MULTIPLICACAO)
 		{
-		    aux->dataType = typeInference(aux->sonList->node->symbol->type, aux->sonList->next->node->symbol->type);
+		    if (aux->sonList->node->symbol->type == IKS_CHAR || aux->sonList->next->node->symbol->type == IKS_CHAR)
+            {
+                printError( IKS_ERROR_CHAR_TO_X, 0);
+            }
+            else if (aux->sonList->node->symbol->type == IKS_STRING || aux->sonList->next->node->symbol->type == IKS_STRING)
+            {
+                printError( IKS_ERROR_STRING_TO_X, 0);
+            }
+            else
+            {
+                aritmeticCoercion(aux);
+            }
+		}
+        else if(aux->type == IKS_AST_ARIM_DIVISAO)
+		{
+		    if (aux->sonList->node->symbol->type == IKS_CHAR || aux->sonList->next->node->symbol->type == IKS_CHAR)
+            {
+                printError( IKS_ERROR_CHAR_TO_X, 0);
+            }
+            else if (aux->sonList->node->symbol->type == IKS_STRING || aux->sonList->next->node->symbol->type == IKS_STRING)
+            {
+                printError( IKS_ERROR_STRING_TO_X, 0);
+            }
+            else
+            {
+                aritmeticCoercion(aux);
+            }
 		}
 		else if(aux->type == IKS_AST_ARIM_INVERSAO)
 		{
