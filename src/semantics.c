@@ -475,13 +475,37 @@ int verifyGivenParameters(comp_tree* func, comp_tree* call){
 		nodeList* firstSon = call->sonList->next;
 		comp_dict_t_p declaredArguments = func->args;
 		if(declaredArguments != NULL && firstSon != NULL){
-			if(declaredArguments->item->type != firstSon->node->dataType)
-				return IKS_ERROR_WRONG_TYPE_ARGS;			
+			if(declaredArguments->item->type != firstSon->node->dataType){
+				switch(declaredArguments->item->type){
+					case IKS_INT:	if(firstSon->node->coercion != COERCION_TO_INT)
+										return IKS_ERROR_WRONG_TYPE_ARGS;
+										break;
+					case IKS_BOOL:	if(firstSon->node->coercion != COERCION_TO_BOOL)
+										return IKS_ERROR_WRONG_TYPE_ARGS;
+										break;
+					case IKS_FLOAT:	if(firstSon->node->coercion != COERCION_TO_FLOAT)
+										return IKS_ERROR_WRONG_TYPE_ARGS;
+										break;
+				}
+							
+			}
 			declaredArguments = declaredArguments->next;
 			comp_tree* brothers = firstSon->node->broList;
 			while(brothers!=NULL){
 				if(declaredArguments != NULL){
-					if(declaredArguments->item->type != brothers->dataType)
+					if(declaredArguments->item->type != brothers->dataType){
+						switch(declaredArguments->item->type){
+							case IKS_INT:	if(firstSon->node->coercion != COERCION_TO_INT)
+												return IKS_ERROR_WRONG_TYPE_ARGS;
+												break;
+							case IKS_BOOL:	if(firstSon->node->coercion != COERCION_TO_BOOL)
+												return IKS_ERROR_WRONG_TYPE_ARGS;
+												break;
+							case IKS_FLOAT:	if(firstSon->node->coercion != COERCION_TO_FLOAT)
+												return IKS_ERROR_WRONG_TYPE_ARGS;
+												break;
+						}
+					}
 						return IKS_ERROR_WRONG_TYPE_ARGS;
 					declaredArguments = declaredArguments->next;
 					brothers = brothers->broList;
