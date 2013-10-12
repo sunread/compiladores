@@ -234,10 +234,10 @@ int astTypeInference(comp_tree* ast){
 		{
 		    aritmeticInference(aux);
 		}
-		else if(aux->type == IKS_AST_ARIM_DIVISAO)
-		{
-		    aritmeticInference(aux);
-		}
+        else if(aux->type == IKS_AST_ARIM_DIVISAO)
+        {
+            aritmeticInference(aux);
+        }
 		else if(aux->type == IKS_AST_ARIM_INVERSAO)
 		{
 		    aux->dataType = aux->sonList->node->symbol->type;
@@ -337,7 +337,6 @@ int astTypeCoercion(comp_tree* ast){
         comp_tree* aux = ast;
         nodeList* auxList;
 		auxList = aux->sonList;
-		// Processing current node
 		if(isExpression(aux->type))
 			if(aux->sonList->next !=NULL){
 				if (aux->sonList->node->symbol->type == IKS_CHAR || aux->sonList->next->node->symbol->type == IKS_CHAR)

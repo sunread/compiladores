@@ -205,11 +205,11 @@
 | TK_LIT_CHAR {$$  = tree_CreateNode(IKS_AST_LITERAL, $1); astTypeInference($$);}
 | TK_LIT_STRING {$$  = tree_CreateNode(IKS_AST_LITERAL, $1); astTypeInference($$);}
 | expressao '+' expressao {$$ = tree_CreateNode(IKS_AST_ARIM_SOMA, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$); astTypeCoercion($$);}
-| expressao '-' expressao {$$ = tree_CreateNode(IKS_AST_ARIM_SUBTRACAO, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$);}
+| expressao '-' expressao {$$ = tree_CreateNode(IKS_AST_ARIM_SUBTRACAO, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$); astTypeCoercion($$);}
 | '-' expressao {$$ = tree_CreateNode(IKS_AST_ARIM_INVERSAO, NULL); tree_AddSon($$, 1, $2); astTypeInference($$);}
 | '!' expressao {$$ = tree_CreateNode(IKS_AST_LOGICO_COMP_NEGACAO, NULL); tree_AddSon($$, 1, $2); astTypeInference($$);}
-| expressao '*' expressao {$$ = tree_CreateNode(IKS_AST_ARIM_MULTIPLICACAO, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$);}
-| expressao '/' expressao {$$ = tree_CreateNode(IKS_AST_ARIM_DIVISAO, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$);}
+| expressao '*' expressao {$$ = tree_CreateNode(IKS_AST_ARIM_MULTIPLICACAO, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$); astTypeCoercion($$);}
+| expressao '/' expressao {$$ = tree_CreateNode(IKS_AST_ARIM_DIVISAO, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$); astTypeCoercion($$);}
 | expressao '<' expressao {$$ = tree_CreateNode(IKS_AST_LOGICO_COMP_L, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$);}
 | expressao '>' expressao {$$ = tree_CreateNode(IKS_AST_LOGICO_COMP_G, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$);}
 | '(' expressao ')' {$$ = $2;}
