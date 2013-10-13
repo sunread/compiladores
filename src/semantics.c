@@ -8,45 +8,35 @@
 #include "semantics.h"
 
 /**
-**  semanticEvaluation
-**  Chama as funções que realizam a verificação semântica
-*/
-int semanticEvaluation(comp_tree* ast){
-	int result = IKS_SUCCESS;
-	//inserir verificacao das declaracoes
-	//uso correto de identificadores
-	result = astTypeInference(ast); //inserir tipos e tamanho de dados
-	result = astTypeCoercion(ast);//inserir coercao de tipos
-	//inserir verificacao de tipos em comandos
-	return result;
-}
-
-/**
 **  printError
 **  Imprime a mensagem de erro de acordo com o erro passado
 */
-void printError(int errorCode, int line){
-	switch(errorCode){
-		case IKS_ERROR_DECLARED: printf("Erro semântico na linha %d: Identificador já declarado na linha %d\n", getLineNumber(),line);break;
-		case IKS_ERROR_UNDECLARED: printf("Erro semântico na linha %d: Identificador não declarado neste escopo\n", getLineNumber());break;
-		case IKS_ERROR_VARIABLE: printf("Erro semântico na linha %d: Mal uso da variável declarada na linha %d\n", getLineNumber(), line);break;
-		case IKS_ERROR_VECTOR: printf("Erro semântico na linha %d: Mal uso do vetor declarado na linha %d\n", getLineNumber(), line);break;
-		case IKS_ERROR_FUNCTION: printf("Erro semântico na linha %d: Mal uso da função declarada na linha %d\n", getLineNumber(), line);break;
-		case IKS_ERROR_MISSING_ARGS: printf("Erro semântico na linha %d: Faltam argumentos para função declarada na linha %d\n", getLineNumber(), line);break;
-		case IKS_ERROR_EXCESS_ARGS: printf("Erro semântico na linha %d: Sobram argumentos para função declarada na linha %d\n", getLineNumber(), line);break;
-		case IKS_ERROR_WRONG_TYPE_ARGS:printf("Erro semântico na linha %d: Argumentos incompatíveis para função declarada na linha %d\n", getLineNumber(), line);break;
-		case IKS_ERROR_WRONG_PAR_RETURN: printf("Erro semântico na linha %d: O tipo de retorno é diferente do tipo da função.\n", getLineNumber()); break;
-		case IKS_ERROR_WRONG_PAR_INPUT: printf("Erro semântico na linha %d: O parâmetro do INPUT não é um IDENTIFICADOR.\n", getLineNumber()); break;
-        case IKS_ERROR_WRONG_PAR_OUTPUT: printf("Erro semântico na linha %d: O parâmetro do OUTPUT não é uma STRING ou EXPRESSÃO ARITMÉTICA.\n", getLineNumber()); break;
-        case IKS_ERROR_CHAR_TO_X: printf("Erro semântico na linha %d: Não é possível converter CHAR.\n", getLineNumber()); break;
-        case IKS_ERROR_STRING_TO_X: printf("Erro semântico na linha %d: Não é possível converter STRING.\n", getLineNumber()); break;
+void printError(int errorCode, int line)
+{
+    switch(errorCode)
+    {
+            case IKS_ERROR_UNDECLARED: printf("Erro semântico na linha %d: Identificador não declarado neste escopo\n", getLineNumber());break;
+            case IKS_ERROR_DECLARED: printf("Erro semântico na linha %d: Identificador já declarado na linha %d\n", getLineNumber(),line);break;
+            case IKS_ERROR_VARIABLE: printf("Erro semântico na linha %d: Mal uso da variável declarada na linha %d\n", getLineNumber(), line);break;
+            case IKS_ERROR_VECTOR: printf("Erro semântico na linha %d: Mal uso do vetor declarado na linha %d\n", getLineNumber(), line);break;
+            case IKS_ERROR_FUNCTION: printf("Erro semântico na linha %d: Mal uso da função declarada na linha %d\n", getLineNumber(), line);break;
+            case IKS_ERROR_MISSING_ARGS: printf("Erro semântico na linha %d: Faltam argumentos para função declarada na linha %d\n", getLineNumber(), line);break;
+            case IKS_ERROR_EXCESS_ARGS: printf("Erro semântico na linha %d: Sobram argumentos para função declarada na linha %d\n", getLineNumber(), line);break;
+            case IKS_ERROR_WRONG_TYPE_ARGS:printf("Erro semântico na linha %d: Argumentos incompatíveis para função declarada na linha %d\n", getLineNumber(), line);break;
+            case IKS_ERROR_WRONG_PAR_RETURN: printf("Erro semântico na linha %d: O tipo de retorno é diferente do tipo da função.\n", getLineNumber()); break;
+            case IKS_ERROR_WRONG_PAR_INPUT: printf("Erro semântico na linha %d: O parâmetro do INPUT não é um IDENTIFICADOR.\n", getLineNumber()); break;
+            case IKS_ERROR_WRONG_PAR_OUTPUT: printf("Erro semântico na linha %d: O parâmetro do OUTPUT não é uma STRING ou EXPRESSÃO ARITMÉTICA.\n", getLineNumber()); break;
+            case IKS_ERROR_CHAR_TO_X: printf("Erro semântico na linha %d: Não é possível converter CHAR.\n", getLineNumber()); break;
+            case IKS_ERROR_STRING_TO_X: printf("Erro semântico na linha %d: Não é possível converter STRING.\n", getLineNumber()); break;
+            case IKS_ERROR_WRONG_TYPE: printf("Erro semântico na linha %d: Tipos incompatíveis.\n", getLineNumber()); break;
+    }
 
-	}
-	if(errorCode != IKS_SUCCESS)
+    if(errorCode != IKS_SUCCESS)
 	{
 		dict_print(dictionary);
 	    exit(errorCode);
 	}
+
 }
 
 /**
@@ -55,20 +45,28 @@ void printError(int errorCode, int line){
 */
 int verifyDeclaration(comp_dict_item_t* decl, int uso){
 	if(localScope == NULL && decl->scope != NULL) //acessando declaracao local no escopo global
-		return IKS_ERROR_UNDECLARED;
+	{
+	    return IKS_ERROR_UNDECLARED;
+	}
 	if(decl->scope != localScope  && decl->scope != NULL) //acessando variavel local de outra funcao
-		return IKS_ERROR_UNDECLARED;
-	if(decl->scope == localScope && decl->usage != ID_NAO_DECLARADO && uso==0){
-		if(localScope != NULL){
+	{
+	    return IKS_ERROR_UNDECLARED;
+	}
+	if(decl->scope == localScope && decl->usage != ID_NAO_DECLARADO && uso==0)
+	{
+		if(localScope != NULL)
+		{
 			if(dict_find(localScope->ast_node->args, decl->text) != NULL)
-				return IKS_ERROR_DECLARED;
+			{
+			    return IKS_ERROR_DECLARED;
+			}
 		}
 		else if(dict_find(dictionary, decl->text) != NULL)
-				return IKS_ERROR_DECLARED;
+		{
+		   return IKS_ERROR_DECLARED;
+		}
 	}
-	return IKS_SUCCESS;
 }
-
 
 /**
 **   verifyIdentifier
@@ -77,18 +75,32 @@ int verifyDeclaration(comp_dict_item_t* decl, int uso){
 */
 int verifyIdentifier(comp_dict_item_t* id, int usingAs){
 	if(id->usage == ID_NAO_DECLARADO)
-		return IKS_ERROR_UNDECLARED;
-	else if(id->usage == ID_PARAMETRO && usingAs != ID_VARIAVEL)
-		return IKS_ERROR_VARIABLE;
-	else if(id->usage != usingAs && id->usage != ID_PARAMETRO){
-		if(id->usage == ID_VARIAVEL)
-			return IKS_ERROR_VARIABLE;
-		else if(id->usage == ID_VETOR)
-			return IKS_ERROR_VECTOR;
-		else if(id->usage == ID_FUNCAO)
-			return IKS_ERROR_FUNCTION;
+	{
+	    return IKS_ERROR_UNDECLARED;
 	}
-	else return IKS_SUCCESS;
+	else if(id->usage == ID_PARAMETRO && usingAs != ID_VARIAVEL)
+	{
+	    return IKS_ERROR_VARIABLE;
+	}
+	else if(id->usage != usingAs && id->usage != ID_PARAMETRO)
+	{
+		if(id->usage == ID_VARIAVEL)
+		{
+		    return IKS_ERROR_VARIABLE;
+		}
+		else if(id->usage == ID_VETOR)
+		{
+		    return IKS_ERROR_VECTOR;
+		}
+		else if(id->usage == ID_FUNCAO)
+		{
+		    return IKS_ERROR_FUNCTION;
+		}
+	}
+	else
+	{
+        return IKS_SUCCESS;
+	}
 }
 
 /**
@@ -374,7 +386,7 @@ int astTypeCoercion(comp_tree* ast){
 							printError( IKS_ERROR_STRING_TO_X, 0);
 				}
 			}
-		
+
 		switch(aux->type){
 			case IKS_AST_ARIM_SOMA: aritmeticCoercion(aux);
 									break;
@@ -539,19 +551,28 @@ int verifySimpleCommand(comp_tree* ast, int functionType){
 **  verifyGivenParameters
 **  Verifica o uso correto dos parâmetros nas chamadas de função
 */
-int verifyGivenParameters(comp_tree* func, comp_tree* call){
-    if(func != NULL){
+int verifyGivenParameters(comp_tree* func, comp_tree* call)
+{
+    if(func != NULL)
+    {
 		nodeList* firstSon = call->sonList->next;
 		comp_dict_t_p declaredArguments = func->args;
 		if(declaredArguments != NULL && firstSon != NULL && declaredArguments->item->usage == ID_PARAMETRO){
 			if(declaredArguments->item->type != firstSon->node->dataType)
-				return IKS_ERROR_WRONG_TYPE_ARGS;
+			{
+			    return IKS_ERROR_WRONG_TYPE_ARGS;
+			}
 			declaredArguments = declaredArguments->next;
 			comp_tree* brothers = firstSon->node->broList;
-			while(brothers!=NULL){
-				if(declaredArguments != NULL && declaredArguments->item->usage == ID_PARAMETRO){
-					if(declaredArguments->item->type != brothers->dataType){
-						switch(declaredArguments->item->type){
+
+			while(brothers!=NULL)
+			{
+				if(declaredArguments != NULL && declaredArguments->item->usage == ID_PARAMETRO)
+				{
+					if(declaredArguments->item->type != brothers->dataType)
+					{
+						switch(declaredArguments->item->type)
+						{
 							case IKS_INT:	if(firstSon->node->coercion != COERCION_TO_INT)
 												return IKS_ERROR_WRONG_TYPE_ARGS;
 												break;
@@ -563,21 +584,36 @@ int verifyGivenParameters(comp_tree* func, comp_tree* call){
 												break;
 						}
 					}
-						return IKS_ERROR_WRONG_TYPE_ARGS;
+
+                    return IKS_ERROR_WRONG_TYPE_ARGS;
+
 					declaredArguments = declaredArguments->next;
 					brothers = brothers->broList;
 				}
-				else return IKS_ERROR_EXCESS_ARGS;
+				else
+				{
+				    return IKS_ERROR_EXCESS_ARGS;
+				}
 			}
 			if(declaredArguments!= NULL && declaredArguments->item->usage == ID_PARAMETRO)
-				return IKS_ERROR_MISSING_ARGS;
-			else return IKS_SUCCESS;
+			{
+			    return IKS_ERROR_MISSING_ARGS;
+			}
+			else
+			{
+			    return IKS_SUCCESS;
+			}
 		}
-		else if(firstSon != NULL && (declaredArguments == NULL || declaredArguments->item->usage != ID_PARAMETRO)) 
-			return IKS_ERROR_EXCESS_ARGS;
+		else if(firstSon != NULL && (declaredArguments == NULL || declaredArguments->item->usage != ID_PARAMETRO))
+		{
+		    return IKS_ERROR_EXCESS_ARGS;
+		}
 		else if(firstSon == NULL && (declaredArguments != NULL && declaredArguments->item->usage == ID_PARAMETRO))
-			return IKS_ERROR_MISSING_ARGS;
+		{
+		    return IKS_ERROR_MISSING_ARGS;
+		}
 	}
+	return IKS_SUCCESS;
 }
 
 void setType(int type, comp_dict_item_t* symbol){
