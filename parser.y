@@ -162,13 +162,14 @@
 												astTypeInference($$);
 												astTypeCoercion($$);
 												}
-			| vet_index '=' expressao {$$ = tree_CreateNode(IKS_AST_ATRIBUICAO, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$);};
+			| vet_index '=' expressao {$$ = tree_CreateNode(IKS_AST_ATRIBUICAO, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$);astTypeCoercion($$);};
 
  vet_index: TK_IDENTIFICADOR '[' expressao ']' {$$ = tree_CreateNode(IKS_AST_VETOR_INDEXADO, NULL);
 												tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3);
 												verifyIdentifier($1, ID_VETOR);
 												verifyDeclaration($1,1);
 												astTypeInference($$);
+												astTypeCoercion($$);
 												};
 
 
@@ -182,7 +183,7 @@
  lista_expressoes_nao_vazia: expressao ',' lista_expressoes_nao_vazia {$$ = $1; tree_AddBro($$, $3);}
 			| expressao {$$ = $1;};
 
- return : TK_PR_RETURN expressao {$$ = tree_CreateNode(IKS_AST_RETURN, NULL); tree_AddSon($$, 1, $2); verifySimpleCommand($$, functionType);} ;
+ return : TK_PR_RETURN expressao {$$ = tree_CreateNode(IKS_AST_RETURN, NULL); tree_AddSon($$, 1, $2); $$->dataType = functionType; astTypeCoercion($$); verifySimpleCommand($$); } ;
 
  controle_fluxo : TK_PR_IF '(' expressao ')' TK_PR_THEN comando {$$ = tree_CreateNode(IKS_AST_IF_ELSE, NULL); tree_AddSon($$, 2, $3, $6);}|
                   TK_PR_IF '(' expressao ')' TK_PR_THEN ';' {$$ = tree_CreateNode(IKS_AST_IF_ELSE, NULL); tree_AddSon($$, 1, $3);}|
@@ -197,13 +198,13 @@
                   TK_PR_DO ';' TK_PR_WHILE '(' expressao ')' {$$ = tree_CreateNode(IKS_AST_DO_WHILE, NULL); tree_AddSon($$, 1, $5);};
 
  expressao : TK_IDENTIFICADOR {$$  = tree_CreateNode(IKS_AST_IDENTIFICADOR, $1); verifyDeclaration($1, 1);verifyIdentifier($1, ID_VARIAVEL); astTypeInference($$);}
-| TK_IDENTIFICADOR '[' expressao ']' {$$  = tree_CreateNode(IKS_AST_VETOR_INDEXADO, $1); tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3); verifyDeclaration($1, 1);verifyIdentifier($1, ID_VETOR); astTypeInference($$);}
-| TK_LIT_INT {$$  = tree_CreateNode(IKS_AST_LITERAL, $1); astTypeInference($$);}
-| TK_LIT_FLOAT {$$  = tree_CreateNode(IKS_AST_LITERAL, $1); astTypeInference($$);}
-| TK_LIT_FALSE {$$  = tree_CreateNode(IKS_AST_LITERAL, $1); astTypeInference($$);}
-| TK_LIT_TRUE {$$  = tree_CreateNode(IKS_AST_LITERAL, $1); astTypeInference($$);}
-| TK_LIT_CHAR {$$  = tree_CreateNode(IKS_AST_LITERAL, $1); astTypeInference($$);}
-| TK_LIT_STRING {$$  = tree_CreateNode(IKS_AST_LITERAL, $1); astTypeInference($$);}
+| TK_IDENTIFICADOR '[' expressao ']' {$$  = tree_CreateNode(IKS_AST_VETOR_INDEXADO, $1); tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3); verifyDeclaration($1, 1);verifyIdentifier($1, ID_VETOR); astTypeInference($$);astTypeCoercion($$);}
+| TK_LIT_INT {$$  = tree_CreateNode(IKS_AST_LITERAL, $1); $1->ast_node = $$; astTypeInference($$);}
+| TK_LIT_FLOAT {$$  = tree_CreateNode(IKS_AST_LITERAL, $1); $1->ast_node = $$; astTypeInference($$);}
+| TK_LIT_FALSE {$$  = tree_CreateNode(IKS_AST_LITERAL, $1); $1->ast_node = $$; astTypeInference($$);}
+| TK_LIT_TRUE {$$  = tree_CreateNode(IKS_AST_LITERAL, $1); $1->ast_node = $$; astTypeInference($$);}
+| TK_LIT_CHAR {$$  = tree_CreateNode(IKS_AST_LITERAL, $1); $1->ast_node = $$; astTypeInference($$);}
+| TK_LIT_STRING {$$  = tree_CreateNode(IKS_AST_LITERAL, $1); $1->ast_node = $$; astTypeInference($$);}
 | expressao '+' expressao {$$ = tree_CreateNode(IKS_AST_ARIM_SOMA, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$); astTypeCoercion($$);}
 | expressao '-' expressao {$$ = tree_CreateNode(IKS_AST_ARIM_SUBTRACAO, NULL); tree_AddSon($$, 2, $1, $3); astTypeInference($$); astTypeCoercion($$);}
 | '-' expressao {$$ = tree_CreateNode(IKS_AST_ARIM_INVERSAO, NULL); tree_AddSon($$, 1, $2); astTypeInference($$);}

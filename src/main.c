@@ -26,18 +26,15 @@ int main (int argc, char **argv)
   dictionary = dict_new();
 
   int resultado = yyparse();
-  //printf("saida");
-  //printf("avaliacao: %d ", semanticEvaluation(ast));
-  
 
   gv_init("saida.dot");
 
   makeTree(ast);
 
   gv_close();
-  
+  printf("Avaliacao semantica realizada com sucesso.\n");
   dict_print(dictionary);
-
+  exit(IKS_SUCCESS);
   return resultado;
 }
 

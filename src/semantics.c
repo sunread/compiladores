@@ -8,45 +8,35 @@
 #include "semantics.h"
 
 /**
-**  semanticEvaluation
-**  Chama as funções que realizam a verificação semântica
-*/
-int semanticEvaluation(comp_tree* ast){
-	int result = IKS_SUCCESS;
-	//inserir verificacao das declaracoes
-	//uso correto de identificadores
-	result = astTypeInference(ast); //inserir tipos e tamanho de dados
-	result = astTypeCoercion(ast);//inserir coercao de tipos
-	//inserir verificacao de tipos em comandos
-	return result;
-}
-
-/**
 **  printError
 **  Imprime a mensagem de erro de acordo com o erro passado
 */
-void printError(int errorCode, int line){
-	switch(errorCode){
-		case IKS_ERROR_DECLARED: printf("Erro semântico na linha %d: Identificador já declarado na linha %d\n", getLineNumber(),line);break;
-		case IKS_ERROR_UNDECLARED: printf("Erro semântico na linha %d: Identificador não declarado neste escopo\n", getLineNumber());break;
-		case IKS_ERROR_VARIABLE: printf("Erro semântico na linha %d: Mal uso da variável declarada na linha %d\n", getLineNumber(), line);break;
-		case IKS_ERROR_VECTOR: printf("Erro semântico na linha %d: Mal uso do vetor declarado na linha %d\n", getLineNumber(), line);break;
-		case IKS_ERROR_FUNCTION: printf("Erro semântico na linha %d: Mal uso da função declarada na linha %d\n", getLineNumber(), line);break;
-		case IKS_ERROR_MISSING_ARGS: printf("Erro semântico na linha %d: Faltam argumentos para função declarada na linha %d\n", getLineNumber(), line);break;
-		case IKS_ERROR_EXCESS_ARGS: printf("Erro semântico na linha %d: Sobram argumentos para função declarada na linha %d\n", getLineNumber(), line);break;
-		case IKS_ERROR_WRONG_TYPE_ARGS:printf("Erro semântico na linha %d: Argumentos incompatíveis para função declarada na linha %d\n", getLineNumber(), line);break;
-		case IKS_ERROR_WRONG_PAR_RETURN: printf("Erro semântico na linha %d: O tipo de retorno é diferente do tipo da função.\n", getLineNumber()); break;
-		case IKS_ERROR_WRONG_PAR_INPUT: printf("Erro semântico na linha %d: O parâmetro do INPUT não é um IDENTIFICADOR.\n", getLineNumber()); break;
-        case IKS_ERROR_WRONG_PAR_OUTPUT: printf("Erro semântico na linha %d: O parâmetro do OUTPUT não é uma STRING ou EXPRESSÃO ARITMÉTICA.\n", getLineNumber()); break;
-        case IKS_ERROR_CHAR_TO_X: printf("Erro semântico na linha %d: Não é possível converter CHAR.\n", getLineNumber()); break;
-        case IKS_ERROR_STRING_TO_X: printf("Erro semântico na linha %d: Não é possível converter STRING.\n", getLineNumber()); break;
+void printError(int errorCode, int line)
+{
+    switch(errorCode)
+    {
+            case IKS_ERROR_UNDECLARED: printf("Erro semântico na linha %d: Identificador não declarado neste escopo\n", getLineNumber());break;
+            case IKS_ERROR_DECLARED: printf("Erro semântico na linha %d: Identificador já declarado na linha %d\n", getLineNumber(),line);break;
+            case IKS_ERROR_VARIABLE: printf("Erro semântico na linha %d: Mal uso da variável declarada na linha %d\n", getLineNumber(), line);break;
+            case IKS_ERROR_VECTOR: printf("Erro semântico na linha %d: Mal uso do vetor declarado na linha %d\n", getLineNumber(), line);break;
+            case IKS_ERROR_FUNCTION: printf("Erro semântico na linha %d: Mal uso da função declarada na linha %d\n", getLineNumber(), line);break;
+            case IKS_ERROR_MISSING_ARGS: printf("Erro semântico na linha %d: Faltam argumentos para função declarada na linha %d\n", getLineNumber(), line);break;
+            case IKS_ERROR_EXCESS_ARGS: printf("Erro semântico na linha %d: Sobram argumentos para função declarada na linha %d\n", getLineNumber(), line);break;
+            case IKS_ERROR_WRONG_TYPE_ARGS:printf("Erro semântico na linha %d: Argumentos incompatíveis para função declarada na linha %d\n", getLineNumber(), line);break;
+            case IKS_ERROR_WRONG_PAR_RETURN: printf("Erro semântico na linha %d: O tipo de retorno é diferente do tipo da função.\n", getLineNumber()); break;
+            case IKS_ERROR_WRONG_PAR_INPUT: printf("Erro semântico na linha %d: O parâmetro do INPUT não é um IDENTIFICADOR.\n", getLineNumber()); break;
+            case IKS_ERROR_WRONG_PAR_OUTPUT: printf("Erro semântico na linha %d: O parâmetro do OUTPUT não é uma STRING ou EXPRESSÃO ARITMÉTICA.\n", getLineNumber()); break;
+            case IKS_ERROR_CHAR_TO_X: printf("Erro semântico na linha %d: Não é possível converter CHAR.\n", getLineNumber()); break;
+            case IKS_ERROR_STRING_TO_X: printf("Erro semântico na linha %d: Não é possível converter STRING.\n", getLineNumber()); break;
+            case IKS_ERROR_WRONG_TYPE: printf("Erro semântico na linha %d: Tipos incompatíveis.\n", getLineNumber()); break;
+    }
 
-	}
-	if(errorCode != IKS_SUCCESS)
+    if(errorCode != IKS_SUCCESS)
 	{
 		dict_print(dictionary);
 	    exit(errorCode);
 	}
+
 }
 
 /**
@@ -55,20 +45,28 @@ void printError(int errorCode, int line){
 */
 int verifyDeclaration(comp_dict_item_t* decl, int uso){
 	if(localScope == NULL && decl->scope != NULL) //acessando declaracao local no escopo global
-		printError(IKS_ERROR_UNDECLARED, decl->lineNumber);
-	if(decl->scope != localScope  && decl->scope != NULL && localScope != NULL) //acessando variavel local de outra funcao
-		printError(IKS_ERROR_UNDECLARED, decl->lineNumber);
-	if(decl->scope == localScope && decl->usage != ID_NAO_DECLARADO && uso==0){
-		if(localScope != NULL){
+	{
+	    printError(IKS_ERROR_UNDECLARED, decl->lineNumber);
+	}
+	if(decl->scope != localScope  && decl->scope != NULL) //acessando variavel local de outra funcao
+	{
+	    printError(IKS_ERROR_UNDECLARED, decl->lineNumber);
+	}
+	if(decl->scope == localScope && decl->usage != ID_NAO_DECLARADO && uso==0)
+	{
+		if(localScope != NULL)
+		{
 			if(dict_find(localScope->ast_node->args, decl->text) != NULL)
-				printError(IKS_ERROR_DECLARED, decl->lineNumber);
+			{
+			    printError(IKS_ERROR_DECLARED, decl->lineNumber);
+			}
 		}
 		else if(dict_find(dictionary, decl->text) != NULL)
-				printError(IKS_ERROR_DECLARED, decl->lineNumber);
+		{
+		   printError(IKS_ERROR_DECLARED, decl->lineNumber);
+		}
 	}
-	return IKS_SUCCESS;
 }
-
 
 /**
 **   verifyIdentifier
@@ -77,18 +75,32 @@ int verifyDeclaration(comp_dict_item_t* decl, int uso){
 */
 int verifyIdentifier(comp_dict_item_t* id, int usingAs){
 	if(id->usage == ID_NAO_DECLARADO)
-		printError(IKS_ERROR_UNDECLARED, id->lineNumber);
-	else if(id->usage == ID_PARAMETRO && usingAs != ID_VARIAVEL)
-		printError(IKS_ERROR_VARIABLE, id->lineNumber);
-	else if(id->usage != usingAs && id->usage != ID_PARAMETRO){
-		if(id->usage == ID_VARIAVEL)
-			printError(IKS_ERROR_VARIABLE, id->lineNumber);
-		else if(id->usage == ID_VETOR)
-			printError(IKS_ERROR_VECTOR, id->lineNumber);
-		else if(id->usage == ID_FUNCAO)
-			printError(IKS_ERROR_FUNCTION, id->lineNumber);
+	{
+	   printError(IKS_ERROR_UNDECLARED, id->lineNumber);
 	}
-	else return IKS_SUCCESS;
+	else if(id->usage == ID_PARAMETRO && usingAs != ID_VARIAVEL)
+	{
+	    printError(IKS_ERROR_VARIABLE, id->lineNumber);
+	}
+	else if(id->usage != usingAs && id->usage != ID_PARAMETRO)
+	{
+		if(id->usage == ID_VARIAVEL)
+		{
+		    printError(IKS_ERROR_VARIABLE, id->lineNumber);
+		}
+		else if(id->usage == ID_VETOR)
+		{
+		    printError(IKS_ERROR_VECTOR, id->lineNumber);
+		}
+		else if(id->usage == ID_FUNCAO)
+		{
+		    printError(IKS_ERROR_FUNCTION, id->lineNumber);
+		}
+	}
+	else
+	{
+        return IKS_SUCCESS;
+	}
 }
 
 /**
@@ -303,19 +315,19 @@ void aritmeticCoercion(comp_tree* aux)
 
     if (aux->dataType == IKS_FLOAT)
     {
-        if (aux->sonList->node->symbol->type == IKS_INT)
+        if (aux->sonList->node->dataType == IKS_INT)
         {
             aux->sonList->node->coercion = COERCION_TO_FLOAT;
         }
-        if (aux->sonList->next->node->symbol->type == IKS_INT)
+        if (aux->sonList->next->node->dataType == IKS_INT)
         {
             aux->sonList->next->node->coercion = COERCION_TO_FLOAT;
         }
-        if (aux->sonList->node->symbol->type == IKS_BOOL)
+        if (aux->sonList->node->dataType == IKS_BOOL)
         {
             aux->sonList->node->coercion = COERCION_TO_FLOAT;
         }
-        if (aux->sonList->next->node->symbol->type == IKS_BOOL)
+        if (aux->sonList->next->node->dataType == IKS_BOOL)
         {
             aux->sonList->next->node->coercion = COERCION_TO_FLOAT;
         }
@@ -337,46 +349,91 @@ int astTypeCoercion(comp_tree* ast){
         comp_tree* aux = ast;
         nodeList* auxList;
 		auxList = aux->sonList;
+		int sonType, son2Type;
 		if(isExpression(aux->type))
-			if(aux->sonList->next !=NULL){
-				if (aux->sonList->node->symbol->type == IKS_CHAR || aux->sonList->next->node->symbol->type == IKS_CHAR)
-						printError( IKS_ERROR_CHAR_TO_X, 0);
-				if (aux->sonList->node->symbol->type == IKS_STRING || aux->sonList->next->node->symbol->type == IKS_STRING)
-						printError( IKS_ERROR_STRING_TO_X, 0);
-			}
-			else{
-				if (aux->sonList->node->symbol->type == IKS_CHAR)
-						printError( IKS_ERROR_CHAR_TO_X, 0);
-				if (aux->sonList->node->symbol->type == IKS_STRING)
-						printError( IKS_ERROR_STRING_TO_X, 0);
-			}
-		else{
-				if(aux->sonList->next->node->type == IKS_AST_CHAMADA_DE_FUNCAO){
-					if ((aux->sonList->node->sonList->node->symbol->type == IKS_CHAR
-						&& aux->sonList->next->node->sonList->node->symbol->type != IKS_CHAR)
-						||(aux->sonList->node->sonList->node->symbol->type == IKS_STRING
-						&& aux->sonList->next->node->sonList->node->symbol->type != IKS_STRING))
-							printError( IKS_ERROR_WRONG_TYPE, 0);
-					if (aux->sonList->next->node->sonList->node->symbol->type == IKS_CHAR)
-							printError( IKS_ERROR_CHAR_TO_X, 0);
-					if (aux->sonList->next->node->sonList->node->symbol->type == IKS_STRING)
-							printError( IKS_ERROR_STRING_TO_X, 0);
+			if(aux->sonList->next !=NULL){ //expressoes de dois operandos
+				if(auxList->node->type == IKS_AST_CHAMADA_DE_FUNCAO || auxList->node->type == IKS_AST_VETOR_INDEXADO){
+					sonType = auxList->node->sonList->node->symbol->type; //tipo fica no filho deste no e nao nele proprio
 				}
 				else{
-					if ((aux->sonList->next->node->symbol->type == IKS_CHAR
-						&& aux->sonList->next->node->symbol->type != IKS_CHAR)
-						||(aux->sonList->next->node->symbol->type == IKS_STRING
-						&& aux->sonList->next->node->symbol->type != IKS_STRING))
-							printError( IKS_ERROR_WRONG_TYPE, 0);
-					if (aux->sonList->next->node->symbol->type == IKS_CHAR)
-							printError( IKS_ERROR_CHAR_TO_X, 0);
-					if (aux->sonList->next->node->symbol->type == IKS_STRING)
+					sonType = auxList->node->symbol->type;
+				}
+				if(auxList->next->node->type == IKS_AST_CHAMADA_DE_FUNCAO || auxList->next->node->type == IKS_AST_VETOR_INDEXADO){
+					son2Type = auxList->next->node->sonList->node->symbol->type; //tipo fica no filho deste no e nao nele proprio
+				}
+				else{
+					son2Type = auxList->next->node->symbol->type;
+				}
+				if (sonType == IKS_CHAR || son2Type == IKS_CHAR)
+						printError( IKS_ERROR_CHAR_TO_X, 0);
+				if (sonType == IKS_STRING || son2Type == IKS_STRING)
+						printError( IKS_ERROR_STRING_TO_X, 0);
+			}
+			else{ //expressoes de um operando
+				if(auxList->node->type == IKS_AST_CHAMADA_DE_FUNCAO || auxList->node->type == IKS_AST_VETOR_INDEXADO){
+					sonType = auxList->node->sonList->node->symbol->type; //tipo fica no filho deste no e nao nele proprio
+				}
+				else{
+					sonType = auxList->node->symbol->type;
+				}
+				if (sonType == IKS_CHAR)
+						printError( IKS_ERROR_CHAR_TO_X, 0);
+				if (sonType == IKS_STRING)
+						printError( IKS_ERROR_STRING_TO_X, 0);
+			}
+		else{ //nodos que nao sao expressao
+			if(aux->type == IKS_AST_ATRIBUICAO){
+				if(auxList->next->node->type == IKS_AST_CHAMADA_DE_FUNCAO || auxList->next->node->type == IKS_AST_VETOR_INDEXADO){
+					sonType = auxList->next->node->sonList->node->symbol->type; //tipo fica no filho deste no e nao nele proprio
+				}
+				else{
+					sonType = auxList->next->node->symbol->type;
+				}
+				if(auxList->next->node->coercion != aux->type){
+					if(auxList->node->dataType == IKS_CHAR){
+						if(sonType == IKS_STRING)
 							printError( IKS_ERROR_STRING_TO_X, 0);
+						if(sonType != IKS_CHAR)
+							printError( IKS_ERROR_WRONG_TYPE, 0);
+					}
+					if(auxList->node->dataType == IKS_STRING){
+						if(sonType == IKS_CHAR)
+							printError( IKS_ERROR_CHAR_TO_X, 0);
+						if(sonType != IKS_STRING)
+							printError( IKS_ERROR_WRONG_TYPE, 0);
+					}
+					else{
+						if(sonType == IKS_CHAR)
+							printError( IKS_ERROR_CHAR_TO_X, 0);
+						if(sonType == IKS_STRING)
+							printError( IKS_ERROR_STRING_TO_X, 0);
+					}
 				}
 			}
-		
+			if(aux->type == IKS_AST_VETOR_INDEXADO){
+				if(auxList->next->node->type == IKS_AST_CHAMADA_DE_FUNCAO || auxList->next->node->type == IKS_AST_VETOR_INDEXADO){
+					sonType = auxList->next->node->sonList->node->symbol->type; //tipo fica no filho deste no e nao nele proprio
+				}
+				else{
+					sonType = auxList->next->node->symbol->type;
+				}
+				if(auxList->next->node->coercion != IKS_INT){ //se filho nao faz coercao para inteiro entao nao serve para ser indice
+					if(sonType == IKS_STRING)
+						printError( IKS_ERROR_STRING_TO_X, 0);
+					if(sonType == IKS_CHAR)
+						printError( IKS_ERROR_CHAR_TO_X, 0);
+					else printError( IKS_ERROR_WRONG_TYPE, 0);
+				}
+			}
+		}
+
 		switch(aux->type){
-			case IKS_AST_ARIM_SOMA: aritmeticCoercion(aux);
+			case IKS_AST_RETURN:	{
+										if(aux->sonList->node->dataType != IKS_CHAR && aux->sonList->node->dataType != IKS_STRING)
+											aux->sonList->node->coercion = aux->dataType;
+										break;
+									}	
+			case IKS_AST_ARIM_SOMA:	aritmeticCoercion(aux);
 									break;
 			case IKS_AST_ARIM_SUBTRACAO: aritmeticCoercion(aux);
 									break;
@@ -470,7 +527,7 @@ int isExpression(int type){
 **  verifySimpleCommand
 **  Verifica a semântica dos comandos simples da linguagem
 */
-int verifySimpleCommand(comp_tree* ast, int functionType){
+int verifySimpleCommand(comp_tree* ast){
 
 	if(ast==NULL)
 	{
@@ -489,7 +546,7 @@ int verifySimpleCommand(comp_tree* ast, int functionType){
 
 		if(aux->type == IKS_AST_RETURN)
 		{
-		    if(aux->sonList->node->dataType != functionType && aux->sonList->node->coercion != functionType)
+		    if(aux->sonList->node->dataType != aux->dataType && aux->sonList->node->coercion != aux->dataType)
 		    {
 		        printError(IKS_ERROR_WRONG_PAR_RETURN, 0);
 		        return IKS_ERROR_WRONG_PAR_RETURN;
@@ -539,48 +596,85 @@ int verifySimpleCommand(comp_tree* ast, int functionType){
 **  verifyGivenParameters
 **  Verifica o uso correto dos parâmetros nas chamadas de função
 */
-int verifyGivenParameters(comp_tree* func, comp_tree* call){
-	//printf("%d %s", func, call->sonList->node->symbol->text);
-    if(func != NULL){
+int verifyGivenParameters(comp_tree* func, comp_tree* call)
+{
+    if(func != NULL)
+    {
 		nodeList* firstSon = call->sonList->next;
 		comp_dict_t_p declaredArguments = func->args;
 		if(declaredArguments != NULL && firstSon != NULL && declaredArguments->item->usage == ID_PARAMETRO){
 			if(declaredArguments->item->type != firstSon->node->dataType)
-				printError(IKS_ERROR_WRONG_TYPE_ARGS, call->sonList->node->symbol->lineNumber);
+				switch(declaredArguments->item->type)
+						{
+							case IKS_INT:	if(firstSon->node->dataType != IKS_CHAR && firstSon->node->dataType != IKS_STRING)
+												firstSon->node->coercion = COERCION_TO_INT;
+											else printError(IKS_ERROR_WRONG_TYPE_ARGS, call->sonList->node->symbol->lineNumber);
+												break;
+							case IKS_BOOL:	if(firstSon->node->dataType != IKS_CHAR && firstSon->node->dataType != IKS_STRING)
+												firstSon->node->coercion = COERCION_TO_BOOL;
+											else printError(IKS_ERROR_WRONG_TYPE_ARGS, call->sonList->node->symbol->lineNumber);
+												break;
+							case IKS_FLOAT:	if(firstSon->node->dataType != IKS_CHAR && firstSon->node->dataType != IKS_STRING)
+												firstSon->node->coercion = COERCION_TO_FLOAT;
+											else printError(IKS_ERROR_WRONG_TYPE_ARGS, call->sonList->node->symbol->lineNumber);
+												break;
+						}
+				
 			declaredArguments = declaredArguments->next;
 			comp_tree* brothers = firstSon->node->broList;
-			while(brothers!=NULL){
-				if(declaredArguments != NULL && declaredArguments->item->usage == ID_PARAMETRO){
-					if(declaredArguments->item->type != brothers->dataType){
-						switch(declaredArguments->item->type){
-							case IKS_INT:	if(firstSon->node->coercion != COERCION_TO_INT)
-												printError(IKS_ERROR_WRONG_TYPE_ARGS, call->sonList->node->symbol->lineNumber);
+
+			while(brothers!=NULL)
+			{
+				if(declaredArguments != NULL && declaredArguments->item->usage == ID_PARAMETRO)
+				{
+					if(declaredArguments->item->type != brothers->dataType)
+					{
+						switch(declaredArguments->item->type)
+						{
+							case IKS_INT:	if(firstSon->node->dataType != IKS_CHAR && firstSon->node->dataType != IKS_STRING)
+												firstSon->node->coercion = COERCION_TO_INT;
+											else printError(IKS_ERROR_WRONG_TYPE_ARGS, call->sonList->node->symbol->lineNumber);
 												break;
-							case IKS_BOOL:	if(firstSon->node->coercion != COERCION_TO_BOOL)
-												printError(IKS_ERROR_WRONG_TYPE_ARGS, call->sonList->node->symbol->lineNumber);
+							case IKS_BOOL:	if(firstSon->node->dataType != IKS_CHAR && firstSon->node->dataType != IKS_STRING)
+												firstSon->node->coercion = COERCION_TO_BOOL;
+											else printError(IKS_ERROR_WRONG_TYPE_ARGS, call->sonList->node->symbol->lineNumber);
 												break;
-							case IKS_FLOAT:	if(firstSon->node->coercion != COERCION_TO_FLOAT)
-												printError(IKS_ERROR_WRONG_TYPE_ARGS, call->sonList->node->symbol->lineNumber);
+							case IKS_FLOAT:	if(firstSon->node->dataType != IKS_CHAR && firstSon->node->dataType != IKS_STRING)
+												firstSon->node->coercion = COERCION_TO_FLOAT;
+											else printError(IKS_ERROR_WRONG_TYPE_ARGS, call->sonList->node->symbol->lineNumber);
 												break;
 						}
 					}
-						printError(IKS_ERROR_WRONG_TYPE_ARGS, call->sonList->node->symbol->lineNumber);
+
+                    printError(IKS_ERROR_WRONG_TYPE_ARGS, call->sonList->node->symbol->lineNumber);
+
 					declaredArguments = declaredArguments->next;
 					brothers = brothers->broList;
 				}
-				else printError(IKS_ERROR_EXCESS_ARGS, call->sonList->node->symbol->lineNumber);
+				else
+				{
+				    printError(IKS_ERROR_EXCESS_ARGS, call->sonList->node->symbol->lineNumber);
+				}
 			}
 			if(declaredArguments!= NULL && declaredArguments->item->usage == ID_PARAMETRO)
-				printError(IKS_ERROR_MISSING_ARGS, call->sonList->node->symbol->lineNumber);
-			else return IKS_SUCCESS;
+			{
+			    printError(IKS_ERROR_MISSING_ARGS, call->sonList->node->symbol->lineNumber);
+			}
+			else
+			{
+			    return IKS_SUCCESS;
+			}
 		}
-		else if(firstSon != NULL && (declaredArguments == NULL || declaredArguments->item->usage != ID_PARAMETRO)) 
-			printError(IKS_ERROR_EXCESS_ARGS, call->sonList->node->symbol->lineNumber);
+		else if(firstSon != NULL && (declaredArguments == NULL || declaredArguments->item->usage != ID_PARAMETRO))
+		{
+		    printError(IKS_ERROR_EXCESS_ARGS, call->sonList->node->symbol->lineNumber);
+		}
 		else if(firstSon == NULL && (declaredArguments != NULL && declaredArguments->item->usage == ID_PARAMETRO))
-			printError(IKS_ERROR_MISSING_ARGS, call->sonList->node->symbol->lineNumber);
-		else printf("Nao devia cair aqui!!!!!!!!!!!!!!");
+		{
+		   printError(IKS_ERROR_MISSING_ARGS, call->sonList->node->symbol->lineNumber);
+		}
 	}
-	else printError(IKS_ERROR_UNDECLARED, call->sonList->node->symbol->lineNumber);
+	return IKS_SUCCESS;
 }
 
 void setType(int type, comp_dict_item_t* symbol){

@@ -176,7 +176,7 @@ void dict_free(comp_dict_t_p dict)
 void dict_print(comp_dict_t* dict)
 {
 	printf("\nTabela de Símbolos\n");
-	printf("\nLinha | Tipo | Tamanho | Uso |  Escopo  | Texto \n");
+	printf("\nLinha | Tipo | Tamanho | Uso | Escopo | Texto \n");
 
 	if(dict != NULL){
 		while(dict != NULL){
