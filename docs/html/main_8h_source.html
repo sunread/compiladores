@@ -90,24 +90,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Busca');
 <a name="l00015"></a>00015 <span class="preprocessor">#include &quot;<a class="code" href="comp__graph_8h.html" title="Estruturas de dados e definições do grafo.">comp_graph.h</a>&quot;</span>
 <a name="l00016"></a>00016 <span class="preprocessor">#include &quot;<a class="code" href="iks__ast_8h.html" title="Este arquivo contém as constantes para os tipos dos nós da AST.">iks_ast.h</a>&quot;</span>
 <a name="l00017"></a>00017 <span class="preprocessor">#include &quot;<a class="code" href="gv_8h.html" title="Funções públicas do módulo gv. Verifique a implementação para maiores detalhes de como utilizar cada ...">gv.h</a>&quot;</span>
-<a name="l00018"></a>00018 
-<a name="l00024"></a><a class="code" href="main_8h.html#aa2e83304934225b4433241fbf139e14f">00024</a> <span class="preprocessor">#define IKS_SYNTAX_SUCESSO 0</span>
-<a name="l00025"></a>00025 <span class="preprocessor"></span><span class="preprocessor">#define IKS_SYNTAX_ERRO    1</span>
-<a name="l00026"></a>00026 <span class="preprocessor"></span>
-<a name="l00031"></a><a class="code" href="main_8h.html#af21f9e7bcb054f24e0982bcb1eee7fcc">00031</a> <span class="preprocessor">#define IKS_SIMBOLO_INT    1</span>
-<a name="l00032"></a>00032 <span class="preprocessor"></span><span class="preprocessor">#define IKS_SIMBOLO_FLOAT  2</span>
-<a name="l00033"></a>00033 <span class="preprocessor"></span><span class="preprocessor">#define IKS_SIMBOLO_CHAR   3</span>
-<a name="l00034"></a>00034 <span class="preprocessor"></span><span class="preprocessor">#define IKS_SIMBOLO_STRING 4</span>
-<a name="l00035"></a>00035 <span class="preprocessor"></span><span class="preprocessor">#define IKS_SIMBOLO_BOOL   5</span>
-<a name="l00036"></a>00036 <span class="preprocessor"></span>
-<a name="l00037"></a>00037 <span class="preprocessor">#endif</span>
+<a name="l00018"></a>00018 <span class="preprocessor">#include &quot;<a class="code" href="semantics_8h.html" title="Constantes utilizadas na análise semântica.">semantics.h</a>&quot;</span>
+<a name="l00019"></a>00019 
+<a name="l00025"></a><a class="code" href="main_8h.html#aa2e83304934225b4433241fbf139e14f">00025</a> <span class="preprocessor">#define IKS_SYNTAX_SUCESSO 0</span>
+<a name="l00026"></a>00026 <span class="preprocessor"></span><span class="preprocessor">#define IKS_SYNTAX_ERRO    1</span>
+<a name="l00027"></a>00027 <span class="preprocessor"></span>
+<a name="l00032"></a><a class="code" href="main_8h.html#af21f9e7bcb054f24e0982bcb1eee7fcc">00032</a> <span class="preprocessor">#define IKS_SIMBOLO_INT    1</span>
+<a name="l00033"></a>00033 <span class="preprocessor"></span><span class="preprocessor">#define IKS_SIMBOLO_FLOAT  2</span>
+<a name="l00034"></a>00034 <span class="preprocessor"></span><span class="preprocessor">#define IKS_SIMBOLO_CHAR   3</span>
+<a name="l00035"></a>00035 <span class="preprocessor"></span><span class="preprocessor">#define IKS_SIMBOLO_STRING 4</span>
+<a name="l00036"></a>00036 <span class="preprocessor"></span><span class="preprocessor">#define IKS_SIMBOLO_BOOL   5</span>
+<a name="l00037"></a>00037 <span class="preprocessor"></span>
+<a name="l00038"></a>00038 <span class="preprocessor">#endif</span>
 </pre></div></div><!-- contents -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Todos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Arquivos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funções</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Definições e Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Todos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Arquivos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funções</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variáveis</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Definições e Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -119,7 +120,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Busca');
 
 
 <hr class="footer"/><address class="footer"><small>
-Gerado em Segunda, 23 de Setembro de 2013 03:10:18 para Compilador IKS - Compiladores UFRGS 2013/2 por &#160;<a href="http://www.doxygen.org/index.html">
+Gerado em Domingo, 13 de Outubro de 2013 17:27:25 para Compilador IKS - Compiladores UFRGS 2013/2 por &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

@@ -84,16 +84,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Busca');
 
 <p>Funções para o funcionamento do dicionário.  
 <a href="#details">Mais...</a></p>
-<div class="textblock"><code>#include &lt;stdio.h&gt;</code><br/>
-<code>#include &lt;string.h&gt;</code><br/>
-<code>#include &lt;stdlib.h&gt;</code><br/>
-<code>#include &quot;<a class="el" href="comp__dict_8h_source.html">comp_dict.h</a>&quot;</code><br/>
+<div class="textblock"><code>#include &quot;<a class="el" href="comp__dict_8h_source.html">comp_dict.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="semantics_8h_source.html">semantics.h</a>&quot;</code><br/>
 </div><table class="memberdecls">
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Funções</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__dict_8c.html#a974b9428e4e82ae24fc366330de052b5">dict_find_index</a> (<a class="el" href="structcomp__dict__t.html">comp_dict_t_p</a> dict, char *text)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__dict_8c.html#aa3e921436105553f8100304ac2c93e90">dict_find</a> (<a class="el" href="structcomp__dict__t.html">comp_dict_t_p</a> dict, char *text)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__dict_8c.html#a05ec30c99da16524b15a20fcfd318419">dict_insert</a> (<a class="el" href="structcomp__dict__t.html">comp_dict_t_p</a> dict, char *text, int type, int lineNumber)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__dict_8c.html#a9775e1c3ffc959aab2b3e91992e4cef7">dict_find</a> (<a class="el" href="structcomp__dict__t.html">comp_dict_t_p</a> dict, char *text)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a778d0f9fa5d812bbac09cc626bdd4794"></a><!-- doxytag: member="comp_dict.c::dict_insertEnd" ref="a778d0f9fa5d812bbac09cc626bdd4794" args="(comp_dict_t_p dict, comp_dict_t_p new)" -->
+<a class="el" href="structcomp__dict__t.html">comp_dict_t_p</a>&#160;</td><td class="memItemRight" valign="bottom"><b>dict_insertEnd</b> (<a class="el" href="structcomp__dict__t.html">comp_dict_t_p</a> dict, <a class="el" href="structcomp__dict__t.html">comp_dict_t_p</a> new)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcomp__dict__t.html">comp_dict_t_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__dict_8c.html#a2da4c1a36a3f6c5dfc7499c20960b119">dict_argInsert</a> (<a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t_p</a> arg)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__dict_8c.html#ae2ed2629775e4639e5fc04efb5cf0cd2">dict_insert</a> (<a class="el" href="structcomp__dict__t.html">comp_dict_t_p</a> *dict, char *text, int type, int lineNumber)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcomp__dict__t.html">comp_dict_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__dict_8c.html#a870169718e30ad09864ad4ec84cb891c">dict_new</a> (void)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__dict_8c.html#a9a22b4d6f0232dd5e5cdc1b6f8e26992">dict_free</a> (<a class="el" href="structcomp__dict__t.html">comp_dict_t_p</a> dict)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__dict_8c.html#abe87253abb9d3db9a9ab15e9229e3d21">dict_print</a> (<a class="el" href="structcomp__dict__t.html">comp_dict_t</a> *dict)</td></tr>
@@ -103,12 +104,30 @@ Funções</h2></td></tr>
 <dl class="author"><dt><b>Autor:</b></dt><dd>Fernando Soller Mecking; Mateus Cardoso da Silva </dd></dl>
 <dl class="date"><dt><b>Data:</b></dt><dd>16 Sep 2013 </dd></dl>
 </div><hr/><h2>Funções</h2>
-<a class="anchor" id="aa3e921436105553f8100304ac2c93e90"></a><!-- doxytag: member="comp_dict.c::dict_find" ref="aa3e921436105553f8100304ac2c93e90" args="(comp_dict_t_p dict, char *text)" -->
+<a class="anchor" id="a2da4c1a36a3f6c5dfc7499c20960b119"></a><!-- doxytag: member="comp_dict.c::dict_argInsert" ref="a2da4c1a36a3f6c5dfc7499c20960b119" args="(comp_dict_item_t_p arg)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int <a class="el" href="comp__dict_8c.html#aa3e921436105553f8100304ac2c93e90">dict_find</a> </td>
+          <td class="memname"><a class="el" href="structcomp__dict__t.html">comp_dict_t_p</a> <a class="el" href="comp__dict_8c.html#a2da4c1a36a3f6c5dfc7499c20960b119">dict_argInsert</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t_p</a>&#160;</td>
+          <td class="paramname"><em>arg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>dict_argInsert Insere um item do dicionario principal em um outro dicionario, como argumnetos de funcao </p>
+
+</div>
+</div>
+<a class="anchor" id="a9775e1c3ffc959aab2b3e91992e4cef7"></a><!-- doxytag: member="comp_dict.c::dict_find" ref="a9775e1c3ffc959aab2b3e91992e4cef7" args="(comp_dict_t_p dict, char *text)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t_p</a> <a class="el" href="comp__dict_8c.html#a9775e1c3ffc959aab2b3e91992e4cef7">dict_find</a> </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structcomp__dict__t.html">comp_dict_t_p</a>&#160;</td>
           <td class="paramname"><em>dict</em>, </td>
@@ -177,14 +196,14 @@ Funções</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a05ec30c99da16524b15a20fcfd318419"></a><!-- doxytag: member="comp_dict.c::dict_insert" ref="a05ec30c99da16524b15a20fcfd318419" args="(comp_dict_t_p dict, char *text, int type, int lineNumber)" -->
+<a class="anchor" id="ae2ed2629775e4639e5fc04efb5cf0cd2"></a><!-- doxytag: member="comp_dict.c::dict_insert" ref="ae2ed2629775e4639e5fc04efb5cf0cd2" args="(comp_dict_t_p *dict, char *text, int type, int lineNumber)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t_p</a> <a class="el" href="comp__dict_8c.html#a05ec30c99da16524b15a20fcfd318419">dict_insert</a> </td>
+          <td class="memname"><a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t_p</a> <a class="el" href="comp__dict_8c.html#ae2ed2629775e4639e5fc04efb5cf0cd2">dict_insert</a> </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structcomp__dict__t.html">comp_dict_t_p</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="structcomp__dict__t.html">comp_dict_t_p</a> *&#160;</td>
           <td class="paramname"><em>dict</em>, </td>
         </tr>
         <tr>
@@ -259,7 +278,7 @@ Funções</h2></td></tr>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Todos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Arquivos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funções</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Definições e Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Todos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Arquivos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funções</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variáveis</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Definições e Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -271,7 +290,7 @@ Funções</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Gerado em Segunda, 23 de Setembro de 2013 03:10:18 para Compilador IKS - Compiladores UFRGS 2013/2 por &#160;<a href="http://www.doxygen.org/index.html">
+Gerado em Domingo, 13 de Outubro de 2013 17:27:25 para Compilador IKS - Compiladores UFRGS 2013/2 por &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

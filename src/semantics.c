@@ -1,7 +1,7 @@
 /**
  * @file semantics.c
  * @author Arthur Foscarini, Fernando Soller Mecking; Mateus Cardoso da Silva
- * @date 03 Oct 2013
+ * @date 13 Oct 2013
  * @brief Arquivo contendo as funções para avaliação semântica
  */
 
@@ -432,7 +432,7 @@ int astTypeCoercion(comp_tree* ast){
 										if(aux->sonList->node->dataType != IKS_CHAR && aux->sonList->node->dataType != IKS_STRING)
 											aux->sonList->node->coercion = aux->dataType;
 										break;
-									}	
+									}
 			case IKS_AST_ARIM_SOMA:	aritmeticCoercion(aux);
 									break;
 			case IKS_AST_ARIM_SUBTRACAO: aritmeticCoercion(aux);
@@ -619,7 +619,7 @@ int verifyGivenParameters(comp_tree* func, comp_tree* call)
 											else printError(IKS_ERROR_WRONG_TYPE_ARGS, call->sonList->node->symbol->lineNumber);
 												break;
 						}
-				
+
 			declaredArguments = declaredArguments->next;
 			comp_tree* brothers = firstSon->node->broList;
 

@@ -88,7 +88,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Busca');
 
 <p>Estruturas de dados e definições do dicionário.  
 <a href="#details">Mais...</a></p>
-
+<div class="textblock"><code>#include &lt;stdio.h&gt;</code><br/>
+<code>#include &lt;string.h&gt;</code><br/>
+<code>#include &lt;stdlib.h&gt;</code><br/>
+</div>
 <p><a href="comp__dict_8h_source.html">Vá para o código-fonte deste arquivo.</a></p>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="nested-classes"></a>
@@ -110,6 +113,16 @@ Definições e Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>IKS_SIMBOLO_LITERAL_BOOL</b>&#160;&#160;&#160;5</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae12bced70d7ab3294fff8db97d062daf"></a><!-- doxytag: member="comp_dict.h::IKS_SIMBOLO_IDENTIFICADOR" ref="ae12bced70d7ab3294fff8db97d062daf" args="" -->
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>IKS_SIMBOLO_IDENTIFICADOR</b>&#160;&#160;&#160;6</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aecfa9b7192029f3e0e6b79aca4acde4a"></a><!-- doxytag: member="comp_dict.h::ID_NAO_DECLARADO" ref="aecfa9b7192029f3e0e6b79aca4acde4a" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>ID_NAO_DECLARADO</b>&#160;&#160;&#160;0</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0eb7c5769ffefa92704697cf5d1050e4"></a><!-- doxytag: member="comp_dict.h::ID_VARIAVEL" ref="a0eb7c5769ffefa92704697cf5d1050e4" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>ID_VARIAVEL</b>&#160;&#160;&#160;1</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad4cd42229fdc14d8bff271259d3b459c"></a><!-- doxytag: member="comp_dict.h::ID_VETOR" ref="ad4cd42229fdc14d8bff271259d3b459c" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>ID_VETOR</b>&#160;&#160;&#160;2</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7e3f92e7046bd589d4d043e6dc98d7ac"></a><!-- doxytag: member="comp_dict.h::ID_FUNCAO" ref="a7e3f92e7046bd589d4d043e6dc98d7ac" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>ID_FUNCAO</b>&#160;&#160;&#160;3</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4e5ba52ef702f2727b48119c18a711f2"></a><!-- doxytag: member="comp_dict.h::ID_PARAMETRO" ref="a4e5ba52ef702f2727b48119c18a711f2" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>ID_PARAMETRO</b>&#160;&#160;&#160;4</td></tr>
 <tr><td colspan="2"><h2><a name="typedef-members"></a>
 Definições de Tipos</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a66f14e2639df035362c85d6ba15b1c00"></a><!-- doxytag: member="comp_dict.h::comp_dict_item_t" ref="a66f14e2639df035362c85d6ba15b1c00" args="" -->
@@ -124,10 +137,13 @@ typedef struct <a class="el" href="structcomp__dict__t.html">comp_dict_t</a> *&#
 Funções</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaf433f25f5c4a104dcbd42ad4d9a3f6d"></a><!-- doxytag: member="comp_dict.h::dict_find_index" ref="aaf433f25f5c4a104dcbd42ad4d9a3f6d" args="()" -->
 int&#160;</td><td class="memItemRight" valign="bottom"><b>dict_find_index</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aedaef6bea3e23dfce83e2c63c58f60f4"></a><!-- doxytag: member="comp_dict.h::dict_find" ref="aedaef6bea3e23dfce83e2c63c58f60f4" args="()" -->
-int&#160;</td><td class="memItemRight" valign="bottom"><b>dict_find</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6fc9d38391ea9a767af1aa0fa9454202"></a><!-- doxytag: member="comp_dict.h::dict_find" ref="a6fc9d38391ea9a767af1aa0fa9454202" args="()" -->
+<a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t_p</a>&#160;</td><td class="memItemRight" valign="bottom"><b>dict_find</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a314fde6df1ea770cf8673851991a66f6"></a><!-- doxytag: member="comp_dict.h::dict_insert" ref="a314fde6df1ea770cf8673851991a66f6" args="()" -->
 <a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t_p</a>&#160;</td><td class="memItemRight" valign="bottom"><b>dict_insert</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcomp__dict__t.html">comp_dict_t_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__dict_8h.html#a8c19ce12b73b9b7b8471812d4037c302">dict_argInsert</a> (<a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t_p</a>)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab90689e4820bfa535fa6a02d909e07d3"></a><!-- doxytag: member="comp_dict.h::dict_insertEnd" ref="ab90689e4820bfa535fa6a02d909e07d3" args="()" -->
+<a class="el" href="structcomp__dict__t.html">comp_dict_t_p</a>&#160;</td><td class="memItemRight" valign="bottom"><b>dict_insertEnd</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcomp__dict__t.html">comp_dict_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__dict_8h.html#a8bfefaaee81c7580bd973f34abf6cd0d">dict_new</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a64c9c00157bb549dc4cb185b6aa73cfe"></a><!-- doxytag: member="comp_dict.h::dict_free" ref="a64c9c00157bb549dc4cb185b6aa73cfe" args="()" -->
 void&#160;</td><td class="memItemRight" valign="bottom"><b>dict_free</b> ()</td></tr>
@@ -145,6 +161,24 @@ union <a class="el" href="uniondataValue.html">dataValue</a>&#160;</td><td class
 <dl class="author"><dt><b>Autor:</b></dt><dd>Fernando Soller Mecking; Mateus Cardoso da Silva </dd></dl>
 <dl class="date"><dt><b>Data:</b></dt><dd>16 Sep 2013 </dd></dl>
 </div><hr/><h2>Funções</h2>
+<a class="anchor" id="a8c19ce12b73b9b7b8471812d4037c302"></a><!-- doxytag: member="comp_dict.h::dict_argInsert" ref="a8c19ce12b73b9b7b8471812d4037c302" args="(comp_dict_item_t_p)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcomp__dict__t.html">comp_dict_t_p</a> <a class="el" href="comp__dict_8c.html#a2da4c1a36a3f6c5dfc7499c20960b119">dict_argInsert</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t_p</a>&#160;</td>
+          <td class="paramname"><em>arg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>dict_argInsert Insere um item do dicionario principal em um outro dicionario, como argumnetos de funcao </p>
+
+</div>
+</div>
 <a class="anchor" id="a8bfefaaee81c7580bd973f34abf6cd0d"></a><!-- doxytag: member="comp_dict.h::dict_new" ref="a8bfefaaee81c7580bd973f34abf6cd0d" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -169,7 +203,7 @@ union <a class="el" href="uniondataValue.html">dataValue</a>&#160;</td><td class
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Todos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Arquivos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funções</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Definições e Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Todos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Arquivos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funções</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variáveis</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Definições e Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -181,7 +215,7 @@ union <a class="el" href="uniondataValue.html">dataValue</a>&#160;</td><td class
 
 
 <hr class="footer"/><address class="footer"><small>
-Gerado em Segunda, 23 de Setembro de 2013 03:10:18 para Compilador IKS - Compiladores UFRGS 2013/2 por &#160;<a href="http://www.doxygen.org/index.html">
+Gerado em Domingo, 13 de Outubro de 2013 17:27:25 para Compilador IKS - Compiladores UFRGS 2013/2 por &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

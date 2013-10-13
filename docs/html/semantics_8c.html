@@ -1,0 +1,403 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>Compilador IKS - Compiladores UFRGS 2013/2: Referência do Arquivo semantics.c</title>
+
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">Compilador IKS - Compiladores UFRGS 2013/2
+   
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- Gerado por Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Busca');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Página&#160;Principal</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="files.html"><span>Arquivos</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Busca" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Lista&#160;de&#160;Arquivos</span></a></li>
+      <li><a href="globals.html"><span>Arquivos&#160;Membros</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Funções</a>  </div>
+  <div class="headertitle">
+<div class="title">Referência do Arquivo semantics.c</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>Arquivo contendo as funções para avaliação semântica.  
+<a href="#details">Mais...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="semantics_8h_source.html">semantics.h</a>&quot;</code><br/>
+</div><table class="memberdecls">
+<tr><td colspan="2"><h2><a name="func-members"></a>
+Funções</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="semantics_8c.html#ac2e41e21c5f1e57aa930cf922ec9f101">printError</a> (int errorCode, int line)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="semantics_8c.html#ab008ed6e4d22a5ad14a16573861619b4">verifyDeclaration</a> (<a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t</a> *decl, int uso)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="semantics_8c.html#a73b50331119149f4b022d2b93eb4d162">verifyIdentifier</a> (<a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t</a> *id, int usingAs)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="semantics_8c.html#ab5c226cf82f647509ae9c81a96453bf8">typeInference</a> (int firstType, int secondType)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="semantics_8c.html#ab967507406e8110894651ca6b513921b">printType</a> (int type)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="semantics_8c.html#a4650369f3c796943b4b0e8c083b53628">aritmeticInference</a> (<a class="el" href="structcomp__tree__t.html">comp_tree</a> *aux)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="semantics_8c.html#ab221b873d8a18add46307d275535d53a">astTypeInference</a> (<a class="el" href="structcomp__tree__t.html">comp_tree</a> *ast)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="semantics_8c.html#aab7595085edb7d6868952f1c77c44384">aritmeticCoercion</a> (<a class="el" href="structcomp__tree__t.html">comp_tree</a> *aux)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="semantics_8c.html#a5c3526ae692c922ee89c9ec440cd8b44">astTypeCoercion</a> (<a class="el" href="structcomp__tree__t.html">comp_tree</a> *ast)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="semantics_8c.html#ab120de42368886e6b01c9a821c1f000b">isAritmeticExpression</a> (int type)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac3b5296202b35cd3e83a18b8fbcca571"></a><!-- doxytag: member="semantics.c::isExpression" ref="ac3b5296202b35cd3e83a18b8fbcca571" args="(int type)" -->
+int&#160;</td><td class="memItemRight" valign="bottom"><b>isExpression</b> (int type)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="semantics_8c.html#a1bc70b5bf76c4417c79b1084e6640792">verifySimpleCommand</a> (<a class="el" href="structcomp__tree__t.html">comp_tree</a> *ast)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="semantics_8c.html#a84a045c8305b99ca1407df647d9af453">verifyGivenParameters</a> (<a class="el" href="structcomp__tree__t.html">comp_tree</a> *func, <a class="el" href="structcomp__tree__t.html">comp_tree</a> *call)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a45e4e8ee9ecec0e59e5e111dbb7473f6"></a><!-- doxytag: member="semantics.c::setType" ref="a45e4e8ee9ecec0e59e5e111dbb7473f6" args="(int type, comp_dict_item_t *symbol)" -->
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setType</b> (int type, <a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t</a> *symbol)</td></tr>
+</table>
+<hr/><a name="details" id="details"></a><h2>Descrição Detalhada</h2>
+<div class="textblock"><p>Arquivo contendo as funções para avaliação semântica. </p>
+<dl class="author"><dt><b>Autor:</b></dt><dd>Arthur Foscarini, Fernando Soller Mecking; Mateus Cardoso da Silva </dd></dl>
+<dl class="date"><dt><b>Data:</b></dt><dd>13 Oct 2013 </dd></dl>
+</div><hr/><h2>Funções</h2>
+<a class="anchor" id="aab7595085edb7d6868952f1c77c44384"></a><!-- doxytag: member="semantics.c::aritmeticCoercion" ref="aab7595085edb7d6868952f1c77c44384" args="(comp_tree *aux)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="semantics_8c.html#aab7595085edb7d6868952f1c77c44384">aritmeticCoercion</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcomp__tree__t.html">comp_tree</a> *&#160;</td>
+          <td class="paramname"><em>aux</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>aritmeticCoercion Realiza a coerção dos tipos de expressões aritméticas </p>
+
+</div>
+</div>
+<a class="anchor" id="a4650369f3c796943b4b0e8c083b53628"></a><!-- doxytag: member="semantics.c::aritmeticInference" ref="a4650369f3c796943b4b0e8c083b53628" args="(comp_tree *aux)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="semantics_8c.html#a4650369f3c796943b4b0e8c083b53628">aritmeticInference</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcomp__tree__t.html">comp_tree</a> *&#160;</td>
+          <td class="paramname"><em>aux</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>aritmeticInference Infere o tipo das expressões aritméticas </p>
+
+</div>
+</div>
+<a class="anchor" id="a5c3526ae692c922ee89c9ec440cd8b44"></a><!-- doxytag: member="semantics.c::astTypeCoercion" ref="a5c3526ae692c922ee89c9ec440cd8b44" args="(comp_tree *ast)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="semantics_8c.html#a5c3526ae692c922ee89c9ec440cd8b44">astTypeCoercion</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcomp__tree__t.html">comp_tree</a> *&#160;</td>
+          <td class="paramname"><em>ast</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>astTypeCoercion Realiza a coerção dos tipos </p>
+
+</div>
+</div>
+<a class="anchor" id="ab221b873d8a18add46307d275535d53a"></a><!-- doxytag: member="semantics.c::astTypeInference" ref="ab221b873d8a18add46307d275535d53a" args="(comp_tree *ast)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="semantics_8c.html#ab221b873d8a18add46307d275535d53a">astTypeInference</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcomp__tree__t.html">comp_tree</a> *&#160;</td>
+          <td class="paramname"><em>ast</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>astTypeInference Infere dos nós da árvore </p>
+
+</div>
+</div>
+<a class="anchor" id="ab120de42368886e6b01c9a821c1f000b"></a><!-- doxytag: member="semantics.c::isAritmeticExpression" ref="ab120de42368886e6b01c9a821c1f000b" args="(int type)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="semantics_8c.html#ab120de42368886e6b01c9a821c1f000b">isAritmeticExpression</a> </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>isAritmeticExpression Retorna 1 se o tipo é expressão aritmética e 0 caso contrário </p>
+
+</div>
+</div>
+<a class="anchor" id="ac2e41e21c5f1e57aa930cf922ec9f101"></a><!-- doxytag: member="semantics.c::printError" ref="ac2e41e21c5f1e57aa930cf922ec9f101" args="(int errorCode, int line)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="semantics_8c.html#ac2e41e21c5f1e57aa930cf922ec9f101">printError</a> </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>errorCode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>line</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>printError Imprime a mensagem de erro de acordo com o erro passado </p>
+
+</div>
+</div>
+<a class="anchor" id="ab967507406e8110894651ca6b513921b"></a><!-- doxytag: member="semantics.c::printType" ref="ab967507406e8110894651ca6b513921b" args="(int type)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* <a class="el" href="semantics_8c.html#ab967507406e8110894651ca6b513921b">printType</a> </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>printType Imprime o nome do tipo de acordo com o parâmetro passado </p>
+
+</div>
+</div>
+<a class="anchor" id="ab5c226cf82f647509ae9c81a96453bf8"></a><!-- doxytag: member="semantics.c::typeInference" ref="ab5c226cf82f647509ae9c81a96453bf8" args="(int firstType, int secondType)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="semantics_8c.html#ab5c226cf82f647509ae9c81a96453bf8">typeInference</a> </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>firstType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>secondType</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>typeInference Infere um tipo baseado em outros dois passados </p>
+
+</div>
+</div>
+<a class="anchor" id="ab008ed6e4d22a5ad14a16573861619b4"></a><!-- doxytag: member="semantics.c::verifyDeclaration" ref="ab008ed6e4d22a5ad14a16573861619b4" args="(comp_dict_item_t *decl, int uso)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="semantics_8c.html#ab008ed6e4d22a5ad14a16573861619b4">verifyDeclaration</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t</a> *&#160;</td>
+          <td class="paramname"><em>decl</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>uso</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>verifyDeclaration Verificação das declarações </p>
+
+</div>
+</div>
+<a class="anchor" id="a84a045c8305b99ca1407df647d9af453"></a><!-- doxytag: member="semantics.c::verifyGivenParameters" ref="a84a045c8305b99ca1407df647d9af453" args="(comp_tree *func, comp_tree *call)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="semantics_8c.html#a84a045c8305b99ca1407df647d9af453">verifyGivenParameters</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcomp__tree__t.html">comp_tree</a> *&#160;</td>
+          <td class="paramname"><em>func</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcomp__tree__t.html">comp_tree</a> *&#160;</td>
+          <td class="paramname"><em>call</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>verifyGivenParameters Verifica o uso correto dos parâmetros nas chamadas de função </p>
+
+</div>
+</div>
+<a class="anchor" id="a73b50331119149f4b022d2b93eb4d162"></a><!-- doxytag: member="semantics.c::verifyIdentifier" ref="a73b50331119149f4b022d2b93eb4d162" args="(comp_dict_item_t *id, int usingAs)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="semantics_8c.html#a73b50331119149f4b022d2b93eb4d162">verifyIdentifier</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t</a> *&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>usingAs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>verifyIdentifier Função de verificação do uso correto dos identificadores, é necessário que já tenha ocorrida a verificação de suas declarações e escopo. </p>
+
+</div>
+</div>
+<a class="anchor" id="a1bc70b5bf76c4417c79b1084e6640792"></a><!-- doxytag: member="semantics.c::verifySimpleCommand" ref="a1bc70b5bf76c4417c79b1084e6640792" args="(comp_tree *ast)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="semantics_8c.html#a1bc70b5bf76c4417c79b1084e6640792">verifySimpleCommand</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcomp__tree__t.html">comp_tree</a> *&#160;</td>
+          <td class="paramname"><em>ast</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>verifySimpleCommand Verifica a semântica dos comandos simples da linguagem </p>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Todos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Arquivos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funções</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variáveis</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Definições e Macros</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+
+<hr class="footer"/><address class="footer"><small>
+Gerado em Domingo, 13 de Outubro de 2013 17:27:25 para Compilador IKS - Compiladores UFRGS 2013/2 por &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.7.6.1
+</small></address>
+
+</body>
+</html>

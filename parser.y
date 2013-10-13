@@ -1,6 +1,6 @@
 /**
  * @file parser.y
- * @author Fernando Soller Mecking; Mateus Cardoso da Silva
+ * @author Arthur Foscarini, Fernando Soller Mecking; Mateus Cardoso da Silva
  * @date 16 Sep 2013
  * @brief Arquivo do parser
  */

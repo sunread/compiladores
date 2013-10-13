@@ -71,6 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Busca');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Lista&#160;de&#160;Componentes</span></a></li>
       <li><a href="classes.html"><span>Índice&#160;dos&#160;Componentes</span></a></li>
+      <li><a href="functions.html"><span>Componentes&#160;Membros</span></a></li>
     </ul>
   </div>
 </div>
@@ -88,8 +89,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Busca');
 Atributos Públicos</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa38bf34c9da8b976333cd83af822ed96"></a><!-- doxytag: member="comp_tree_t::type" ref="aa38bf34c9da8b976333cd83af822ed96" args="" -->
 int&#160;</td><td class="memItemRight" valign="bottom"><b>type</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4410488891b9eb92865f600036d9318c"></a><!-- doxytag: member="comp_tree_t::dataType" ref="a4410488891b9eb92865f600036d9318c" args="" -->
+int&#160;</td><td class="memItemRight" valign="bottom"><b>dataType</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8746d9a7e819ddeedc9c722567dfad48"></a><!-- doxytag: member="comp_tree_t::coercion" ref="a8746d9a7e819ddeedc9c722567dfad48" args="" -->
+int&#160;</td><td class="memItemRight" valign="bottom"><b>coercion</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afefa1480e430e29395fc227e94ab30c5"></a><!-- doxytag: member="comp_tree_t::symbol" ref="afefa1480e430e29395fc227e94ab30c5" args="" -->
 <a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>symbol</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afee0f0fa30dc2c1f19d0647c21a8cf46"></a><!-- doxytag: member="comp_tree_t::args" ref="afee0f0fa30dc2c1f19d0647c21a8cf46" args="" -->
+<a class="el" href="structcomp__dict__t.html">comp_dict_t_p</a>&#160;</td><td class="memItemRight" valign="bottom"><b>args</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9c4e5a2601d0c64f1eb85fd0a309e740"></a><!-- doxytag: member="comp_tree_t::father" ref="a9c4e5a2601d0c64f1eb85fd0a309e740" args="" -->
+struct <a class="el" href="structcomp__tree__t.html">comp_tree_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>father</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afdd705b1ebca1e98bc31c0d34ab474b1"></a><!-- doxytag: member="comp_tree_t::broList" ref="afdd705b1ebca1e98bc31c0d34ab474b1" args="" -->
 struct <a class="el" href="structcomp__tree__t.html">comp_tree_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>broList</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaa563387834eac1a8705bddd1a389783"></a><!-- doxytag: member="comp_tree_t::sonList" ref="aaa563387834eac1a8705bddd1a389783" args="" -->
@@ -104,7 +113,7 @@ struct <a class="el" href="structnodeList__t.html">nodeList_t</a> *&#160;</td><t
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Todos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Arquivos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funções</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Definições e Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Todos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Arquivos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funções</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variáveis</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Definições e Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -116,7 +125,7 @@ struct <a class="el" href="structnodeList__t.html">nodeList_t</a> *&#160;</td><t
 
 
 <hr class="footer"/><address class="footer"><small>
-Gerado em Segunda, 23 de Setembro de 2013 03:10:18 para Compilador IKS - Compiladores UFRGS 2013/2 por &#160;<a href="http://www.doxygen.org/index.html">
+Gerado em Domingo, 13 de Outubro de 2013 17:27:25 para Compilador IKS - Compiladores UFRGS 2013/2 por &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

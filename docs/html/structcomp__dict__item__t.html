@@ -71,6 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Busca');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Lista&#160;de&#160;Componentes</span></a></li>
       <li><a href="classes.html"><span>Índice&#160;dos&#160;Componentes</span></a></li>
+      <li><a href="functions.html"><span>Componentes&#160;Membros</span></a></li>
     </ul>
   </div>
 </div>
@@ -88,12 +89,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Busca');
 Atributos Públicos</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8808b4dab673134906e41de59a137b12"></a><!-- doxytag: member="comp_dict_item_t::type" ref="a8808b4dab673134906e41de59a137b12" args="" -->
 int&#160;</td><td class="memItemRight" valign="bottom"><b>type</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afb4c0d5e8f5dd4d748dedebbdf3cb2ff"></a><!-- doxytag: member="comp_dict_item_t::usage" ref="afb4c0d5e8f5dd4d748dedebbdf3cb2ff" args="" -->
+int&#160;</td><td class="memItemRight" valign="bottom"><b>usage</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a004cd532f91626ccb28f85ab19055ed3"></a><!-- doxytag: member="comp_dict_item_t::text" ref="a004cd532f91626ccb28f85ab19055ed3" args="" -->
 char *&#160;</td><td class="memItemRight" valign="bottom"><b>text</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acd9e6b0d5a3d5f9b72d901927c20ac04"></a><!-- doxytag: member="comp_dict_item_t::value" ref="acd9e6b0d5a3d5f9b72d901927c20ac04" args="" -->
 union <a class="el" href="uniondataValue.html">dataValue</a>&#160;</td><td class="memItemRight" valign="bottom"><b>value</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a862aa36f453d3a80e02514a48d374445"></a><!-- doxytag: member="comp_dict_item_t::lineNumber" ref="a862aa36f453d3a80e02514a48d374445" args="" -->
 int&#160;</td><td class="memItemRight" valign="bottom"><b>lineNumber</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a012ec95defb10be1a61aac9ef82fe42c"></a><!-- doxytag: member="comp_dict_item_t::size" ref="a012ec95defb10be1a61aac9ef82fe42c" args="" -->
+int&#160;</td><td class="memItemRight" valign="bottom"><b>size</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab2a6f8cd80425d22a9119905012b8b88"></a><!-- doxytag: member="comp_dict_item_t::scope" ref="ab2a6f8cd80425d22a9119905012b8b88" args="" -->
+struct <a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>scope</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a48d903ee9a4f3aec7c13e66754c14091"></a><!-- doxytag: member="comp_dict_item_t::ast_node" ref="a48d903ee9a4f3aec7c13e66754c14091" args="" -->
+struct <a class="el" href="structcomp__tree__t.html">comp_tree_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>ast_node</b></td></tr>
 </table>
 <hr/>A documentação para esta estrutura foi gerada a partir do seguinte arquivo:<ul>
 <li><a class="el" href="comp__dict_8h_source.html">comp_dict.h</a></li>
@@ -104,7 +113,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>lineNumber</b></td></t
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Todos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Arquivos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funções</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Definições e Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Todos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Arquivos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funções</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variáveis</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Definições e Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -116,7 +125,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>lineNumber</b></td></t
 
 
 <hr class="footer"/><address class="footer"><small>
-Gerado em Segunda, 23 de Setembro de 2013 03:10:18 para Compilador IKS - Compiladores UFRGS 2013/2 por &#160;<a href="http://www.doxygen.org/index.html">
+Gerado em Domingo, 13 de Outubro de 2013 17:27:25 para Compilador IKS - Compiladores UFRGS 2013/2 por &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

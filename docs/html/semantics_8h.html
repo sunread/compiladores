@@ -1,0 +1,337 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>Compilador IKS - Compiladores UFRGS 2013/2: Referência do Arquivo semantics.h</title>
+
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">Compilador IKS - Compiladores UFRGS 2013/2
+   
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- Gerado por Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Busca');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Página&#160;Principal</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="files.html"><span>Arquivos</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Busca" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Lista&#160;de&#160;Arquivos</span></a></li>
+      <li><a href="globals.html"><span>Arquivos&#160;Membros</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="header">
+  <div class="summary">
+<a href="#define-members">Definições e Macros</a> &#124;
+<a href="#func-members">Funções</a> &#124;
+<a href="#var-members">Variáveis</a>  </div>
+  <div class="headertitle">
+<div class="title">Referência do Arquivo semantics.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>Constantes utilizadas na análise semântica.  
+<a href="#details">Mais...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="comp__dict_8h_source.html">comp_dict.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="comp__tree_8h_source.html">comp_tree.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="iks__ast_8h_source.html">iks_ast.h</a>&quot;</code><br/>
+</div>
+<p><a href="semantics_8h_source.html">Vá para o código-fonte deste arquivo.</a></p>
+<table class="memberdecls">
+<tr><td colspan="2"><h2><a name="define-members"></a>
+Definições e Macros</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="semantics_8h.html#ace3fa0e8589efc482e741a3eb4404b16">IKS_INT</a>&#160;&#160;&#160;1</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5b95a7cfe4a375d0541134298398bae5"></a><!-- doxytag: member="semantics.h::IKS_FLOAT" ref="a5b95a7cfe4a375d0541134298398bae5" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>IKS_FLOAT</b>&#160;&#160;&#160;2</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afd7fe522eece8f79175fd908d938a88a"></a><!-- doxytag: member="semantics.h::IKS_CHAR" ref="afd7fe522eece8f79175fd908d938a88a" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>IKS_CHAR</b>&#160;&#160;&#160;3</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="add0b37befee1348b1e50c1b0f92d2e5b"></a><!-- doxytag: member="semantics.h::IKS_STRING" ref="add0b37befee1348b1e50c1b0f92d2e5b" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>IKS_STRING</b>&#160;&#160;&#160;4</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a278b08a36cf8520b1da266b90fca697c"></a><!-- doxytag: member="semantics.h::IKS_BOOL" ref="a278b08a36cf8520b1da266b90fca697c" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>IKS_BOOL</b>&#160;&#160;&#160;5</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="semantics_8h.html#a8643e01160d36baccda9f10a3a85d56e">IKS_INT_SIZE</a>&#160;&#160;&#160;4</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a74535eb6766ecc0b5b0e4340ee13317d"></a><!-- doxytag: member="semantics.h::IKS_FLOAT_SIZE" ref="a74535eb6766ecc0b5b0e4340ee13317d" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>IKS_FLOAT_SIZE</b>&#160;&#160;&#160;8</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a486c764ac73f69e5a26b043f677566c2"></a><!-- doxytag: member="semantics.h::IKS_CHAR_SIZE" ref="a486c764ac73f69e5a26b043f677566c2" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>IKS_CHAR_SIZE</b>&#160;&#160;&#160;1</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1a477319b8c49add56b07c6bd08280e7"></a><!-- doxytag: member="semantics.h::IKS_BOOL_SIZE" ref="a1a477319b8c49add56b07c6bd08280e7" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>IKS_BOOL_SIZE</b>&#160;&#160;&#160;1</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="semantics_8h.html#a4b82d0875ac8c28f2779a56600cc1729">COERCION_TO_FLOAT</a>&#160;&#160;&#160;2</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3d84392fb7735031dd1b167828d94eee"></a><!-- doxytag: member="semantics.h::COERCION_TO_BOOL" ref="a3d84392fb7735031dd1b167828d94eee" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>COERCION_TO_BOOL</b>&#160;&#160;&#160;5</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae10b04e90003f179f3fd1d1f00dc70a2"></a><!-- doxytag: member="semantics.h::COERCION_TO_INT" ref="ae10b04e90003f179f3fd1d1f00dc70a2" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>COERCION_TO_INT</b>&#160;&#160;&#160;1</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="semantics_8h.html#a0efbf9aa1aeb29feba3a8d2a65027e3f">IKS_SUCCESS</a>&#160;&#160;&#160;0</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4292d12808be9d5220af8916a56e5e30"></a><!-- doxytag: member="semantics.h::IKS_ERROR_UNDECLARED" ref="a4292d12808be9d5220af8916a56e5e30" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>IKS_ERROR_UNDECLARED</b>&#160;&#160;&#160;1</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a21934d19dbd61eacb836e2ac367517d8"></a><!-- doxytag: member="semantics.h::IKS_ERROR_DECLARED" ref="a21934d19dbd61eacb836e2ac367517d8" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>IKS_ERROR_DECLARED</b>&#160;&#160;&#160;2</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a11a313f796c3565e0bbd40b34c3c39a3"></a><!-- doxytag: member="semantics.h::IKS_ERROR_VARIABLE" ref="a11a313f796c3565e0bbd40b34c3c39a3" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>IKS_ERROR_VARIABLE</b>&#160;&#160;&#160;3</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3fb18add3580d30addb34f45be2eccd5"></a><!-- doxytag: member="semantics.h::IKS_ERROR_VECTOR" ref="a3fb18add3580d30addb34f45be2eccd5" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>IKS_ERROR_VECTOR</b>&#160;&#160;&#160;4</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6633ea92d0f401edbe997b6ec5200f39"></a><!-- doxytag: member="semantics.h::IKS_ERROR_FUNCTION" ref="a6633ea92d0f401edbe997b6ec5200f39" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>IKS_ERROR_FUNCTION</b>&#160;&#160;&#160;5</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afa4ba9c1185265e333f53e7cfa10507e"></a><!-- doxytag: member="semantics.h::IKS_ERROR_WRONG_TYPE" ref="afa4ba9c1185265e333f53e7cfa10507e" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>IKS_ERROR_WRONG_TYPE</b>&#160;&#160;&#160;6</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a11d604fff251e842bd47d0c9687d9d58"></a><!-- doxytag: member="semantics.h::IKS_ERROR_STRING_TO_X" ref="a11d604fff251e842bd47d0c9687d9d58" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>IKS_ERROR_STRING_TO_X</b>&#160;&#160;&#160;7</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a65a3af592457bd744166beca38ab66eb"></a><!-- doxytag: member="semantics.h::IKS_ERROR_CHAR_TO_X" ref="a65a3af592457bd744166beca38ab66eb" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>IKS_ERROR_CHAR_TO_X</b>&#160;&#160;&#160;8</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa8d1e7720b16d7bf09784ba5ea7f6a0b"></a><!-- doxytag: member="semantics.h::IKS_ERROR_MISSING_ARGS" ref="aa8d1e7720b16d7bf09784ba5ea7f6a0b" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>IKS_ERROR_MISSING_ARGS</b>&#160;&#160;&#160;9</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad703b7e67dff736a2c9404fac8248d37"></a><!-- doxytag: member="semantics.h::IKS_ERROR_EXCESS_ARGS" ref="ad703b7e67dff736a2c9404fac8248d37" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>IKS_ERROR_EXCESS_ARGS</b>&#160;&#160;&#160;10</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeafe2f1ff088410f77d5d4d6714b5d02"></a><!-- doxytag: member="semantics.h::IKS_ERROR_WRONG_TYPE_ARGS" ref="aeafe2f1ff088410f77d5d4d6714b5d02" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>IKS_ERROR_WRONG_TYPE_ARGS</b>&#160;&#160;&#160;11</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa71c25e9aa76fd1a281007c5ad004f07"></a><!-- doxytag: member="semantics.h::IKS_ERROR_WRONG_PAR_INPUT" ref="aa71c25e9aa76fd1a281007c5ad004f07" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>IKS_ERROR_WRONG_PAR_INPUT</b>&#160;&#160;&#160;12</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4396c11bef634aef7b6097f24cd1523c"></a><!-- doxytag: member="semantics.h::IKS_ERROR_WRONG_PAR_OUTPUT" ref="a4396c11bef634aef7b6097f24cd1523c" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>IKS_ERROR_WRONG_PAR_OUTPUT</b>&#160;&#160;&#160;13</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab6ac4390b24df6a016de98becf63250e"></a><!-- doxytag: member="semantics.h::IKS_ERROR_WRONG_PAR_RETURN" ref="ab6ac4390b24df6a016de98becf63250e" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>IKS_ERROR_WRONG_PAR_RETURN</b>&#160;&#160;&#160;14</td></tr>
+<tr><td colspan="2"><h2><a name="func-members"></a>
+Funções</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="semantics_8h.html#aef744b856ab5f00201876f49cd87902d">printError</a> (int, int)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6bafc64d87dea548ae0061d00afd7fdd"></a><!-- doxytag: member="semantics.h::setType" ref="a6bafc64d87dea548ae0061d00afd7fdd" args="(int, comp_dict_item_t *)" -->
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setType</b> (int, <a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t</a> *)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8b3830ae523e8c7ef3037587683be3c0"></a><!-- doxytag: member="semantics.h::semanticEvaluation" ref="a8b3830ae523e8c7ef3037587683be3c0" args="(comp_tree *ast)" -->
+int&#160;</td><td class="memItemRight" valign="bottom"><b>semanticEvaluation</b> (<a class="el" href="structcomp__tree__t.html">comp_tree</a> *ast)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="semantics_8h.html#abbd78c750a62b111a6ef12162aa7956c">verifyIdentifier</a> (<a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t</a> *, int)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3059f6c4948e91d8f4853befd85154ed"></a><!-- doxytag: member="semantics.h::verifyArguments" ref="a3059f6c4948e91d8f4853befd85154ed" args="(comp_tree *, comp_tree *)" -->
+int&#160;</td><td class="memItemRight" valign="bottom"><b>verifyArguments</b> (<a class="el" href="structcomp__tree__t.html">comp_tree</a> *, <a class="el" href="structcomp__tree__t.html">comp_tree</a> *)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="semantics_8h.html#a8a51c54f599521dac06fac6eb13d0ad9">verifyGivenParameters</a> (<a class="el" href="structcomp__tree__t.html">comp_tree</a> *, <a class="el" href="structcomp__tree__t.html">comp_tree</a> *)</td></tr>
+<tr><td colspan="2"><h2><a name="var-members"></a>
+Variáveis</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af28f120054c6d09106e28fc9871d31a9"></a><!-- doxytag: member="semantics.h::localScope" ref="af28f120054c6d09106e28fc9871d31a9" args="" -->
+<a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>localScope</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad929229dd3a73081387e91150832b26b"></a><!-- doxytag: member="semantics.h::globalScope" ref="ad929229dd3a73081387e91150832b26b" args="" -->
+<a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>globalScope</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9f82778bec6f63360cdd801572253c67"></a><!-- doxytag: member="semantics.h::functionType" ref="a9f82778bec6f63360cdd801572253c67" args="" -->
+int&#160;</td><td class="memItemRight" valign="bottom"><b>functionType</b></td></tr>
+</table>
+<hr/><a name="details" id="details"></a><h2>Descrição Detalhada</h2>
+<div class="textblock"><p>Constantes utilizadas na análise semântica. </p>
+<dl class="author"><dt><b>Autor:</b></dt><dd>Arthur Foscarini, Fernando Soller Mecking; Mateus Cardoso da Silva </dd></dl>
+<dl class="date"><dt><b>Data:</b></dt><dd>03 Oct 2013 </dd></dl>
+</div><hr/><h2>Definições e macros</h2>
+<a class="anchor" id="a4b82d0875ac8c28f2779a56600cc1729"></a><!-- doxytag: member="semantics.h::COERCION_TO_FLOAT" ref="a4b82d0875ac8c28f2779a56600cc1729" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define <a class="el" href="semantics_8h.html#a4b82d0875ac8c28f2779a56600cc1729">COERCION_TO_FLOAT</a>&#160;&#160;&#160;2</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Coerção </p>
+
+</div>
+</div>
+<a class="anchor" id="ace3fa0e8589efc482e741a3eb4404b16"></a><!-- doxytag: member="semantics.h::IKS_INT" ref="ace3fa0e8589efc482e741a3eb4404b16" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define <a class="el" href="semantics_8h.html#ace3fa0e8589efc482e741a3eb4404b16">IKS_INT</a>&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Tipos </p>
+
+</div>
+</div>
+<a class="anchor" id="a8643e01160d36baccda9f10a3a85d56e"></a><!-- doxytag: member="semantics.h::IKS_INT_SIZE" ref="a8643e01160d36baccda9f10a3a85d56e" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define <a class="el" href="semantics_8h.html#a8643e01160d36baccda9f10a3a85d56e">IKS_INT_SIZE</a>&#160;&#160;&#160;4</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Tamanhos </p>
+
+</div>
+</div>
+<a class="anchor" id="a0efbf9aa1aeb29feba3a8d2a65027e3f"></a><!-- doxytag: member="semantics.h::IKS_SUCCESS" ref="a0efbf9aa1aeb29feba3a8d2a65027e3f" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define <a class="el" href="semantics_8h.html#a0efbf9aa1aeb29feba3a8d2a65027e3f">IKS_SUCCESS</a>&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Resultados </p>
+
+</div>
+</div>
+<hr/><h2>Funções</h2>
+<a class="anchor" id="aef744b856ab5f00201876f49cd87902d"></a><!-- doxytag: member="semantics.h::printError" ref="aef744b856ab5f00201876f49cd87902d" args="(int, int)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="semantics_8c.html#ac2e41e21c5f1e57aa930cf922ec9f101">printError</a> </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>errorCode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>line</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>printError Imprime a mensagem de erro de acordo com o erro passado </p>
+
+</div>
+</div>
+<a class="anchor" id="a8a51c54f599521dac06fac6eb13d0ad9"></a><!-- doxytag: member="semantics.h::verifyGivenParameters" ref="a8a51c54f599521dac06fac6eb13d0ad9" args="(comp_tree *, comp_tree *)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="semantics_8c.html#a84a045c8305b99ca1407df647d9af453">verifyGivenParameters</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcomp__tree__t.html">comp_tree</a> *&#160;</td>
+          <td class="paramname"><em>func</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcomp__tree__t.html">comp_tree</a> *&#160;</td>
+          <td class="paramname"><em>call</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>verifyGivenParameters Verifica o uso correto dos parâmetros nas chamadas de função </p>
+
+</div>
+</div>
+<a class="anchor" id="abbd78c750a62b111a6ef12162aa7956c"></a><!-- doxytag: member="semantics.h::verifyIdentifier" ref="abbd78c750a62b111a6ef12162aa7956c" args="(comp_dict_item_t *, int)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="semantics_8c.html#a73b50331119149f4b022d2b93eb4d162">verifyIdentifier</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcomp__dict__item__t.html">comp_dict_item_t</a> *&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>usingAs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>verifyIdentifier Função de verificação do uso correto dos identificadores, é necessário que já tenha ocorrida a verificação de suas declarações e escopo. </p>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Todos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Arquivos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funções</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variáveis</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Definições e Macros</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+
+<hr class="footer"/><address class="footer"><small>
+Gerado em Domingo, 13 de Outubro de 2013 17:27:25 para Compilador IKS - Compiladores UFRGS 2013/2 por &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.7.6.1
+</small></address>
+
+</body>
+</html>
