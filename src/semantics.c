@@ -54,9 +54,15 @@ void printError(int errorCode, int line){
 **   Verificação das declarações
 */
 int verifyDeclaration(comp_dict_item_t* decl, int uso){
+	printf("Declaracao: ");
+	if(decl != NULL)
+		printf("%s %d\n", decl->text, uso);
+	else printf("%d %D\n", decl, uso);
+	if(localScope != NULL && decl->scope == NULL)
+		return IKS_SUCCESS;
 	if(localScope == NULL && decl->scope != NULL) //acessando declaracao local no escopo global
 		return IKS_ERROR_UNDECLARED;
-	if(decl->scope != localScope  && decl->scope != NULL) //acessando variavel local de outra funcao
+	if(decl->scope != localScope  && decl->scope != NULL && localScope != NULL) //acessando variavel local de outra funcao
 		return IKS_ERROR_UNDECLARED;
 	if(decl->scope == localScope && decl->usage != ID_NAO_DECLARADO && uso==0){
 		if(localScope != NULL){
@@ -66,6 +72,7 @@ int verifyDeclaration(comp_dict_item_t* decl, int uso){
 		else if(dict_find(dictionary, decl->text) != NULL)
 				return IKS_ERROR_DECLARED;
 	}
+	printf("SUCCESS\n");
 	return IKS_SUCCESS;
 }
 
@@ -76,6 +83,8 @@ int verifyDeclaration(comp_dict_item_t* decl, int uso){
 **   a verificação de suas declarações e escopo.
 */
 int verifyIdentifier(comp_dict_item_t* id, int usingAs){
+	printf("Identificacao: ");
+	printf("%s %d\n", id->text, id->usage);
 	if(id->usage == ID_NAO_DECLARADO)
 		return IKS_ERROR_UNDECLARED;
 	else if(id->usage == ID_PARAMETRO && usingAs != ID_VARIAVEL)
@@ -540,6 +549,7 @@ int verifySimpleCommand(comp_tree* ast, int functionType){
 **  Verifica o uso correto dos parâmetros nas chamadas de função
 */
 int verifyGivenParameters(comp_tree* func, comp_tree* call){
+	//printf("%d %s", func, call->sonList->node->symbol->text);
     if(func != NULL){
 		nodeList* firstSon = call->sonList->next;
 		comp_dict_t_p declaredArguments = func->args;
@@ -577,7 +587,9 @@ int verifyGivenParameters(comp_tree* func, comp_tree* call){
 			return IKS_ERROR_EXCESS_ARGS;
 		else if(firstSon == NULL && (declaredArguments != NULL && declaredArguments->item->usage == ID_PARAMETRO))
 			return IKS_ERROR_MISSING_ARGS;
+		else printf("Nao devia cair aqui!!!!!!!!!!!!!!");
 	}
+	else return IKS_ERROR_UNDECLARED;
 }
 
 void setType(int type, comp_dict_item_t* symbol){
