@@ -23,7 +23,7 @@ comp_list* list_Create(){
 comp_list* list_Add(char* code, comp_list* first){
 	comp_list* newItem = malloc(sizeof(comp_list*));
 
-	newItem->data = strdup(data);
+	newItem->data = strdup(code);
 
 	if(first != NULL)
 	{

@@ -6,6 +6,7 @@
 #ifndef ILOC_H
 #define ILOC_H
 
+#define ILOC_NOP		0
 #define ILOC_ADD 		1
 #define ILOC_SUB 		2
 #define ILOC_MULT 		3
@@ -46,8 +47,17 @@
 #define ILOC_CBR		38
 #define ILOC_JUMP_I		39
 #define ILOC_JUMP		40
+#define ILOC_AND		41
+#define ILOC_AND_I		42
+#define ILOC_OR			43
+#define ILOC_OR_I		44
+#define ILOC_XOR		45
+#define ILOC_XOR_I		46
 
-comp_list* createCode(comp_list* concatOnList, int commandId, int count, ...); //dependendo do comando se passa um numero diferente de argumentos, passando a quantidade em count
+
+comp_list* createCode(comp_list* concatOnList, int commandId, int count, ...); //dependendo do comando se passa um numero diferente de argumentos
+																				//, passando a quantidade em count, os parametros consistem de strings
+																				// de registradores, variaveis, ou literais
 
 
 
