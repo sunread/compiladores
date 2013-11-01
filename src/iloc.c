@@ -109,7 +109,7 @@ comp_list* createCode(comp_list* concatOnList, int commandId, int count, ...){
 
 		case ILOC_JUMP:	sprintf(commandCode, "jump -> %s", param[0]);break;
 			
-		case NOP:	sprintf(commandCode, "add %s, %s => %s", param[0], param[1], param[2]);break;
+		case NOP:	sprintf(commandCode, "nop");break;
 		
 	}
 	newCode->code = strdup(commandCode);
