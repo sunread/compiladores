@@ -47,7 +47,7 @@
 #define ILOC_JUMP_I		39
 #define ILOC_JUMP		40
 
-
+comp_list* createCode(comp_list* concatOnList, int commandId, int count, ...); //dependendo do comando se passa um numero diferente de argumentos, passando a quantidade em count
 
 
 
