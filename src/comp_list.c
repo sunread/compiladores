@@ -20,10 +20,10 @@ comp_list* list_Create(){
 	list_Add
 	Adiciona um novo item ao final de uma lista duplamente encadeada circular
 */
-comp_list* list_Add(int data, comp_list* first){
+comp_list* list_Add(char* code, comp_list* first){
 	comp_list* newItem = malloc(sizeof(comp_list*));
 
-	newItem->data = data;
+	newItem->data = strdup(data);
 
 	if(first != NULL)
 	{
@@ -45,12 +45,12 @@ comp_list* list_Add(int data, comp_list* first){
 	list_Search
 	Procura um elemento na lista a partir de um argumento
 */
-comp_list* list_Search(int data, comp_list* first){
+comp_list* list_Search(char* code, comp_list* first){
 	comp_list* cmpNode = first;
-	while(cmpNode->next != first && cmpNode->data != data){
+	while(cmpNode->next != first && strcmp(cmpNode->data,code)!=0){
 		cmpNode = cmpNode->next;
 	}
-	if(cmpNode->data == data)
+	if(strcmp(cmpNode->data,code)==0)
 		return cmpNode;
 	else return NULL;
 }

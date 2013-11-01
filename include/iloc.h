@@ -1,6 +1,8 @@
 /**
  * Definicao das estruturas necessarias para a geracao de codigo ILOC para a linguagem IKS
  * */
+
+#include "comp_list.h"
 #ifndef ILOC_H
 #define ILOC_H
 
