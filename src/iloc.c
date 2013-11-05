@@ -8,6 +8,34 @@
 #include "comp_list.h"
 #include "iloc.h"
 
+const char* createRegister()
+{
+    char buffer[1000];
+    char countBuffer[1000];
+
+    registersCount++;
+
+    sprintf(countBuffer, "%d", registersCount);
+    strcpy(buffer, "r");
+    strcat(buffer, countBuffer);
+
+    return strdup(buffer);
+}
+
+const char * createLabel()
+{
+    char buffer[1000];
+    char countBuffer[1000];
+
+    labelsCount++;
+
+    sprintf(countBuffer, "%d",  labelsCount);
+    strcpy(buffer, "L");
+    strcat(buffer, countBuffer);
+
+    return strdup(buffer);
+}
+
 comp_list* createCode(comp_list* concatOnList, int commandId, int count, ...){
 	va_list ap;
 	int j;

@@ -3,7 +3,6 @@
  * */
 
 #include "comp_list.h"
-#include "comp_tree.h"
 #ifndef ILOC_H
 #define ILOC_H
 
@@ -55,12 +54,11 @@
 #define ILOC_XOR		45
 #define ILOC_XOR_I		46
 
-int registersCount;
-int labelsCount;
+
 comp_list* createCode(comp_list* concatOnList, int commandId, int count, ...); //dependendo do comando se passa um numero diferente de argumentos
 																				//, passando a quantidade em count, os parametros consistem de strings
 																				// de registradores, variaveis, ou literais
 
-comp_list* astCode(comp_tree* ast);//cria o codigo ILOC para uma arvore AST de um programa
+
 
 #endif
