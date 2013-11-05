@@ -11,6 +11,7 @@
 
 typedef struct comp_list_t{
 	char* code;
+	const char* reg;
 	struct comp_list_t *next;
 	struct comp_list_t *prev;
 } comp_list;

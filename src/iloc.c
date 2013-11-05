@@ -7,6 +7,7 @@
 #include <string.h>
 #include "comp_list.h"
 #include "iloc.h"
+#include "iks_ast.h"
 
 
 const char* createRegister()
@@ -135,6 +136,8 @@ comp_list* createCode(comp_list* concatOnList, int commandId, int count, ...){
 		case ILOC_JUMP:	sprintf(commandCode, "jump -> %s", param[0]);break;
 
 		case ILOC_NOP:	sprintf(commandCode, "nop");break;
+		
+		case ILOC_LABEL: sprintf(commandCode, "%s: ", param[0]);break;
 
 	}
 	newCode->code = strdup(commandCode);
@@ -146,46 +149,81 @@ comp_list* astCode(comp_tree* ast){
 		return NULL;
 	comp_tree* aux = ast;
 	nodeList* auxList;
-	comp_list* fatherCode = NULL;
 	comp_list* sonCode = NULL;
 	comp_list* broCode = NULL;
-	while(aux != NULL){
-		auxList = aux->sonList;
-		while(auxList!=NULL){ //processando todos os filhos
-			sonCode = astCode(auxList->node);
-			auxList = auxList->next;
-		}
-		if(aux->broList!=NULL)//percorre o irmao
-			broCode = astCode(aux->broList);
-		aux = aux->broList;
+	comp_list* fatherCode = NULL;
+	const char* param = NULL;
+	const char* label = NULL;
+	const char* sonParams[3];
+	int i = 0;
+	auxList = aux->sonList;
+	while(auxList!=NULL){ //processando todos os filhos
+		sonCode = astCode(auxList->node);
+		sonParams[i] = sonCode->reg;
+		i++;
+		auxList = auxList->next;
+	}
+	if(aux->broList!=NULL)//percorre o irmao
+		broCode = astCode(aux->broList);
+	
+	//processando nodo atual
+	
+	switch(aux->type){//gera codigo para nodo atual
+		case IKS_AST_IDENTIFICADOR: param = createRegister(); break;
+		case IKS_AST_ARIM_SOMA: {
+									param = createRegister();
+									fatherCode = createCode(fatherCode, ILOC_ADD, 3, sonParams[0], sonParams[1], param); 
+									break;
+								}
+		case IKS_AST_ARIM_SUBTRACAO: {
+										param = createRegister();
+										fatherCode = createCode(fatherCode, ILOC_SUB, 3, sonParams[0], sonParams[1], param); 
+										break;
+									}
+		case IKS_AST_ARIM_MULTIPLICACAO: {
+											param = createRegister();
+											fatherCode = createCode(fatherCode, ILOC_MULT, 3, sonParams[0], sonParams[1], param); 
+											break;
+										}
+		case IKS_AST_ARIM_DIVISAO: {
+										param = createRegister();
+										fatherCode = createCode(fatherCode, ILOC_DIV, 3, sonParams[0], sonParams[1], param); 
+										break;
+									}
+		case IKS_AST_ARIM_INVERSAO: break;
+		case IKS_AST_LOGICO_E: {
+									param = createRegister();
+									label = createLabel();
+									fatherCode = createCode(fatherCode, ILOC_AND, 3, sonParams[0], sonParams[1], param); 
+									fatherCode = createCode(fatherCode, ILOC_CBR, 3, param, label, aux->labelF); 
+									fatherCode = createCode(fatherCode, ILOC_LABEL, 1,label); 
+									break;
+								}
+		case IKS_AST_LOGICO_OU: {
+									param = createRegister();
+									label = createLabel();
+									fatherCode = createCode(fatherCode, ILOC_OR, 3, sonParams[0], sonParams[1], param); 
+									fatherCode = createCode(fatherCode, ILOC_CBR, 3, param, aux->labelT, label); 
+									fatherCode = createCode(fatherCode, ILOC_LABEL, 1,label); 
+									break;
+								}
+		case IKS_AST_LOGICO_COMP_DIF: break;
+		case IKS_AST_LOGICO_COMP_IGUAL: break;
+		case IKS_AST_LOGICO_COMP_LE: break;
+		case IKS_AST_LOGICO_COMP_GE: break;
+		case IKS_AST_LOGICO_COMP_L: break;
+		case IKS_AST_LOGICO_COMP_G: break;
+		case IKS_AST_IF_ELSE: break;
+		case IKS_AST_DO_WHILE: break;
+		case IKS_AST_WHILE_DO: break;
+		case IKS_AST_ATRIBUICAO: break;
+		case IKS_AST_VETOR_INDEXADO: break;
 		
-		//processando nodo atual
-		
-		switch(aux->type){//gera codigo para nodo atual
-			case IKS_AST_IDENTIFICADOR: break;
-			case IKS_AST_ARIM_SOMA: break;
-			case IKS_AST_ARIM_SUBTRACAO: break;
-			case IKS_AST_ARIM_MULTIPLICACAO: break;
-			case IKS_AST_ARIM_DIVISAO: break;
-			case IKS_AST_ARIM_INVERSAO: break;
-			case IKS_AST_LOGICO_E: break;
-			case IKS_AST_LOGICO_OU: break;
-			case IKS_AST_LOGICO_COMP_DIF: break;
-			case IKS_AST_LOGICO_COMP_IGUAL: break;
-			case IKS_AST_LOGICO_COMP_LE: break;
-			case IKS_AST_LOGICO_COMP_GE: break;
-			case IKS_AST_LOGICO_COMP_L: break;
-			case IKS_AST_LOGICO_COMP_G: break;
-			case IKS_AST_IF_ELSE: break;
-			case IKS_AST_DO_WHILE: break;
-			case IKS_AST_WHILE_DO: break;
-			case IKS_AST_ATRIBUICAO: break;
-			case IKS_AST_VETOR_INDEXADO: break;
-			
-		}
-		
-		//concatena com o codigo dos filhos e do irmao
-		fatherCode = list_Concat(fatherCode, sonCode);
-		fatherCode = list_Concat(fatherCode, broCode);
-	}	
+	}
+	
+	//concatena com o codigo dos filhos e do irmao
+	fatherCode = list_Concat(sonCode, fatherCode);
+	fatherCode = list_Concat(fatherCode, broCode);
+	fatherCode->reg = param;
+	return fatherCode;
 }

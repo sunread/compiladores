@@ -54,6 +54,7 @@
 #define ILOC_OR_I		44
 #define ILOC_XOR		45
 #define ILOC_XOR_I		46
+#define ILOC_LABEL		47
 
 int registersCount;
 int labelsCount;

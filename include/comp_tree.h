@@ -11,6 +11,7 @@
 #ifndef COMP_TREE_H
 #define COMP_TREE_H
 #include "comp_dict.h"
+#include "comp_list.h"
 
 typedef struct nodeList_t{
 	struct comp_tree_t* node;
@@ -26,6 +27,9 @@ typedef struct comp_tree_t {
 	struct comp_tree_t* father;
 	struct comp_tree_t* broList;
 	struct nodeList_t* sonList;
+	comp_list* code;
+	char* labelT;
+	char* labelF;
 }comp_tree;
 
 comp_tree* ast;
