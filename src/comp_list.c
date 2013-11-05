@@ -23,7 +23,7 @@ comp_list* list_Create(){
 comp_list* list_Add(char* code, comp_list* first){
 	comp_list* newItem = malloc(sizeof(comp_list*));
 
-	newItem->data = strdup(code);
+	newItem->code = strdup(code);
 
 	if(first != NULL)
 	{
@@ -47,10 +47,10 @@ comp_list* list_Add(char* code, comp_list* first){
 */
 comp_list* list_Search(char* code, comp_list* first){
 	comp_list* cmpNode = first;
-	while(cmpNode->next != first && strcmp(cmpNode->data,code)!=0){
+	while(cmpNode->next != first && strcmp(cmpNode->code,code)!=0){
 		cmpNode = cmpNode->next;
 	}
-	if(strcmp(cmpNode->data,code)==0)
+	if(strcmp(cmpNode->code,code)==0)
 		return cmpNode;
 	else return NULL;
 }
