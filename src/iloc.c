@@ -162,12 +162,7 @@ comp_list* astCode(comp_tree* ast){
 		//processando nodo atual
 		
 		switch(aux->type){//gera codigo para nodo atual
-			case IKS_AST_IDENTIFICADOR: {
-											if(aux->identifierDeclaration){ //realiza o load do endereco de memoria para uma variavel
-												
-											}
-											break;
-										}
+			case IKS_AST_IDENTIFICADOR: break;
 			case IKS_AST_ARIM_SOMA: break;
 			case IKS_AST_ARIM_SUBTRACAO: break;
 			case IKS_AST_ARIM_MULTIPLICACAO: break;

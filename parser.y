@@ -104,7 +104,6 @@
 													if(localScope!=NULL)
 														localScope->ast_node->args = dict_insertEnd(localScope->ast_node->args,dict_argInsert($3));
                                                      setType($1,$3);
-                                                     $3->identifierDeclaration = 1;
                                                     } ;
 
  dec_vetor : tipo_variavel ':' TK_IDENTIFICADOR '[' TK_LIT_INT ']' {$3->scope = localScope;
@@ -113,7 +112,6 @@
 																	if(localScope!=NULL)
 																		localScope->ast_node->args = dict_insertEnd(localScope->ast_node->args,dict_argInsert($3));
                                                                      setType($1,$3);
-                                                                     $3->identifierDeclaration = 1;
                                                                     };
 
 

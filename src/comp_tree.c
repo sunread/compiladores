@@ -24,7 +24,6 @@ comp_tree* tree_CreateNode(int type, comp_dict_item_t* symbol){
 	new->symbol = symbol;
 	new->broList = NULL;
 	new->sonList = NULL;
-	new->identifierDeclaration = 0;
 	return new;
 }
 
