@@ -37,7 +37,7 @@
 #define ILOC_I2I		28
 #define ILOC_C2C		29
 #define ILOC_C2I		30
-#define ILOC_I2I		31
+#define ILOC_I2C		31
 #define ILOC_CMP_LT		32
 #define ILOC_CMP_LE		33
 #define ILOC_CMP_EQ		34

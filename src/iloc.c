@@ -1,20 +1,22 @@
 /**
  * Implementacao das funcoes de criacao de codigo ILOC
  * */
-
+#include <stdlib.h>
+#include <stdio.h>
 #include <stdarg.h>
+#include <string.h>
 #include "comp_list.h"
 #include "iloc.h"
 
 comp_list* createCode(comp_list* concatOnList, int commandId, int count, ...){
 	va_list ap;
 	int j;
-	char* params[3];
+	char* param[3];
 	char* commandCode;
 	if(count>0){
 		va_start(ap, count);
 		for(j=0; j<count; j++)
-			params[j] = va_arg(ap, char*);
+			param[j] = va_arg(ap, char*);
 		va_end(ap);
 	}
 	comp_list* newCode = list_Add(NULL, NULL);
@@ -91,7 +93,7 @@ comp_list* createCode(comp_list* concatOnList, int commandId, int count, ...){
 
 		case ILOC_C2I: sprintf(commandCode, "c2i %s => %s", param[0], param[1]);break;
 
-		case ILOC_I2I: sprintf(commandCode, "i2c %s => %s", param[0], param[1]);break;
+		case ILOC_I2C: sprintf(commandCode, "i2c %s => %s", param[0], param[1]);break;
 
 		case ILOC_CMP_LT: sprintf(commandCode, "cmp_LT %s, %s -> %s", param[0], param[1], param[2]);break;
 
@@ -111,7 +113,7 @@ comp_list* createCode(comp_list* concatOnList, int commandId, int count, ...){
 
 		case ILOC_JUMP:	sprintf(commandCode, "jump -> %s", param[0]);break;
 
-		case NOP:	sprintf(commandCode, "nop");break;
+		case ILOC_NOP:	sprintf(commandCode, "nop");break;
 
 	}
 	newCode->code = strdup(commandCode);

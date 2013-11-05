@@ -8,6 +8,7 @@
 
 #include "comp_list.h"
 #include <stdlib.h>
+#include <string.h>
 /**
 	list_Create
 	Seta como NULL o uma lista vazia
