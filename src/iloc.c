@@ -153,17 +153,51 @@ comp_list* astCode(comp_tree* ast){
 		return NULL;
 	comp_tree* aux = ast;
 	nodeList* auxList;
+	comp_list* fatherCode = NULL;
+	comp_list* sonCode = NULL;
+	comp_list* broCode = NULL;
 	while(aux != NULL){
 		auxList = aux->sonList;
-		//processando nodo atual
-		
 		while(auxList!=NULL){ //processando todos os filhos
-			
-			
+			sonCode = astCode(auxList->node);
 			auxList = auxList->next;
 		}
 		if(aux->broList!=NULL)//percorre o irmao
-				
+			broCode = astCode(aux->broList);
 		aux = aux->broList;
+		
+		//processando nodo atual
+		
+		switch(aux->type){//gera codigo para nodo atual
+			case IKS_AST_IDENTIFICADOR: {
+											if(aux->identifierDeclaration){ //realiza o load do endereco de memoria para uma variavel
+												
+											}
+											break;
+										}
+			case IKS_AST_ARIM_SOMA: break;
+			case IKS_AST_ARIM_SUBTRACAO: break;
+			case IKS_AST_ARIM_MULTIPLICACAO: break;
+			case IKS_AST_ARIM_DIVISAO: break;
+			case IKS_AST_ARIM_INVERSAO: break;
+			case IKS_AST_LOGICO_E: break;
+			case IKS_AST_LOGICO_OU: break;
+			case IKS_AST_LOGICO_COMP_DIF: break;
+			case IKS_AST_LOGICO_COMP_IGUAL: break;
+			case IKS_AST_LOGICO_COMP_LE: break;
+			case IKS_AST_LOGICO_COMP_GE: break;
+			case IKS_AST_LOGICO_COMP_L: break;
+			case IKS_AST_LOGICO_COMP_G: break;
+			case IKS_AST_IF_ELSE: break;
+			case IKS_AST_DO_WHILE: break;
+			case IKS_AST_WHILE_DO: break;
+			case IKS_AST_ATRIBUICAO: break;
+			case IKS_AST_VETOR_INDEXADO: break;
+			
+		}
+		
+		//concatena com o codigo dos filhos e do irmao
+		fatherCode = list_Concat(fatherCode, sonCode);
+		fatherCode = list_Concat(fatherCode, broCode);
 	}	
 }
