@@ -119,3 +119,23 @@ comp_list* createCode(comp_list* concatOnList, int commandId, int count, ...){
 	newCode->code = strdup(commandCode);
 	return list_Concat(concatOnList, newCode);
 }
+
+comp_list* astCode(comp_tree* ast){
+	if(ast==NULL)
+		return NULL;
+	comp_tree* aux = ast;
+	nodeList* auxList;
+	while(aux != NULL){
+		auxList = aux->sonList;
+		//processando nodo atual
+		
+		while(auxList!=NULL){ //processando todos os filhos
+			
+			
+			auxList = auxList->next;
+		}
+		if(aux->broList!=NULL)//percorre o irmao
+				
+		aux = aux->broList;
+	}	
+}
