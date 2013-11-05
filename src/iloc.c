@@ -8,16 +8,13 @@
 #include "comp_list.h"
 #include "iloc.h"
 
+
 const char* createRegister()
 {
     char buffer[1000];
-    char countBuffer[1000];
 
     registersCount++;
-
-    sprintf(countBuffer, "%d", registersCount);
-    strcpy(buffer, "r");
-    strcat(buffer, countBuffer);
+    sprintf(buffer, "%s%d", "r",registersCount);
 
     return strdup(buffer);
 }
@@ -25,13 +22,9 @@ const char* createRegister()
 const char * createLabel()
 {
     char buffer[1000];
-    char countBuffer[1000];
 
     labelsCount++;
-
-    sprintf(countBuffer, "%d",  labelsCount);
-    strcpy(buffer, "L");
-    strcat(buffer, countBuffer);
+    sprintf(buffer, "%s%d", "L",labelsCount);
 
     return strdup(buffer);
 }
