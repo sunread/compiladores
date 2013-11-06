@@ -8,6 +8,7 @@
 
 #include "comp_dict.h"
 #include "semantics.h"
+#include "iloc.h"
 /**
     dict_find_index
     Procura no dicionário uma entrada de texto e retorna o índice caso encontre, se não retorna -1
@@ -92,11 +93,25 @@ comp_dict_item_t_p dict_insert(comp_dict_t_p *dict, char *text, int type, int li
 		{
 		   newReg->item->value.i = atoi(text); // Converte a string para inteiro e copia o valor
 		   newReg->item->size = IKS_INT_SIZE;
+           if (newReg->item->scope == NULL)
+           {
+               newReg->item->offset = offsetGlobal;
+               newReg->item->offset =+ newReg->item->size;
+           }
+           newReg->item->offset = offsetLocal;
+           newReg->item->offset =+ newReg->item->size;
 		}
 		else if(type == IKS_SIMBOLO_LITERAL_FLOAT) // Se é do tipo float
 		{
 		   newReg->item->value.f = atof(text); // Converte a string para float e copia o valor
 		   newReg->item->size = IKS_FLOAT_SIZE;
+           if (newReg->item->scope == NULL)
+           {
+               newReg->item->offset = offsetGlobal;
+               newReg->item->offset =+ newReg->item->size;
+           }
+           newReg->item->offset = offsetLocal;
+           newReg->item->offset =+ newReg->item->size;
 		}
 		else if(type == IKS_SIMBOLO_LITERAL_CHAR) // Se é do tipo char
 		{
@@ -104,6 +119,13 @@ comp_dict_item_t_p dict_insert(comp_dict_t_p *dict, char *text, int type, int li
 		   memmove(text, &text[1], strlen(text));
 		   newReg->item->value.c = *text; // Converte a string para char e copia o valor
 		   newReg->item->size = IKS_CHAR_SIZE;
+           if (newReg->item->scope == NULL)
+           {
+               newReg->item->offset = offsetGlobal;
+               newReg->item->offset =+ newReg->item->size;
+           }
+           newReg->item->offset = offsetLocal;
+           newReg->item->offset =+ newReg->item->size;
 		}
 		else if(type == IKS_SIMBOLO_LITERAL_BOOL) // Se é do tipo boolean
 		{
@@ -116,6 +138,13 @@ comp_dict_item_t_p dict_insert(comp_dict_t_p *dict, char *text, int type, int li
 			   newReg->item->value.b = 0;
 		   }
 		   newReg->item->size = IKS_FLOAT_SIZE;
+           if (newReg->item->scope == NULL)
+           {
+               newReg->item->offset = offsetGlobal;
+               newReg->item->offset =+ newReg->item->size;
+           }
+           newReg->item->offset = offsetLocal;
+           newReg->item->offset =+ newReg->item->size;
 		}
 		else if(type == IKS_SIMBOLO_IDENTIFICADOR) // Se é do tipo identificador
 		{
@@ -127,6 +156,13 @@ comp_dict_item_t_p dict_insert(comp_dict_t_p *dict, char *text, int type, int li
 		   memmove(text, &text[1], strlen(text));
 		   newReg->item->value.str = strdup(text); // Copia a string
 		   newReg->item->size = IKS_CHAR_SIZE * strlen(newReg->item->value.str);
+           if (newReg->item->scope == NULL)
+           {
+               newReg->item->offset = offsetGlobal;
+               newReg->item->offset =+ newReg->item->size;
+           }
+           newReg->item->offset = offsetLocal;
+           newReg->item->offset =+ newReg->item->size;
 		}
 		// Preenche a estrutura de um item do dicionário
 		newReg->item->text = strdup(text);

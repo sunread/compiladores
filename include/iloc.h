@@ -58,6 +58,8 @@
 
 int registersCount;
 int labelsCount;
+int offsetGlobal;
+int offsetLocal;
 comp_list* createCode(comp_list* concatOnList, int commandId, int count, ...); //dependendo do comando se passa um numero diferente de argumentos
 																				//, passando a quantidade em count, os parametros consistem de strings
 																				// de registradores, variaveis, ou literais

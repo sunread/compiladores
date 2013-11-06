@@ -43,6 +43,7 @@ typedef struct comp_dict_item_t
     union dataValue value;
     int lineNumber;
     int size;
+    int offset;
     struct comp_dict_item_t* scope; //se NULL o escopo eh GLOBAL
     struct comp_tree_t* ast_node;
 } comp_dict_item_t,*comp_dict_item_t_p;
