@@ -391,14 +391,17 @@ int astTypeCoercion(comp_tree* ast){
 				{
 					sonType = auxList->next->node->dataType;
 				}
-				if(auxList->next->node->coercion != aux->type){
-					if(auxList->node->dataType == IKS_CHAR){
+				if(auxList->next->node->coercion != aux->dataType)
+				{
+					if(auxList->node->dataType == IKS_CHAR)
+					{
 						if(sonType == IKS_STRING)
 							printError( IKS_ERROR_STRING_TO_X, 0);
 						if(sonType != IKS_CHAR)
 							printError( IKS_ERROR_WRONG_TYPE, 0);
 					}
-					if(auxList->node->dataType == IKS_STRING){
+					if(auxList->node->dataType == IKS_STRING)
+					{
 						if(sonType == IKS_CHAR)
 							printError( IKS_ERROR_CHAR_TO_X, 0);
 						if(sonType != IKS_STRING)
@@ -417,7 +420,7 @@ int astTypeCoercion(comp_tree* ast){
 					sonType = auxList->next->node->sonList->node->symbol->type; //tipo fica no filho deste no e nao nele proprio
 				}
 				else{
-					sonType = auxList->next->node->symbol->type;
+					sonType = auxList->next->node->dataType;
 				}
 				if(auxList->next->node->coercion != IKS_INT){ //se filho nao faz coercao para inteiro entao nao serve para ser indice
 					if(sonType == IKS_STRING)
