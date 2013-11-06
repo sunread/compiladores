@@ -14,12 +14,19 @@ void makeTree(comp_tree *ast);
 int main (int argc, char **argv)
 {
   int running = 1;
+  FILE *outputFile;
   setYyin(stdin);
 
   if (argc > 0) {
     if (fopen(argv[1], "r"))
     {
         setYyin(fopen(argv[1], "r"));
+    }
+
+    outputFile = fopen(argv[2], "wb");
+    if(outputFile != NULL)
+    {
+        fprintf(outputFile,"%s","This is just an example :)");
     }
   }
 
