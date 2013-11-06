@@ -71,10 +71,23 @@ void list_Remove(comp_list* node){
 	Concatena duas listas circulares
 */
 comp_list* list_Concat(comp_list* list1, comp_list* list2){
-	comp_list* last1 = list1->prev;
-	last1->next = list2;
-	list2->prev->next = list1;
-	list1->prev = list2->prev;
-	list2->prev = last1;
-	return list1;
+
+	if(list1 == NULL)
+	{
+	    return list2;
+	}
+	else if(list2 == NULL)
+	{
+	    return list1;
+	}
+	else if(list1 != NULL && list2 != NULL)
+	{
+	    comp_list* last1 = list1->prev;
+        last1->next = list2;
+        list2->prev->next = list1;
+        list1->prev = list2->prev;
+        list2->prev = last1;
+
+        return list1;
+	}
 }
