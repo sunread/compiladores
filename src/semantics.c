@@ -383,11 +383,13 @@ int astTypeCoercion(comp_tree* ast){
 			}
 		else{ //nodos que nao sao expressao
 			if(aux->type == IKS_AST_ATRIBUICAO){
-				if(auxList->next->node->type == IKS_AST_CHAMADA_DE_FUNCAO || auxList->next->node->type == IKS_AST_VETOR_INDEXADO){
+				if(auxList->next->node->type == IKS_AST_CHAMADA_DE_FUNCAO || auxList->next->node->type == IKS_AST_VETOR_INDEXADO)
+				{
 					sonType = auxList->next->node->sonList->node->symbol->type; //tipo fica no filho deste no e nao nele proprio
 				}
-				else{
-					sonType = auxList->next->node->symbol->type;
+				else
+				{
+					sonType = auxList->next->node->dataType;
 				}
 				if(auxList->next->node->coercion != aux->type){
 					if(auxList->node->dataType == IKS_CHAR){
