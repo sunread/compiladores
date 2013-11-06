@@ -64,4 +64,6 @@ comp_list* createCode(comp_list* concatOnList, int commandId, int count, ...); /
 
 comp_list* astCode(comp_tree* ast);//cria o codigo ILOC para uma arvore AST de um programa
 
+const char* createRegister();
+const char* createLabel();
 #endif

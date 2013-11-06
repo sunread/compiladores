@@ -11,6 +11,7 @@
 #include "comp_dict.h"
 #include "iks_ast.h"
 #include "semantics.h"
+#include "iloc.h"
 #define IKS_SYNTAX_ERRO 1
 %}
 
@@ -185,17 +186,17 @@
 
  return : TK_PR_RETURN expressao {$$ = tree_CreateNode(IKS_AST_RETURN, NULL); tree_AddSon($$, 1, $2); $$->dataType = functionType; astTypeCoercion($$); verifySimpleCommand($$); } ;
 
- controle_fluxo : TK_PR_IF '(' expressao ')' TK_PR_THEN comando {$$ = tree_CreateNode(IKS_AST_IF_ELSE, NULL); tree_AddSon($$, 2, $3, $6);}|
-                  TK_PR_IF '(' expressao ')' TK_PR_THEN ';' {$$ = tree_CreateNode(IKS_AST_IF_ELSE, NULL); tree_AddSon($$, 1, $3);}|
-                  TK_PR_IF '(' expressao ')' TK_PR_THEN comando TK_PR_ELSE comando {$$ = tree_CreateNode(IKS_AST_IF_ELSE, NULL); tree_AddSon($$, 3, $3, $6, $8);}|
-                  TK_PR_IF '(' expressao ')' TK_PR_THEN ';' TK_PR_ELSE comando {$$ = tree_CreateNode(IKS_AST_IF_ELSE, NULL); tree_AddSon($$, 2, $3, $8);}|
-                  TK_PR_IF '(' expressao ')' TK_PR_THEN comando TK_PR_ELSE ';' {$$ = tree_CreateNode(IKS_AST_IF_ELSE, NULL); tree_AddSon($$, 2, $3, $6);}|
-                  TK_PR_IF '(' expressao ')' TK_PR_THEN ';' TK_PR_ELSE ';' {$$ = tree_CreateNode(IKS_AST_IF_ELSE, NULL); tree_AddSon($$, 1, $3);}|
+ controle_fluxo : TK_PR_IF '(' expressao ')' TK_PR_THEN comando {$$ = tree_CreateNode(IKS_AST_IF_ELSE, NULL); tree_AddSon($$, 2, $3, $6); $3->labelT = createLabel(); $3->labelF = createLabel();}|
+                  TK_PR_IF '(' expressao ')' TK_PR_THEN ';' {$$ = tree_CreateNode(IKS_AST_IF_ELSE, NULL); tree_AddSon($$, 1, $3);$3->labelT = createLabel(); $3->labelF = createLabel();}|
+                  TK_PR_IF '(' expressao ')' TK_PR_THEN comando TK_PR_ELSE comando {$$ = tree_CreateNode(IKS_AST_IF_ELSE, NULL); tree_AddSon($$, 3, $3, $6, $8);$3->labelT = createLabel(); $3->labelF = createLabel();}|
+                  TK_PR_IF '(' expressao ')' TK_PR_THEN ';' TK_PR_ELSE comando {$$ = tree_CreateNode(IKS_AST_IF_ELSE, NULL); tree_AddSon($$, 2, $3, $8);$3->labelT = createLabel(); $3->labelF = createLabel();}|
+                  TK_PR_IF '(' expressao ')' TK_PR_THEN comando TK_PR_ELSE ';' {$$ = tree_CreateNode(IKS_AST_IF_ELSE, NULL); tree_AddSon($$, 2, $3, $6);$3->labelT = createLabel(); $3->labelF = createLabel();}|
+                  TK_PR_IF '(' expressao ')' TK_PR_THEN ';' TK_PR_ELSE ';' {$$ = tree_CreateNode(IKS_AST_IF_ELSE, NULL); tree_AddSon($$, 1, $3);$3->labelT = createLabel(); $3->labelF = createLabel();}|
 
-                  TK_PR_WHILE '(' expressao ')' TK_PR_DO bloco_comando {$$ = tree_CreateNode(IKS_AST_WHILE_DO, NULL); tree_AddSon($$, 2, $3, $6);}|
-                  TK_PR_WHILE '(' expressao ')' TK_PR_DO ';' {$$ = tree_CreateNode(IKS_AST_WHILE_DO, NULL); tree_AddSon($$, 1, $3);}|
-                  TK_PR_DO bloco_comando TK_PR_WHILE '(' expressao ')' {$$ = tree_CreateNode(IKS_AST_DO_WHILE, NULL); tree_AddSon($$, 2, $2, $5);}|
-                  TK_PR_DO ';' TK_PR_WHILE '(' expressao ')' {$$ = tree_CreateNode(IKS_AST_DO_WHILE, NULL); tree_AddSon($$, 1, $5);};
+                  TK_PR_WHILE '(' expressao ')' TK_PR_DO bloco_comando {$$ = tree_CreateNode(IKS_AST_WHILE_DO, NULL); tree_AddSon($$, 2, $3, $6);$3->labelT = createLabel(); $3->labelF = createLabel();}|
+                  TK_PR_WHILE '(' expressao ')' TK_PR_DO ';' {$$ = tree_CreateNode(IKS_AST_WHILE_DO, NULL); tree_AddSon($$, 1, $3);$3->labelT = createLabel(); $3->labelF = createLabel();}|
+                  TK_PR_DO bloco_comando TK_PR_WHILE '(' expressao ')' {$$ = tree_CreateNode(IKS_AST_DO_WHILE, NULL); tree_AddSon($$, 2, $2, $5);$5->labelT = createLabel(); $5->labelF = createLabel();}|
+                  TK_PR_DO ';' TK_PR_WHILE '(' expressao ')' {$$ = tree_CreateNode(IKS_AST_DO_WHILE, NULL); tree_AddSon($$, 1, $5);$5->labelT = createLabel(); $5->labelF = createLabel();};
 
  expressao : TK_IDENTIFICADOR {$$  = tree_CreateNode(IKS_AST_IDENTIFICADOR, $1); verifyDeclaration($1, 1);verifyIdentifier($1, ID_VARIAVEL); astTypeInference($$);}
 | TK_IDENTIFICADOR '[' expressao ']' {$$  = tree_CreateNode(IKS_AST_VETOR_INDEXADO, $1); tree_AddSon($$, 2, tree_CreateNode(IKS_AST_IDENTIFICADOR, $1), $3); verifyDeclaration($1, 1);verifyIdentifier($1, ID_VETOR); astTypeInference($$);astTypeCoercion($$);}

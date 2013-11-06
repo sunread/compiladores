@@ -28,8 +28,8 @@ typedef struct comp_tree_t {
 	struct comp_tree_t* broList;
 	struct nodeList_t* sonList;
 	comp_list* code;
-	char* labelT;
-	char* labelF;
+	const char* labelT;
+	const char* labelF;
 }comp_tree;
 
 comp_tree* ast;
