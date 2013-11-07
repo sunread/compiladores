@@ -32,6 +32,7 @@ comp_list* list_Add(char* code, comp_list* first){
 		newItem->prev = first->prev;
 		first->prev = newItem;
 		newItem->next = first;
+		newItem->reg = NULL;
 		return first;
 	}
 	else
