@@ -24,10 +24,7 @@ int main (int argc, char **argv)
     }
 
     outputFile = fopen(argv[2], "wb");
-    if(outputFile != NULL)
-    {
-        fprintf(outputFile,"%s","This is just an example :)");
-    }
+    
   }
 
   dictionary = dict_new();
@@ -39,6 +36,10 @@ int main (int argc, char **argv)
   makeTree(ast);
 
   gv_close();
+  if(outputFile != NULL)
+  {
+  	printCode(astCode(ast), outputFile);
+  }
   printf("Avaliacao semantica realizada com sucesso.\n");
   dict_print(dictionary);
   exit(IKS_SUCCESS);

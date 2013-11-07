@@ -112,7 +112,7 @@
 																	$3->usage = ID_VETOR;
 																	if(localScope!=NULL)
 																		localScope->ast_node->args = dict_insertEnd(localScope->ast_node->args,dict_argInsert($3));
-                                                                     setTypeVector($1,$5->value.i,$3);
+                                                                     setTypeVector($1,$5->item->dataValue.i,$3);
                                                                     };
 
 
