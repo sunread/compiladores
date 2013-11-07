@@ -6,6 +6,7 @@
  */
 
 #include "semantics.h"
+#include "iloc.h"
 
 /**
 **  printError
@@ -690,4 +691,20 @@ void setType(int type, comp_dict_item_t* symbol){
 	   case IKS_CHAR: symbol->type = IKS_CHAR; symbol->size = IKS_CHAR_SIZE; break;
 	   case IKS_STRING: symbol->type = IKS_STRING; symbol->size = IKS_CHAR_SIZE; break;
 	}
+}
+
+void setSize(comp_dict_item_t* symbol)
+{
+    if (symbol->scope == NULL)
+    {
+        symbol->offset = offsetGlobal;
+        offsetGlobal += symbol->size;
+        printf("offsetGlobal: %d\n", offsetGlobal);
+    }
+    else
+    {
+        symbol->offset = offsetLocal;
+        offsetLocal += symbol->size;
+        printf("offsetLocal: %d\n", offsetLocal);
+    }
 }
