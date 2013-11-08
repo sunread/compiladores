@@ -209,6 +209,7 @@ int astTypeInference(comp_tree* ast){
         if(aux->type == IKS_AST_LITERAL)
 		{
 		    aux->dataType = aux->symbol->type;
+		    aux->coercion = aux->symbol->type;
 		}
 		else if(aux->type == IKS_AST_IDENTIFICADOR)
 		{
