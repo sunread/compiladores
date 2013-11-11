@@ -8,6 +8,7 @@
 
 #include "comp_list.h"
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 /**
 	list_Create
@@ -21,18 +22,15 @@ comp_list* list_Create(){
 	list_Add
 	Adiciona um novo item ao final de uma lista duplamente encadeada circular
 */
-comp_list* list_Add(char* code, comp_list* first){
+comp_list* list_Add(const char* code, comp_list* first){
 	comp_list* newItem = malloc(sizeof(comp_list*));
-
-	newItem->code = strdup(code);
-
+	strcpy(newItem->code, code);
 	if(first != NULL)
 	{
 		first->prev->next = newItem;
 		newItem->prev = first->prev;
 		first->prev = newItem;
 		newItem->next = first;
-		newItem->reg = NULL;
 		return first;
 	}
 	else
@@ -73,15 +71,7 @@ void list_Remove(comp_list* node){
 */
 comp_list* list_Concat(comp_list* list1, comp_list* list2){
 
-	if(list1 == NULL)
-	{
-	    return list2;
-	}
-	else if(list2 == NULL)
-	{
-	    return list1;
-	}
-	else if(list1 != NULL && list2 != NULL)
+	if(list1 != NULL && list2 != NULL)
 	{
 	    comp_list* last1 = list1->prev;
         last1->next = list2;
@@ -90,5 +80,13 @@ comp_list* list_Concat(comp_list* list1, comp_list* list2){
         list2->prev = last1;
 
         return list1;
+	}
+	else if(list1 == NULL)
+	{
+	    return list2;
+	}
+	else if(list2 == NULL)
+	{
+	    return list1;
 	}
 }
