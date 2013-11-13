@@ -30,10 +30,22 @@ const char * createLabel()
     return strdup(buffer);
 }
 
+const char * createLiteral(int i)
+{
+    char buffer[1000];
+    sprintf(buffer, "%d ", i);
+
+    return strdup(buffer);
+}
+
 void printCode(comp_list* program, FILE* output){
 	if(program != NULL){
-			fprintf(output,"%s\n", program->code);
-		}
+		comp_list* first = program;
+		do{
+			printf("%s\n", first->code);
+			first = first->next;
+		}while(first != program);
+	}
 }
 
 comp_list* createCode(comp_list* concatOnList, int commandId, int count, ...){
@@ -168,13 +180,16 @@ comp_list* astCode(comp_tree* ast){
 	//processando nodo atual
 	
 	switch(aux->type){//gera codigo para nodo atual
-		case IKS_AST_IDENTIFICADOR: {param = createRegister();
+		case IKS_AST_IDENTIFICADOR: {
+									if(aux->father->sonList->node != aux){
+									param = createRegister();
 									char offset[132];
 									sprintf(offset, "%d", aux->symbol->offset);
 									if(aux->symbol->scope == NULL)
 										fatherCode =  createCode(fatherCode, ILOC_LOAD_AI, 3, "bss", offset, param);
 									else
 										fatherCode =  createCode(fatherCode, ILOC_LOAD_AI, 3, "fp", offset, param);
+									}
 									break;
 									}
 		case IKS_AST_ARIM_SOMA: {
@@ -300,10 +315,22 @@ comp_list* astCode(comp_tree* ast){
 								break;
 							}
 		case IKS_AST_ATRIBUICAO: {	param = createRegister();
-									if(aux->sonList->node->symbol->scope == NULL)
-										fatherCode =  createCode(fatherCode, ILOC_STORE_AI, 3, "bss", aux->sonList->node->symbol->offset, param);
-									else
-										fatherCode =  createCode(fatherCode, ILOC_STORE_AI, 3, "fp", aux->sonList->node->symbol->offset, param);
+									char offset[132];
+									sprintf(offset, "%d", aux->sonList->node->symbol->offset);
+									if(aux->sonList->next->node->type == IKS_AST_LITERAL){
+										fatherCode = createCode(fatherCode, ILOC_LOAD_I, 2, createLiteral(aux->sonList->next->node->symbol->value.i), param);
+										if(aux->sonList->node->symbol->scope == NULL)
+											fatherCode =  createCode(fatherCode, ILOC_STORE_AI, 3, param, "bss", offset);
+										else
+											fatherCode =  createCode(fatherCode, ILOC_STORE_AI, 3, param, "fp", offset);
+									}
+									else{
+											fatherCode = list_Concat(fatherCode, aux->sonList->next->node->code);
+											if(aux->sonList->node->symbol->scope == NULL)
+												fatherCode =  createCode(fatherCode, ILOC_STORE_AI, 3, aux->sonList->next->node->code->reg, "bss", offset);
+											else
+												fatherCode =  createCode(fatherCode, ILOC_STORE_AI, 3, aux->sonList->next->node->code->reg, "fp", offset);
+									}
 									break;
 								}
 		case IKS_AST_VETOR_INDEXADO: break;
@@ -314,7 +341,15 @@ comp_list* astCode(comp_tree* ast){
 		broCode = astCode(aux->broList);
 		fatherCode = list_Concat(fatherCode, broCode);
 	}
-	strcpy(fatherCode->reg,param);
-	aux->code = fatherCode;
+	if(fatherCode != NULL){
+		strcpy(fatherCode->reg,param);
+		comp_list* first = fatherCode;
+		do{
+			printf("%s\n", first->code);
+			first = first->next;
+		}while(first != fatherCode);
+		printf("//////////////\n");
+	}
+	ast->code = fatherCode;
 	return fatherCode;
 }

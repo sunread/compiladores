@@ -711,12 +711,12 @@ void setSize(comp_dict_item_t* symbol)
     {
         symbol->offset = offsetGlobal;
         offsetGlobal += symbol->size;
-        printf("offsetGlobal: %d\n", offsetGlobal);
+        //printf("offsetGlobal: %d\n", offsetGlobal);
     }
     else
     {
         symbol->offset = offsetLocal;
         offsetLocal += symbol->size;
-        printf("offsetLocal: %d\n", offsetLocal);
+       // printf("offsetLocal: %d\n", offsetLocal);
     }
 }

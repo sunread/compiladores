@@ -39,9 +39,11 @@ int main (int argc, char **argv)
   if(outputFile != NULL)
   {
   	printCode(astCode(ast), outputFile);
+  	fflush(outputFile);
+  	fclose(outputFile);
   }
-  printf("Avaliacao semantica realizada com sucesso.\n");
-  dict_print(dictionary);
+  //printf("Avaliacao semantica realizada com sucesso.\n");
+  //dict_print(dictionary);
   exit(IKS_SUCCESS);
   return resultado;
 }
