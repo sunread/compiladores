@@ -42,6 +42,29 @@ comp_list* list_Add(const char* code, comp_list* first){
 }
 
 /**
+	list_AddDimension
+	Adiciona um novo item ao final de uma lista duplamente encadeada circular com uma dimensão do vetor
+*/
+comp_list* list_AddDimension(int dimension, comp_list* first){
+	comp_list* newItem = malloc(sizeof(comp_list*));
+	newItem->dimension = dimension;
+	if(first != NULL)
+	{
+		first->prev->next = newItem;
+		newItem->prev = first->prev;
+		first->prev = newItem;
+		newItem->next = first;
+		return first;
+	}
+	else
+	{
+		newItem->next = newItem;
+		newItem->prev = newItem;
+		return newItem;
+	}
+}
+
+/**
 	list_Search
 	Procura um elemento na lista a partir de um argumento
 */
@@ -89,4 +112,25 @@ comp_list* list_Concat(comp_list* list1, comp_list* list2){
 	{
 	    return list1;
 	}
+}
+
+/**
+	list_GetArraySize
+	Múltiplica todas as dimensões pelo tamanho do tipo de dado
+*/
+int list_GetArraySize(int typeSize, comp_list* dimensionList)
+{
+	comp_list* aux = dimensionList;
+	int arraySize = 0;
+
+	while(aux->next != dimensionList)
+	{
+	    arraySize += aux->dimension*typeSize;
+		aux = aux->next;
+	}
+
+	if(aux != NULL)
+        arraySize += aux->dimension*typeSize;
+
+	return arraySize;
 }

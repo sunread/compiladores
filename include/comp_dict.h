@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
+#include "comp_list.h"
 
 #define IKS_SIMBOLO_LITERAL_INT 1
 #define IKS_SIMBOLO_LITERAL_FLOAT 2
@@ -46,6 +46,8 @@ typedef struct comp_dict_item_t
     int offset;
     struct comp_dict_item_t* scope; //se NULL o escopo eh GLOBAL
     struct comp_tree_t* ast_node;
+    comp_list* dimensionsList;
+
 } comp_dict_item_t,*comp_dict_item_t_p;
 
 typedef struct comp_dict_t

@@ -6,6 +6,7 @@
  */
 
 #include "semantics.h"
+#include "comp_list.h"
 #include "iloc.h"
 
 /**
@@ -358,13 +359,13 @@ int astTypeCoercion(comp_tree* ast){
 					sonType = auxList->node->sonList->node->symbol->type; //tipo fica no filho deste no e nao nele proprio
 				}
 				else{
-					sonType = auxList->node->symbol->type;
+					sonType = auxList->node->dataType;
 				}
 				if(auxList->next->node->type == IKS_AST_CHAMADA_DE_FUNCAO || auxList->next->node->type == IKS_AST_VETOR_INDEXADO){
-					son2Type = auxList->next->node->sonList->node->symbol->type; //tipo fica no filho deste no e nao nele proprio
+					son2Type = auxList->next->node->sonList->node->dataType; //tipo fica no filho deste no e nao nele proprio
 				}
 				else{
-					son2Type = auxList->next->node->symbol->type;
+					son2Type = auxList->next->node->dataType;
 				}
 				if (sonType == IKS_CHAR || son2Type == IKS_CHAR)
 						printError( IKS_ERROR_CHAR_TO_X, 0);
@@ -424,12 +425,17 @@ int astTypeCoercion(comp_tree* ast){
 				else{
 					sonType = auxList->next->node->dataType;
 				}
-				if(auxList->next->node->coercion != IKS_INT){ //se filho nao faz coercao para inteiro entao nao serve para ser indice
+				if(auxList->next->node->coercion != IKS_INT && sonType != IKS_INT)
+				{ //se filho nao faz coercao para inteiro entao nao serve para ser indice
 					if(sonType == IKS_STRING)
 						printError( IKS_ERROR_STRING_TO_X, 0);
 					if(sonType == IKS_CHAR)
 						printError( IKS_ERROR_CHAR_TO_X, 0);
 					else printError( IKS_ERROR_WRONG_TYPE, 0);
+				}
+				else
+				{
+				    return IKS_SUCCESS;
 				}
 			}
 		}
@@ -695,13 +701,13 @@ void setType(int type, comp_dict_item_t* symbol){
 }
 
 
-void setTypeVector(int type, int sizeVector, comp_dict_item_t* symbol){
+void setTypeVector(int type, comp_dict_item_t* symbol){
 	switch(type){
-	   case IKS_INT : symbol->type = IKS_INT; symbol->size += IKS_INT_SIZE*sizeVector; break;
-	   case IKS_FLOAT: symbol->type = IKS_FLOAT; symbol->size += IKS_FLOAT_SIZE*sizeVector; break;
-	   case IKS_BOOL: symbol->type = IKS_BOOL; symbol->size += IKS_BOOL_SIZE*sizeVector; break;
-	   case IKS_CHAR: symbol->type = IKS_CHAR; symbol->size += IKS_CHAR_SIZE*sizeVector; break;
-	   case IKS_STRING: symbol->type = IKS_STRING; symbol->size += IKS_CHAR_SIZE*sizeVector; break;
+	   case IKS_INT : symbol->type = IKS_INT; symbol->size = list_GetArraySize(IKS_INT_SIZE, symbol->dimensionsList); break;
+	   case IKS_FLOAT: symbol->type = IKS_FLOAT; symbol->size = list_GetArraySize(IKS_FLOAT_SIZE, symbol->dimensionsList); break;
+	   case IKS_BOOL: symbol->type = IKS_BOOL; symbol->size = list_GetArraySize(IKS_BOOL_SIZE, symbol->dimensionsList); break;
+	   case IKS_CHAR: symbol->type = IKS_CHAR; symbol->size = list_GetArraySize(IKS_CHAR_SIZE, symbol->dimensionsList); break;
+	   case IKS_STRING: symbol->type = IKS_STRING; symbol->size = list_GetArraySize(IKS_CHAR_SIZE, symbol->dimensionsList); break;
 	}
 }
 
