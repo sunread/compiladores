@@ -424,12 +424,17 @@ int astTypeCoercion(comp_tree* ast){
 				else{
 					sonType = auxList->next->node->dataType;
 				}
-				if(auxList->next->node->coercion != IKS_INT){ //se filho nao faz coercao para inteiro entao nao serve para ser indice
+				if(auxList->next->node->coercion != IKS_INT && sonType != IKS_INT)
+				{ //se filho nao faz coercao para inteiro entao nao serve para ser indice
 					if(sonType == IKS_STRING)
 						printError( IKS_ERROR_STRING_TO_X, 0);
 					if(sonType == IKS_CHAR)
 						printError( IKS_ERROR_CHAR_TO_X, 0);
 					else printError( IKS_ERROR_WRONG_TYPE, 0);
+				}
+				else
+				{
+				    return IKS_SUCCESS;
 				}
 			}
 		}
