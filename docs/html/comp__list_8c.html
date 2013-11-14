@@ -84,31 +84,35 @@ var searchBox = new SearchBox("searchBox", "search",false,'Busca');
 
 <p>Funções para o funcionamento da lista.  
 <a href="#details">Mais...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="comp__list_8h_source.html">comp_list.h</a>&quot;</code><br/>
+<div class="textblock"><code>#include &quot;comp_list.h&quot;</code><br/>
 <code>#include &lt;stdlib.h&gt;</code><br/>
+<code>#include &lt;stdio.h&gt;</code><br/>
+<code>#include &lt;string.h&gt;</code><br/>
 </div><table class="memberdecls">
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Funções</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcomp__list__t.html">comp_list</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__list_8c.html#a65df47b4c4f8585914477ff1a71dc052">list_Create</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcomp__list__t.html">comp_list</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__list_8c.html#a8ce73bc19cdbe941fb0355f6b3255e53">list_Add</a> (int data, <a class="el" href="structcomp__list__t.html">comp_list</a> *first)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcomp__list__t.html">comp_list</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__list_8c.html#a8e98abd2a187c2174a22ea31a8f2ff1c">list_Search</a> (int data, <a class="el" href="structcomp__list__t.html">comp_list</a> *first)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcomp__list__t.html">comp_list</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__list_8c.html#a014fc4e08bb740217d8754f17a895ab5">list_Add</a> (const char *code, <a class="el" href="structcomp__list__t.html">comp_list</a> *first)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcomp__list__t.html">comp_list</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__list_8c.html#a7432e200f3791815dcea76e8db1627b9">list_AddDimension</a> (int dimension, <a class="el" href="structcomp__list__t.html">comp_list</a> *first)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcomp__list__t.html">comp_list</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__list_8c.html#a37c5a09755e267bc3b2bc7d1dda2fc76">list_Search</a> (char *code, <a class="el" href="structcomp__list__t.html">comp_list</a> *first)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__list_8c.html#ac8da731decd03233ef0e14fdacd6ca64">list_Remove</a> (<a class="el" href="structcomp__list__t.html">comp_list</a> *node)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcomp__list__t.html">comp_list</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__list_8c.html#a77577491e489a4d7b3efa93ddaf65956">list_Concat</a> (<a class="el" href="structcomp__list__t.html">comp_list</a> *list1, <a class="el" href="structcomp__list__t.html">comp_list</a> *list2)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="comp__list_8c.html#ad063e0ee67e94bf037a000a128cf93c3">list_GetArraySize</a> (int typeSize, <a class="el" href="structcomp__list__t.html">comp_list</a> *dimensionList)</td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Descrição Detalhada</h2>
 <div class="textblock"><p>Funções para o funcionamento da lista. </p>
 <dl class="author"><dt><b>Autor:</b></dt><dd>Fernando Soller Mecking; Mateus Cardoso da Silva </dd></dl>
 <dl class="date"><dt><b>Data:</b></dt><dd>16 Sep 2013 </dd></dl>
 </div><hr/><h2>Funções</h2>
-<a class="anchor" id="a8ce73bc19cdbe941fb0355f6b3255e53"></a><!-- doxytag: member="comp_list.c::list_Add" ref="a8ce73bc19cdbe941fb0355f6b3255e53" args="(int data, comp_list *first)" -->
+<a class="anchor" id="a014fc4e08bb740217d8754f17a895ab5"></a><!-- doxytag: member="comp_list.c::list_Add" ref="a014fc4e08bb740217d8754f17a895ab5" args="(const char *code, comp_list *first)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structcomp__list__t.html">comp_list</a>* <a class="el" href="comp__list_8c.html#a8ce73bc19cdbe941fb0355f6b3255e53">list_Add</a> </td>
+          <td class="memname"><a class="el" href="structcomp__list__t.html">comp_list</a>* <a class="el" href="comp__list_8c.html#a014fc4e08bb740217d8754f17a895ab5">list_Add</a> </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>code</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -125,6 +129,34 @@ Funções</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>list_Add Adiciona um novo item ao final de uma lista duplamente encadeada circular </p>
+
+</div>
+</div>
+<a class="anchor" id="a7432e200f3791815dcea76e8db1627b9"></a><!-- doxytag: member="comp_list.c::list_AddDimension" ref="a7432e200f3791815dcea76e8db1627b9" args="(int dimension, comp_list *first)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcomp__list__t.html">comp_list</a>* <a class="el" href="comp__list_8c.html#a7432e200f3791815dcea76e8db1627b9">list_AddDimension</a> </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>dimension</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcomp__list__t.html">comp_list</a> *&#160;</td>
+          <td class="paramname"><em>first</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>list_AddDimension Adiciona um novo item ao final de uma lista duplamente encadeada circular com uma dimensão do vetor </p>
 
 </div>
 </div>
@@ -173,6 +205,34 @@ Funções</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ad063e0ee67e94bf037a000a128cf93c3"></a><!-- doxytag: member="comp_list.c::list_GetArraySize" ref="ad063e0ee67e94bf037a000a128cf93c3" args="(int typeSize, comp_list *dimensionList)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="comp__list_8c.html#ad063e0ee67e94bf037a000a128cf93c3">list_GetArraySize</a> </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>typeSize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcomp__list__t.html">comp_list</a> *&#160;</td>
+          <td class="paramname"><em>dimensionList</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>list_GetArraySize Múltiplica todas as dimensões pelo tamanho do tipo de dado </p>
+
+</div>
+</div>
 <a class="anchor" id="ac8da731decd03233ef0e14fdacd6ca64"></a><!-- doxytag: member="comp_list.c::list_Remove" ref="ac8da731decd03233ef0e14fdacd6ca64" args="(comp_list *node)" -->
 <div class="memitem">
 <div class="memproto">
@@ -191,15 +251,15 @@ Funções</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a8e98abd2a187c2174a22ea31a8f2ff1c"></a><!-- doxytag: member="comp_list.c::list_Search" ref="a8e98abd2a187c2174a22ea31a8f2ff1c" args="(int data, comp_list *first)" -->
+<a class="anchor" id="a37c5a09755e267bc3b2bc7d1dda2fc76"></a><!-- doxytag: member="comp_list.c::list_Search" ref="a37c5a09755e267bc3b2bc7d1dda2fc76" args="(char *code, comp_list *first)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structcomp__list__t.html">comp_list</a>* <a class="el" href="comp__list_8c.html#a8e98abd2a187c2174a22ea31a8f2ff1c">list_Search</a> </td>
+          <td class="memname"><a class="el" href="structcomp__list__t.html">comp_list</a>* <a class="el" href="comp__list_8c.html#a37c5a09755e267bc3b2bc7d1dda2fc76">list_Search</a> </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>code</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -237,7 +297,7 @@ Funções</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Gerado em Domingo, 13 de Outubro de 2013 17:27:25 para Compilador IKS - Compiladores UFRGS 2013/2 por &#160;<a href="http://www.doxygen.org/index.html">
+Gerado em Quinta, 14 de Novembro de 2013 04:46:47 para Compilador IKS - Compiladores UFRGS 2013/2 por &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

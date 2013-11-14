@@ -86,7 +86,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Busca');
 <a name="l00011"></a>00011 <span class="preprocessor">#include &lt;stdio.h&gt;</span>
 <a name="l00012"></a>00012 <span class="preprocessor">#include &lt;string.h&gt;</span>
 <a name="l00013"></a>00013 <span class="preprocessor">#include &lt;stdlib.h&gt;</span>
-<a name="l00014"></a>00014 
+<a name="l00014"></a>00014 <span class="preprocessor">#include &quot;comp_list.h&quot;</span>
 <a name="l00015"></a>00015 
 <a name="l00016"></a>00016 <span class="preprocessor">#define IKS_SIMBOLO_LITERAL_INT 1</span>
 <a name="l00017"></a>00017 <span class="preprocessor"></span><span class="preprocessor">#define IKS_SIMBOLO_LITERAL_FLOAT 2</span>
@@ -118,28 +118,31 @@ var searchBox = new SearchBox("searchBox", "search",false,'Busca');
 <a name="l00043"></a>00043     <span class="keyword">union </span><a class="code" href="uniondataValue.html">dataValue</a> value;
 <a name="l00044"></a>00044     <span class="keywordtype">int</span> lineNumber;
 <a name="l00045"></a>00045     <span class="keywordtype">int</span> size;
-<a name="l00046"></a>00046     <span class="keyword">struct </span><a class="code" href="structcomp__dict__item__t.html">comp_dict_item_t</a>* scope; <span class="comment">//se NULL o escopo eh GLOBAL</span>
-<a name="l00047"></a>00047     <span class="keyword">struct </span><a class="code" href="structcomp__tree__t.html">comp_tree_t</a>* ast_node;
-<a name="l00048"></a>00048 } <a class="code" href="structcomp__dict__item__t.html">comp_dict_item_t</a>,*<a class="code" href="structcomp__dict__item__t.html">comp_dict_item_t_p</a>;
-<a name="l00049"></a>00049 
-<a name="l00050"></a><a class="code" href="structcomp__dict__t.html">00050</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structcomp__dict__t.html">comp_dict_t</a>
-<a name="l00051"></a>00051 {
-<a name="l00052"></a>00052     <a class="code" href="structcomp__dict__item__t.html">comp_dict_item_t</a> *item;
-<a name="l00053"></a>00053     <span class="keyword">struct </span><a class="code" href="structcomp__dict__t.html">comp_dict_t</a>* next;
-<a name="l00054"></a>00054 } <a class="code" href="structcomp__dict__t.html">comp_dict_t</a>, *<a class="code" href="structcomp__dict__t.html">comp_dict_t_p</a>;
-<a name="l00055"></a>00055 
-<a name="l00056"></a>00056 <a class="code" href="structcomp__dict__t.html">comp_dict_t</a>* dictionary;
-<a name="l00057"></a>00057 <span class="keywordtype">int</span> <a class="code" href="comp__dict_8c.html#a974b9428e4e82ae24fc366330de052b5">dict_find_index</a>();
-<a name="l00058"></a>00058 comp_dict_item_t_p <a class="code" href="comp__dict_8c.html#a9775e1c3ffc959aab2b3e91992e4cef7">dict_find</a>();
-<a name="l00059"></a>00059 comp_dict_item_t_p <a class="code" href="comp__dict_8c.html#ae2ed2629775e4639e5fc04efb5cf0cd2">dict_insert</a>();
-<a name="l00060"></a>00060 comp_dict_t_p <a class="code" href="comp__dict_8h.html#a8c19ce12b73b9b7b8471812d4037c302">dict_argInsert</a>(comp_dict_item_t_p);
-<a name="l00061"></a>00061 comp_dict_t_p dict_insertEnd();
-<a name="l00062"></a>00062 <a class="code" href="structcomp__dict__t.html">comp_dict_t</a>* <a class="code" href="comp__dict_8h.html#a8bfefaaee81c7580bd973f34abf6cd0d">dict_new</a>();
-<a name="l00063"></a>00063 <span class="keywordtype">void</span> <a class="code" href="comp__dict_8c.html#a9a22b4d6f0232dd5e5cdc1b6f8e26992">dict_free</a>();
-<a name="l00064"></a>00064 <span class="keywordtype">void</span> <a class="code" href="comp__dict_8c.html#abe87253abb9d3db9a9ab15e9229e3d21">dict_print</a>();
-<a name="l00065"></a>00065 
-<a name="l00066"></a>00066 <span class="preprocessor">#endif</span>
-<a name="l00067"></a>00067 <span class="preprocessor"></span>
+<a name="l00046"></a>00046     <span class="keywordtype">int</span> offset;
+<a name="l00047"></a>00047     <span class="keyword">struct </span><a class="code" href="structcomp__dict__item__t.html">comp_dict_item_t</a>* scope; <span class="comment">//se NULL o escopo eh GLOBAL</span>
+<a name="l00048"></a>00048     <span class="keyword">struct </span><a class="code" href="structcomp__tree__t.html">comp_tree_t</a>* ast_node;
+<a name="l00049"></a>00049     <a class="code" href="structcomp__list__t.html">comp_list</a>* dimensionsList;
+<a name="l00050"></a>00050 
+<a name="l00051"></a>00051 } <a class="code" href="structcomp__dict__item__t.html">comp_dict_item_t</a>,*<a class="code" href="structcomp__dict__item__t.html">comp_dict_item_t_p</a>;
+<a name="l00052"></a>00052 
+<a name="l00053"></a><a class="code" href="structcomp__dict__t.html">00053</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structcomp__dict__t.html">comp_dict_t</a>
+<a name="l00054"></a>00054 {
+<a name="l00055"></a>00055     <a class="code" href="structcomp__dict__item__t.html">comp_dict_item_t</a> *item;
+<a name="l00056"></a>00056     <span class="keyword">struct </span><a class="code" href="structcomp__dict__t.html">comp_dict_t</a>* next;
+<a name="l00057"></a>00057 } <a class="code" href="structcomp__dict__t.html">comp_dict_t</a>, *<a class="code" href="structcomp__dict__t.html">comp_dict_t_p</a>;
+<a name="l00058"></a>00058 
+<a name="l00059"></a>00059 <a class="code" href="structcomp__dict__t.html">comp_dict_t</a>* dictionary;
+<a name="l00060"></a>00060 <span class="keywordtype">int</span> <a class="code" href="comp__dict_8c.html#a974b9428e4e82ae24fc366330de052b5">dict_find_index</a>();
+<a name="l00061"></a>00061 comp_dict_item_t_p <a class="code" href="comp__dict_8c.html#a9775e1c3ffc959aab2b3e91992e4cef7">dict_find</a>();
+<a name="l00062"></a>00062 comp_dict_item_t_p <a class="code" href="comp__dict_8c.html#ae2ed2629775e4639e5fc04efb5cf0cd2">dict_insert</a>();
+<a name="l00063"></a>00063 comp_dict_t_p <a class="code" href="comp__dict_8h.html#a8c19ce12b73b9b7b8471812d4037c302">dict_argInsert</a>(comp_dict_item_t_p);
+<a name="l00064"></a>00064 comp_dict_t_p dict_insertEnd();
+<a name="l00065"></a>00065 <a class="code" href="structcomp__dict__t.html">comp_dict_t</a>* <a class="code" href="comp__dict_8h.html#a8bfefaaee81c7580bd973f34abf6cd0d">dict_new</a>();
+<a name="l00066"></a>00066 <span class="keywordtype">void</span> <a class="code" href="comp__dict_8c.html#a9a22b4d6f0232dd5e5cdc1b6f8e26992">dict_free</a>();
+<a name="l00067"></a>00067 <span class="keywordtype">void</span> <a class="code" href="comp__dict_8c.html#abe87253abb9d3db9a9ab15e9229e3d21">dict_print</a>();
+<a name="l00068"></a>00068 
+<a name="l00069"></a>00069 <span class="preprocessor">#endif</span>
+<a name="l00070"></a>00070 <span class="preprocessor"></span>
 </pre></div></div><!-- contents -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
@@ -158,7 +161,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Busca');
 
 
 <hr class="footer"/><address class="footer"><small>
-Gerado em Domingo, 13 de Outubro de 2013 17:27:25 para Compilador IKS - Compiladores UFRGS 2013/2 por &#160;<a href="http://www.doxygen.org/index.html">
+Gerado em Quinta, 14 de Novembro de 2013 04:46:47 para Compilador IKS - Compiladores UFRGS 2013/2 por &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
