@@ -371,25 +371,21 @@ comp_list* astCode(comp_tree* ast){
 								fatherCode =  createCode(fatherCode, ILOC_LABEL, 1, next2);											
 								break;
 							}
-		case IKS_AST_ATRIBUICAO: {	param = createRegister();
+		case IKS_AST_ATRIBUICAO: {	
 									char offset[132];
 									sprintf(offset, "%d", aux->sonList->node->symbol->offset);
-									if(aux->sonList->next->node->type == IKS_AST_LITERAL){
-										fatherCode = createCode(fatherCode, ILOC_LOAD_I, 2, createLiteral(aux->sonList->next->node->symbol->value.i), param);
-										if(aux->sonList->node->symbol->scope == NULL)
-											fatherCode =  createCode(fatherCode, ILOC_STORE_AI, 3, param, "bss", offset);
-										else
-											fatherCode =  createCode(fatherCode, ILOC_STORE_AI, 3, param, "fp", offset);
-									}
-									else{
-											fatherCode = list_Concat(fatherCode, aux->sonList->next->node->code);
-											if(aux->sonList->node->symbol->scope == NULL)
-												fatherCode =  createCode(fatherCode, ILOC_STORE_AI, 3, aux->sonList->next->node->code->reg, "bss", offset);
-											else
-												fatherCode =  createCode(fatherCode, ILOC_STORE_AI, 3, aux->sonList->next->node->code->reg, "fp", offset);
-									}
+									fatherCode = list_Concat(fatherCode, aux->sonList->next->node->code);
+									if(aux->sonList->node->symbol->scope == NULL)
+										fatherCode =  createCode(fatherCode, ILOC_STORE_AI, 3, aux->sonList->next->node->code->reg, "bss", offset);
+									else
+										fatherCode =  createCode(fatherCode, ILOC_STORE_AI, 3, aux->sonList->next->node->code->reg, "fp", offset);
 									break;
 								}
+		case IKS_AST_LITERAL:{
+							param = createRegister();
+							fatherCode = createCode(fatherCode, ILOC_LOAD_I, 2, createLiteral(aux->symbol->value.i), param);
+							break;
+							}
 	}
 
 	if(aux->broList!=NULL){//percorre o irmao
