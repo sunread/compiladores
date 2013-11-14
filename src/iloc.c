@@ -373,6 +373,7 @@ comp_list* astCode(comp_tree* ast){
 								break;
 							}
 		case IKS_AST_ATRIBUICAO: {
+									param = aux->sonList->next->node->code->reg;
 									char offset[132];
 									sprintf(offset, "%d", aux->sonList->node->symbol->offset);
 									fatherCode = list_Concat(fatherCode, aux->sonList->next->node->code);
