@@ -38,13 +38,17 @@ const char * createLiteral(int i)
     return strdup(buffer);
 }
 
-void printCode(comp_list* program, FILE* output){
-	if(program != NULL){
+void printCode(comp_list* program, FILE* output)
+{
+	if(program != NULL)
+	{
 		comp_list* first = program;
-		do{
+		do
+		{
 			printf("%s\n", first->code);
 			first = first->next;
-		}while(first != program);
+		}
+		while(first != program);
 	}
 }
 
@@ -153,7 +157,7 @@ comp_list* createCode(comp_list* concatOnList, int commandId, int count, ...){
 		case ILOC_JUMP:	sprintf(commandCode, "jump -> %s\n", param[0]);break;
 
 		case ILOC_NOP:	sprintf(commandCode, "nop\n");break;
-		
+
 		case ILOC_LABEL: sprintf(commandCode, "%s: ", param[0]);break;
 
 	}
@@ -176,9 +180,9 @@ comp_list* astCode(comp_tree* ast){
 		sonCode = astCode(auxList->node);
 		auxList = auxList->next;
 	}
-	
+
 	//processando nodo atual
-	
+
 	switch(aux->type){//gera codigo para nodo atual
 		case IKS_AST_IDENTIFICADOR: {
 									if(aux->father->sonList->node != aux){
@@ -196,28 +200,28 @@ comp_list* astCode(comp_tree* ast){
 									param = createRegister();
 									fatherCode =  list_Concat(fatherCode, aux->sonList->node->code);
 									fatherCode =  list_Concat(fatherCode, aux->sonList->next->node->code);
-									fatherCode = createCode(fatherCode, ILOC_ADD, 3, aux->sonList->node->code->reg, aux->sonList->next->node->code->reg, param); 
+									fatherCode = createCode(fatherCode, ILOC_ADD, 3, aux->sonList->node->code->reg, aux->sonList->next->node->code->reg, param);
 									break;
 								}
 		case IKS_AST_ARIM_SUBTRACAO: {
 										param = createRegister();
 										fatherCode =  list_Concat(fatherCode, aux->sonList->node->code);
 										fatherCode =  list_Concat(fatherCode, aux->sonList->next->node->code);
-										fatherCode = createCode(fatherCode, ILOC_SUB, 3, aux->sonList->node->code->reg, aux->sonList->next->node->code->reg, param); 
+										fatherCode = createCode(fatherCode, ILOC_SUB, 3, aux->sonList->node->code->reg, aux->sonList->next->node->code->reg, param);
 										break;
 									}
 		case IKS_AST_ARIM_MULTIPLICACAO: {
 											param = createRegister();
 											fatherCode =  list_Concat(fatherCode, aux->sonList->node->code);
 											fatherCode =  list_Concat(fatherCode, aux->sonList->next->node->code);
-											fatherCode = createCode(fatherCode, ILOC_MULT, 3, aux->sonList->node->code->reg, aux->sonList->next->node->code->reg, param); 
+											fatherCode = createCode(fatherCode, ILOC_MULT, 3, aux->sonList->node->code->reg, aux->sonList->next->node->code->reg, param);
 											break;
 										}
 		case IKS_AST_ARIM_DIVISAO: {
 										param = createRegister();
 										fatherCode =  list_Concat(fatherCode, aux->sonList->node->code);
 										fatherCode =  list_Concat(fatherCode, aux->sonList->next->node->code);
-										fatherCode = createCode(fatherCode, ILOC_DIV, 3, aux->sonList->node->code->reg, aux->sonList->next->node->code->reg, param); 
+										fatherCode = createCode(fatherCode, ILOC_DIV, 3, aux->sonList->node->code->reg, aux->sonList->next->node->code->reg, param);
 										break;
 									}
 		case IKS_AST_ARIM_INVERSAO: break;
@@ -226,9 +230,9 @@ comp_list* astCode(comp_tree* ast){
 									label = createLabel();
 									fatherCode =  list_Concat(fatherCode, aux->sonList->node->code);
 									fatherCode =  list_Concat(fatherCode, aux->sonList->next->node->code);
-									fatherCode = createCode(fatherCode, ILOC_AND, 3, aux->sonList->node->code->reg, aux->sonList->node->code->reg, param); 
-									fatherCode = createCode(fatherCode, ILOC_CBR, 3, param, label, aux->labelF); 
-									fatherCode = createCode(fatherCode, ILOC_LABEL, 1,label); 
+									fatherCode = createCode(fatherCode, ILOC_AND, 3, aux->sonList->node->code->reg, aux->sonList->node->code->reg, param);
+									fatherCode = createCode(fatherCode, ILOC_CBR, 3, param, label, aux->labelF);
+									fatherCode = createCode(fatherCode, ILOC_LABEL, 1,label);
 									break;
 								}
 		case IKS_AST_LOGICO_OU: {
@@ -236,51 +240,51 @@ comp_list* astCode(comp_tree* ast){
 									label = createLabel();
 									fatherCode =  list_Concat(fatherCode, aux->sonList->node->code);
 									fatherCode =  list_Concat(fatherCode, aux->sonList->next->node->code);
-									fatherCode = createCode(fatherCode, ILOC_OR, 3, aux->sonList->node->code->reg, aux->sonList->node->code->reg, param); 
-									fatherCode = createCode(fatherCode, ILOC_CBR, 3, param, aux->labelT, label); 
-									fatherCode = createCode(fatherCode, ILOC_LABEL, 1,label); 
+									fatherCode = createCode(fatherCode, ILOC_OR, 3, aux->sonList->node->code->reg, aux->sonList->node->code->reg, param);
+									fatherCode = createCode(fatherCode, ILOC_CBR, 3, param, aux->labelT, label);
+									fatherCode = createCode(fatherCode, ILOC_LABEL, 1,label);
 									break;
 								}
 		case IKS_AST_LOGICO_COMP_DIF: {
 										param = createRegister();
 										fatherCode =  list_Concat(fatherCode, aux->sonList->node->code);
 										fatherCode =  list_Concat(fatherCode, aux->sonList->next->node->code);
-										fatherCode = createCode(fatherCode, ILOC_CMP_NE, 3, aux->sonList->node->code->reg, aux->sonList->node->code->reg, param); 
+										fatherCode = createCode(fatherCode, ILOC_CMP_NE, 3, aux->sonList->node->code->reg, aux->sonList->node->code->reg, param);
 										break;
 									}
 		case IKS_AST_LOGICO_COMP_IGUAL: {
 										param = createRegister();
 										fatherCode =  list_Concat(fatherCode, aux->sonList->node->code);
 										fatherCode =  list_Concat(fatherCode, aux->sonList->next->node->code);
-										fatherCode = createCode(fatherCode, ILOC_CMP_EQ, 3, aux->sonList->node->code->reg, aux->sonList->node->code->reg, param); 
+										fatherCode = createCode(fatherCode, ILOC_CMP_EQ, 3, aux->sonList->node->code->reg, aux->sonList->node->code->reg, param);
 										break;
 									}
 		case IKS_AST_LOGICO_COMP_LE: {
 										param = createRegister();
 										fatherCode =  list_Concat(fatherCode, aux->sonList->node->code);
 										fatherCode =  list_Concat(fatherCode, aux->sonList->next->node->code);
-										fatherCode = createCode(fatherCode, ILOC_CMP_LE, 3, aux->sonList->node->code->reg, aux->sonList->node->code->reg, param); 
+										fatherCode = createCode(fatherCode, ILOC_CMP_LE, 3, aux->sonList->node->code->reg, aux->sonList->node->code->reg, param);
 										break;
 									}
 		case IKS_AST_LOGICO_COMP_GE: {
 										param = createRegister();
 										fatherCode =  list_Concat(fatherCode, aux->sonList->node->code);
 										fatherCode =  list_Concat(fatherCode, aux->sonList->next->node->code);
-										fatherCode = createCode(fatherCode, ILOC_CMP_GE, 3, aux->sonList->node->code->reg, aux->sonList->node->code->reg, param); 
+										fatherCode = createCode(fatherCode, ILOC_CMP_GE, 3, aux->sonList->node->code->reg, aux->sonList->node->code->reg, param);
 										break;
 									}
 		case IKS_AST_LOGICO_COMP_L: {
 										param = createRegister();
 										fatherCode =  list_Concat(fatherCode, aux->sonList->node->code);
 										fatherCode =  list_Concat(fatherCode, aux->sonList->next->node->code);
-										fatherCode = createCode(fatherCode, ILOC_CMP_LT, 3, aux->sonList->node->code->reg, aux->sonList->node->code->reg, param); 
+										fatherCode = createCode(fatherCode, ILOC_CMP_LT, 3, aux->sonList->node->code->reg, aux->sonList->node->code->reg, param);
 										break;
 									}
 		case IKS_AST_LOGICO_COMP_G: {
 										param = createRegister();
 										fatherCode =  list_Concat(fatherCode, aux->sonList->node->code);
 										fatherCode =  list_Concat(fatherCode, aux->sonList->next->node->code);
-										fatherCode = createCode(fatherCode, ILOC_CMP_GT, 3, aux->sonList->node->code->reg, aux->sonList->node->code->reg, param); 
+										fatherCode = createCode(fatherCode, ILOC_CMP_GT, 3, aux->sonList->node->code->reg, aux->sonList->node->code->reg, param);
 										break;
 									}
 		case IKS_AST_IF_ELSE: {
@@ -301,7 +305,7 @@ comp_list* astCode(comp_tree* ast){
 								fatherCode =  list_Concat(fatherCode, aux->sonList->next->node->code);
 								fatherCode =  createCode(fatherCode, ILOC_LABEL, 1, aux->sonList->node->labelT);
 								fatherCode =  createCode(fatherCode, ILOC_JUMP, 1, label);
-								fatherCode =  createCode(fatherCode, ILOC_LABEL, 1, aux->sonList->node->labelF);								
+								fatherCode =  createCode(fatherCode, ILOC_LABEL, 1, aux->sonList->node->labelF);
 								break;
 							}
 		case IKS_AST_WHILE_DO: {
@@ -311,7 +315,7 @@ comp_list* astCode(comp_tree* ast){
 								fatherCode =  createCode(fatherCode, ILOC_LABEL, 1, aux->sonList->node->labelT);
 								fatherCode =  list_Concat(fatherCode, aux->sonList->next->node->code);
 								fatherCode =  createCode(fatherCode, ILOC_JUMP, 1, label);
-								fatherCode =  createCode(fatherCode, ILOC_LABEL, 1, aux->sonList->node->labelF);								
+								fatherCode =  createCode(fatherCode, ILOC_LABEL, 1, aux->sonList->node->labelF);
 								break;
 							}
 		case IKS_AST_ATRIBUICAO: {	param = createRegister();
@@ -334,22 +338,31 @@ comp_list* astCode(comp_tree* ast){
 									break;
 								}
 		case IKS_AST_VETOR_INDEXADO: break;
-		
+
 	}
-	
+
 	if(aux->broList!=NULL){//percorre o irmao
 		broCode = astCode(aux->broList);
 		fatherCode = list_Concat(fatherCode, broCode);
 	}
-	if(fatherCode != NULL){
+	if(fatherCode != NULL)
+	{
 		strcpy(fatherCode->reg,param);
 		comp_list* first = fatherCode;
-		do{
+		do
+		{
 			printf("%s\n", first->code);
 			first = first->next;
-		}while(first != fatherCode);
+		}
+		while(first != fatherCode);
 		printf("//////////////\n");
+
+		ast->code = fatherCode;
 	}
-	ast->code = fatherCode;
+	else
+	{
+        ast->code = sonCode;
+	}
+
 	return fatherCode;
 }

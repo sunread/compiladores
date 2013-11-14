@@ -6,6 +6,7 @@
  */
 
 #include "semantics.h"
+#include "comp_list.h"
 #include "iloc.h"
 
 /**
@@ -700,13 +701,13 @@ void setType(int type, comp_dict_item_t* symbol){
 }
 
 
-void setTypeVector(int type, int sizeVector, comp_dict_item_t* symbol){
+void setTypeVector(int type, comp_dict_item_t* symbol){
 	switch(type){
-	   case IKS_INT : symbol->type = IKS_INT; symbol->size += IKS_INT_SIZE*sizeVector; break;
-	   case IKS_FLOAT: symbol->type = IKS_FLOAT; symbol->size += IKS_FLOAT_SIZE*sizeVector; break;
-	   case IKS_BOOL: symbol->type = IKS_BOOL; symbol->size += IKS_BOOL_SIZE*sizeVector; break;
-	   case IKS_CHAR: symbol->type = IKS_CHAR; symbol->size += IKS_CHAR_SIZE*sizeVector; break;
-	   case IKS_STRING: symbol->type = IKS_STRING; symbol->size += IKS_CHAR_SIZE*sizeVector; break;
+	   case IKS_INT : symbol->type = IKS_INT; symbol->size = list_GetArraySize(IKS_INT_SIZE, symbol->dimensionsList); break;
+	   case IKS_FLOAT: symbol->type = IKS_FLOAT; symbol->size = list_GetArraySize(IKS_FLOAT_SIZE, symbol->dimensionsList); break;
+	   case IKS_BOOL: symbol->type = IKS_BOOL; symbol->size = list_GetArraySize(IKS_BOOL_SIZE, symbol->dimensionsList); break;
+	   case IKS_CHAR: symbol->type = IKS_CHAR; symbol->size = list_GetArraySize(IKS_CHAR_SIZE, symbol->dimensionsList); break;
+	   case IKS_STRING: symbol->type = IKS_STRING; symbol->size = list_GetArraySize(IKS_CHAR_SIZE, symbol->dimensionsList); break;
 	}
 }
 

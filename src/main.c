@@ -24,7 +24,7 @@ int main (int argc, char **argv)
     }
 
     outputFile = fopen(argv[2], "wb");
-    
+
   }
 
   dictionary = dict_new();
@@ -38,12 +38,14 @@ int main (int argc, char **argv)
   gv_close();
   if(outputFile != NULL)
   {
-  	printCode(astCode(ast), outputFile);
+    comp_list* program = astCode(ast);
+  	printCode(program, outputFile);
+
   	fflush(outputFile);
   	fclose(outputFile);
   }
-  //printf("Avaliacao semantica realizada com sucesso.\n");
-  //dict_print(dictionary);
+  printf("Avaliacao semantica realizada com sucesso.\n");
+  dict_print(dictionary);
   exit(IKS_SUCCESS);
   return resultado;
 }

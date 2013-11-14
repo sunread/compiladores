@@ -21,7 +21,6 @@ typedef struct comp_list_t{
 comp_list* list_Create();
 comp_list* list_Add(const char* code, comp_list* first);
 comp_list* list_AddDimension(int dimension, comp_list* first);
-int list_GetArraySize(int type, comp_list* dimensionsList);
 comp_list* list_Search(char* code, comp_list* first);
 void list_Remove(comp_list* node);
 comp_list* list_Concat(comp_list* list1, comp_list* list2);

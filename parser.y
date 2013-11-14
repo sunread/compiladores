@@ -9,10 +9,13 @@
 #include <stdio.h>
 #include "comp_tree.h"
 #include "comp_dict.h"
+#include "comp_list.h"
 #include "iks_ast.h"
 #include "semantics.h"
 #include "iloc.h"
 #define IKS_SYNTAX_ERRO 1
+
+comp_list *currentDimensionsList;
 %}
 
 %union {
@@ -20,6 +23,7 @@
     comp_dict_t_p dict;
     comp_tree* ast;
     int type;
+    comp_list *dimensionList;
 }
 
 /* Declaração dos tokens da gramática da Linguagem K */
@@ -75,7 +79,7 @@
 %type<dict> lista_param
 %type<dict> lista_param_nao_vazia
 %type<dict> parametro
-
+%type<dimensionList> dimensions
 
 %type<type> tipo_variavel
 
@@ -108,14 +112,20 @@
                                                      setSize($3);
                                                     } ;
 
- dec_vetor : tipo_variavel ':' TK_IDENTIFICADOR '[' TK_LIT_INT ']' {$3->scope = localScope;
+ dec_vetor : tipo_variavel ':' TK_IDENTIFICADOR dimensions         {$3->scope = localScope;
 																	verifyDeclaration($3,0);
 																	$3->usage = ID_VETOR;
 																	if(localScope!=NULL)
 																		localScope->ast_node->args = dict_insertEnd(localScope->ast_node->args,dict_argInsert($3));
-                                                                     setTypeVector($1,$5->value.i,$3);
+                                                                    $3->dimensionsList = currentDimensionsList;
+                                                                    currentDimensionsList = NULL;
+
+                                                                     setTypeVector($1, $3);
                                                                      setSize($3);
                                                                     };
+
+ dimensions: '[' TK_LIT_INT ']' { currentDimensionsList = list_AddDimension($2->value.i, currentDimensionsList); };
+             | '[' TK_LIT_INT ']' dimensions { currentDimensionsList = list_AddDimension($2->value.i, currentDimensionsList); };
 
 
  dec_funcao :cabecalho dec_local corpo {$$ = $1; tree_AddSon($$, 1, $3);};
