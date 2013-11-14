@@ -358,13 +358,13 @@ int astTypeCoercion(comp_tree* ast){
 					sonType = auxList->node->sonList->node->symbol->type; //tipo fica no filho deste no e nao nele proprio
 				}
 				else{
-					sonType = auxList->node->symbol->type;
+					sonType = auxList->node->dataType;
 				}
 				if(auxList->next->node->type == IKS_AST_CHAMADA_DE_FUNCAO || auxList->next->node->type == IKS_AST_VETOR_INDEXADO){
-					son2Type = auxList->next->node->sonList->node->symbol->type; //tipo fica no filho deste no e nao nele proprio
+					son2Type = auxList->next->node->sonList->node->dataType; //tipo fica no filho deste no e nao nele proprio
 				}
 				else{
-					son2Type = auxList->next->node->symbol->type;
+					son2Type = auxList->next->node->dataType;
 				}
 				if (sonType == IKS_CHAR || son2Type == IKS_CHAR)
 						printError( IKS_ERROR_CHAR_TO_X, 0);
