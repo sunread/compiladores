@@ -137,6 +137,7 @@ comp_list *currentDimensionsList;
 																		$$->dataType = $3->type;
 																		functionType = $3->type;
 																		$$->args = $6;
+																		offsetLocal = 8;
 																		};
 
  lista_param : lista_param_nao_vazia {$$ = $1;} | {$$ = NULL;};
@@ -146,6 +147,7 @@ comp_list *currentDimensionsList;
 												$3->usage = ID_PARAMETRO;
 												setType($1,$3);
 												$$ = dict_argInsert($3);
+												setSize($3);
                                                 };
  dec_local : dec_variavel ';' dec_local	| ;
 
