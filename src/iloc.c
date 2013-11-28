@@ -38,14 +38,14 @@ const char * createLiteral(int i)
     return strdup(buffer);
 }
 
-void printCode(comp_list* program, FILE* output)
+void printCode(comp_list* program)
 {
 	if(program != NULL)
 	{
 		comp_list* first = program;
 		do
 		{
-			fprintf(output, "%s\n", first->code);
+			printf("%s\n", first->code);
 			first = first->next;
 		}
 		while(first != program);
