@@ -214,26 +214,31 @@ comp_list* astCode(comp_tree* ast){
 	//processando nodo atual
 
 	switch(aux->type){//gera codigo para nodo atual
-		case IKS_AST_FUNCAO: {	
+		case IKS_AST_FUNCAO: {
 								param = NULL;
 								fatherCode =  createCode(fatherCode, ILOC_LABEL, 1, aux->symbol->text); //gera label com nome da funcao
 								if(aux->sonList!= NULL)
 									fatherCode =  list_Concat(fatherCode, aux->sonList->node->code); //concatena com o codigo do corpo da funcao
 								break;
 								}
-		case IKS_AST_RETURN: {	
+		case IKS_AST_RETURN: {
 								param = createRegister();
 								fatherCode =  list_Concat(fatherCode, aux->sonList->node->code); //concatena com o codigo da expressao a ser retornada
 								fatherCode =  createCode(fatherCode, ILOC_I2I, 2, aux->sonList->node->code->reg, "rt"); //carrega valor produzido pela expressao para o registrador de retorno de funcao
 								fatherCode =  createCode(fatherCode, ILOC_LOAD, 2, "fp", param); //carrega o endereco de retorno salvo no primeiro endereco do RA
 								fatherCode =  createCode(fatherCode, ILOC_I2I, 2, "fp", "sp"); //restaura o valor de sp para o valor antigo, marcado por fp
 								fatherCode =  createCode(fatherCode, ILOC_LOAD_AI, 3, "fp", "4", "fp"); //carrega o valor de fp antigo salvo no segundo endereco do RA
-								fatherCode =  createCode(fatherCode, ILOC_JUMP, 1, param); 
+								fatherCode =  createCode(fatherCode, ILOC_JUMP, 1, param);
 								break;
 								}
-		case IKS_AST_CHAMADA_DE_FUNCAO: {	
+		case IKS_AST_CHAMADA_DE_FUNCAO: {
 								next = createRegister();
-								fatherCode =  list_Concat(fatherCode, aux->sonList->next->node->code); //concatena com o codigo das expressoes calculadas nos parametros da funcao
+
+								if(aux->sonList->next != NULL)
+								{
+                                    fatherCode =  list_Concat(fatherCode, aux->sonList->next->node->code); //concatena com o codigo das expressoes calculadas nos parametros da funcao
+								}
+
 								fatherCode =  createCode(fatherCode, ILOC_STORE_AI, 3, "fp", "sp", "4"); //salva o fp atual em sp+4
 								fatherCode =  createCode(fatherCode, ILOC_I2I, 2, "sp", "fp"); //substitui o antigo fp pelo sp
 								int sp = 8;
