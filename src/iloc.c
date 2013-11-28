@@ -214,6 +214,14 @@ comp_list* astCode(comp_tree* ast){
 	//processando nodo atual
 
 	switch(aux->type){//gera codigo para nodo atual
+		case  IKS_AST_PROGRAMA: {	
+								param = NULL;
+								fatherCode =  createCode(fatherCode, ILOC_LOAD_I, 2, "0", "fp"); //inicializa fp com zero
+								fatherCode =  createCode(fatherCode, ILOC_LOAD_I, 2, "0", "sp"); //inicializa sp com zero
+								if(aux->sonList!= NULL)
+									fatherCode =  list_Concat(fatherCode, aux->sonList->node->code); //concatena com o codigo do corpo da funcao
+								break;
+								}
 		case IKS_AST_FUNCAO: {	
 								param = NULL;
 								fatherCode =  createCode(fatherCode, ILOC_LABEL, 1, aux->symbol->text); //gera label com nome da funcao
@@ -233,7 +241,9 @@ comp_list* astCode(comp_tree* ast){
 								}
 		case IKS_AST_CHAMADA_DE_FUNCAO: {	
 								next = createRegister();
-								fatherCode =  list_Concat(fatherCode, aux->sonList->next->node->code); //concatena com o codigo das expressoes calculadas nos parametros da funcao
+								param = "rt";
+								if(aux->sonList->next != NULL)
+									fatherCode =  list_Concat(fatherCode, aux->sonList->next->node->code); //concatena com o codigo das expressoes calculadas nos parametros da funcao
 								fatherCode =  createCode(fatherCode, ILOC_STORE_AI, 3, "fp", "sp", "4"); //salva o fp atual em sp+4
 								fatherCode =  createCode(fatherCode, ILOC_I2I, 2, "sp", "fp"); //substitui o antigo fp pelo sp
 								int sp = 8;
@@ -251,6 +261,10 @@ comp_list* astCode(comp_tree* ast){
 								char stack[32];
 								sprintf(stack, "%d", sp);
 								fatherCode = createCode(fatherCode, ILOC_LOAD_I, 2, stack, "sp"); //aponta o final da pilha para depois do registro de ativacao
+								fatherCode = createCode(fatherCode, ILOC_I2I, 2, "PC", next); //salva o PC
+								fatherCode = createCode(fatherCode, ILOC_ADD_I, 3, next, "3", next); //soma 3
+								fatherCode = createCode(fatherCode, ILOC_STORE, 2, next, "fp"); //salva o endereco da proxima instrucao no registro de ativacao
+								fatherCode = createCode(fatherCode, ILOC_JUMP_I, 1, aux->sonList->node->symbol->text); //salto para a funcao
 								break;
 								}
 		case IKS_AST_IDENTIFICADOR: {
