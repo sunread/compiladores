@@ -215,8 +215,10 @@ comp_list* astCode(comp_tree* ast){
 
 	switch(aux->type){//gera codigo para nodo atual
 		case IKS_AST_FUNCAO: {	
-								fatherCode =  createCode(fatherCode, ILOC_LABEL, 1, aux->symbol); //gera label com nome da funcao
-								fatherCode =  list_Concat(fatherCode, aux->sonList->node->code); //concatena com o codigo do corpo da funcao
+								param = NULL;
+								fatherCode =  createCode(fatherCode, ILOC_LABEL, 1, aux->symbol->text); //gera label com nome da funcao
+								if(aux->sonList!= NULL)
+									fatherCode =  list_Concat(fatherCode, aux->sonList->node->code); //concatena com o codigo do corpo da funcao
 								break;
 								}
 		case IKS_AST_RETURN: {	
@@ -433,7 +435,8 @@ comp_list* astCode(comp_tree* ast){
 	}
 	if(fatherCode != NULL)
 	{
-		strcpy(fatherCode->reg,param);
+		if(param != NULL)
+			strcpy(fatherCode->reg,param);
 		ast->code = fatherCode;
 	}
 	else ast->code = sonCode;
