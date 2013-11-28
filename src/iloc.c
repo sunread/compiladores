@@ -253,9 +253,11 @@ comp_list* astCode(comp_tree* ast){
 									sp += args->item->offset; //a cada store incrementa o valor que sp vai assumir apos a insercao do registro de ativacao
 									char offset[132];
 									sprintf(offset, "%d", args->item->offset);
-									fatherCode =  createCode(fatherCode, ILOC_STORE_AI, 3, regList->node->code->reg, "fp", offset); //reg: registrador que armazena o resultado da expressao
+									if(regList!=NULL)
+										fatherCode =  createCode(fatherCode, ILOC_STORE_AI, 3, regList->node->code->reg, "fp", offset); //reg: registrador que armazena o resultado da expressao
 									args = args->next;
-									regList = regList->next;
+									if(regList!=NULL)
+										regList = regList->next;
 								}
 								sp += 10; //aloca espaco para "salvar o estado da maquina"
 								char stack[32];

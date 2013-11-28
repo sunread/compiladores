@@ -659,7 +659,7 @@ int verifyGivenParameters(comp_tree* func, comp_tree* call)
 						}
 					}
 
-                    printError(IKS_ERROR_WRONG_TYPE_ARGS, call->sonList->node->symbol->lineNumber);
+					//printError(IKS_ERROR_WRONG_TYPE_ARGS, call->sonList->node->symbol->lineNumber);
 
 					declaredArguments = declaredArguments->next;
 					brothers = brothers->broList;
