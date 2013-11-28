@@ -130,14 +130,13 @@ comp_list *currentDimensionsList;
 
  dec_funcao :cabecalho dec_local corpo {$$ = $1; tree_AddSon($$, 1, $3);};
 
- cabecalho : tipo_variavel ':' TK_IDENTIFICADOR {$3->scope = localScope;verifyDeclaration($3,0);localScope = $3;}'(' lista_param ')'	{$$ = tree_CreateNode(IKS_AST_FUNCAO, $3);
+ cabecalho : tipo_variavel ':' TK_IDENTIFICADOR {$3->scope = localScope;verifyDeclaration($3,0);localScope = $3;offsetLocal = 8;}'(' lista_param ')'	{$$ = tree_CreateNode(IKS_AST_FUNCAO, $3);
 																		$3->usage = ID_FUNCAO;
 																		$3->ast_node = $$;
                                                                         setType($1,$3);
 																		$$->dataType = $3->type;
 																		functionType = $3->type;
 																		$$->args = $6;
-																		offsetLocal = 8;
 																		};
 
  lista_param : lista_param_nao_vazia {$$ = $1;} | {$$ = NULL;};

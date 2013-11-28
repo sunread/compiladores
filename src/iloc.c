@@ -214,7 +214,7 @@ comp_list* astCode(comp_tree* ast){
 	//processando nodo atual
 
 	switch(aux->type){//gera codigo para nodo atual
-		case  IKS_AST_PROGRAMA: {	
+		case  IKS_AST_PROGRAMA: {
 								param = NULL;
 								fatherCode =  createCode(fatherCode, ILOC_LOAD_I, 2, "0", "fp"); //inicializa fp com zero
 								fatherCode =  createCode(fatherCode, ILOC_LOAD_I, 2, "0", "sp"); //inicializa sp com zero
@@ -222,7 +222,7 @@ comp_list* astCode(comp_tree* ast){
 									fatherCode =  list_Concat(fatherCode, aux->sonList->node->code); //concatena com o codigo do corpo da funcao
 								break;
 								}
-		case IKS_AST_FUNCAO: {	
+		case IKS_AST_FUNCAO: {
 								param = NULL;
 								fatherCode =  createCode(fatherCode, ILOC_LABEL, 1, aux->symbol->text); //gera label com nome da funcao
 								if(aux->sonList!= NULL)
@@ -248,16 +248,19 @@ comp_list* astCode(comp_tree* ast){
 								fatherCode =  createCode(fatherCode, ILOC_I2I, 2, "sp", "fp"); //substitui o antigo fp pelo sp
 								int sp = 8;
 								comp_dict_t_p args = aux->sonList->node->symbol->ast_node->args; //lista de identificadores dos argumentos declarados para a funcao
-								nodeList* regList = aux->sonList->next;
+								comp_tree* regList = NULL;
+								if(aux->sonList->next != NULL)
+									regList = aux->sonList->next->node;
 								while(args != NULL){ //para cada argumento declarado, salva o valor produzido na expressao
 									sp += args->item->offset; //a cada store incrementa o valor que sp vai assumir apos a insercao do registro de ativacao
 									char offset[132];
 									sprintf(offset, "%d", args->item->offset);
-									if(regList!=NULL)
-										fatherCode =  createCode(fatherCode, ILOC_STORE_AI, 3, regList->node->code->reg, "fp", offset); //reg: registrador que armazena o resultado da expressao
+									if(regList!=NULL){
+										fatherCode =  createCode(fatherCode, ILOC_STORE_AI, 3, regList->code->reg, "fp", offset); //reg: registrador que armazena o resultado da expressao
+										regList = regList->broList;
+									}
 									args = args->next;
-									if(regList!=NULL)
-										regList = regList->next;
+										;
 								}
 								sp += 10; //aloca espaco para "salvar o estado da maquina"
 								char stack[32];
@@ -270,18 +273,30 @@ comp_list* astCode(comp_tree* ast){
 								break;
 								}
 		case IKS_AST_IDENTIFICADOR: {
-									//printf("\n%d %s", aux->father->type, aux->symbol->text);
-									if(aux->father!= NULL && aux->father->type != IKS_AST_ATRIBUICAO || (aux->father->type == IKS_AST_ATRIBUICAO && aux->father->sonList->node != aux)){ //nao esta do lado esquerdo de uma atribuicao
+                                if(aux->father != NULL)
+                                {
+									if(aux->father->type != IKS_AST_ATRIBUICAO || (aux->father->type == IKS_AST_ATRIBUICAO && aux->father->sonList->node != aux)){ //nao esta do lado esquerdo de uma atribuicao
 										param = createRegister();
 										char offset[132];
 										sprintf(offset, "%d", aux->symbol->offset);
+
 										if(aux->symbol->scope == NULL)
 											fatherCode =  createCode(fatherCode, ILOC_LOAD_AI, 3, "bss", offset, param);
 										else
 											fatherCode =  createCode(fatherCode, ILOC_LOAD_AI, 3, "fp", offset, param);
 										}
-									break;
-									}
+                                }else{
+									param = createRegister();
+										char offset[132];
+										sprintf(offset, "%d", aux->symbol->offset);
+
+										if(aux->symbol->scope == NULL)
+											fatherCode =  createCode(fatherCode, ILOC_LOAD_AI, 3, "bss", offset, param);
+										else
+											fatherCode =  createCode(fatherCode, ILOC_LOAD_AI, 3, "fp", offset, param);
+								}
+                                break;
+								}
 		case IKS_AST_VETOR_INDEXADO:{
 									if(aux->father->type != IKS_AST_ATRIBUICAO || (aux->father->type == IKS_AST_ATRIBUICAO && aux->father->sonList->node != aux)){ //nao esta do lado esquerdo de uma atribuicao
 										param = createRegister();
