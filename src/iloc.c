@@ -214,7 +214,7 @@ comp_list* astCode(comp_tree* ast){
 	//processando nodo atual
 
 	switch(aux->type){//gera codigo para nodo atual
-		case  IKS_AST_PROGRAMA: {	
+		case  IKS_AST_PROGRAMA: {
 								param = NULL;
 								fatherCode =  createCode(fatherCode, ILOC_LOAD_I, 2, "0", "fp"); //inicializa fp com zero
 								fatherCode =  createCode(fatherCode, ILOC_LOAD_I, 2, "0", "sp"); //inicializa sp com zero
@@ -222,7 +222,7 @@ comp_list* astCode(comp_tree* ast){
 									fatherCode =  list_Concat(fatherCode, aux->sonList->node->code); //concatena com o codigo do corpo da funcao
 								break;
 								}
-		case IKS_AST_FUNCAO: {	
+		case IKS_AST_FUNCAO: {
 								param = NULL;
 								fatherCode =  createCode(fatherCode, ILOC_LABEL, 1, aux->symbol->text); //gera label com nome da funcao
 								if(aux->sonList!= NULL)
@@ -270,17 +270,21 @@ comp_list* astCode(comp_tree* ast){
 								break;
 								}
 		case IKS_AST_IDENTIFICADOR: {
+                                if(aux->father != NULL)
+                                {
 									if(aux->father->type != IKS_AST_ATRIBUICAO || (aux->father->type == IKS_AST_ATRIBUICAO && aux->father->sonList->node != aux)){ //nao esta do lado esquerdo de uma atribuicao
 										param = createRegister();
 										char offset[132];
 										sprintf(offset, "%d", aux->symbol->offset);
+
 										if(aux->symbol->scope == NULL)
 											fatherCode =  createCode(fatherCode, ILOC_LOAD_AI, 3, "bss", offset, param);
 										else
 											fatherCode =  createCode(fatherCode, ILOC_LOAD_AI, 3, "fp", offset, param);
 										}
-									break;
-									}
+                                }
+                                break;
+								}
 		case IKS_AST_VETOR_INDEXADO:{
 									if(aux->father->type != IKS_AST_ATRIBUICAO || (aux->father->type == IKS_AST_ATRIBUICAO && aux->father->sonList->node != aux)){ //nao esta do lado esquerdo de uma atribuicao
 										param = createRegister();
