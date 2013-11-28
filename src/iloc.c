@@ -270,7 +270,8 @@ comp_list* astCode(comp_tree* ast){
 								break;
 								}
 		case IKS_AST_IDENTIFICADOR: {
-									if(aux->father->type != IKS_AST_ATRIBUICAO || (aux->father->type == IKS_AST_ATRIBUICAO && aux->father->sonList->node != aux)){ //nao esta do lado esquerdo de uma atribuicao
+									//printf("\n%d %s", aux->father->type, aux->symbol->text);
+									if(aux->father!= NULL && aux->father->type != IKS_AST_ATRIBUICAO || (aux->father->type == IKS_AST_ATRIBUICAO && aux->father->sonList->node != aux)){ //nao esta do lado esquerdo de uma atribuicao
 										param = createRegister();
 										char offset[132];
 										sprintf(offset, "%d", aux->symbol->offset);
