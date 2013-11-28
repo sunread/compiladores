@@ -14,7 +14,6 @@ void makeTree(comp_tree *ast);
 int main (int argc, char **argv)
 {
   int running = 1;
-  FILE *outputFile;
   setYyin(stdin);
 
   if (argc > 0) {
@@ -22,9 +21,6 @@ int main (int argc, char **argv)
     {
         setYyin(fopen(argv[1], "r"));
     }
-
-    outputFile = fopen(argv[2], "wb");
-
   }
 
   dictionary = dict_new();
@@ -36,14 +32,10 @@ int main (int argc, char **argv)
   makeTree(ast);
 
   gv_close();
-  if(outputFile != NULL)
-  {
-    comp_list* program = astCode(ast);
-  	printCode(program, outputFile);
 
-  	fflush(outputFile);
-  	fclose(outputFile);
-  }
+  comp_list* program = astCode(ast);
+  printCode(program);
+
   //printf("Avaliacao semantica realizada com sucesso.\n");
   //dict_print(dictionary);
   exit(IKS_SUCCESS);
