@@ -13,6 +13,9 @@ typedef struct comp_list_t{
 	char code[1000];
 	char reg[1000];
 	int dimension;
+	char* label;
+	char* command;
+	char* operators[3];
 	struct comp_list_t *next;
 	struct comp_list_t *prev;
 } comp_list;
